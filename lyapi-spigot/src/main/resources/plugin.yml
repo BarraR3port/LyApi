@@ -1,0 +1,5 @@
+name: LyApi
+version: '${project.version}'
+main: net.lymarket.api.spigot.Api
+authors: [ BarraR3port ]
+website: https://lymarket.net

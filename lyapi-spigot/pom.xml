@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>LyApi</artifactId>
+        <groupId>net.lymarket.lyapi</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>lyapi-spigot</artifactId>
+    <packaging>jar</packaging>
+    <version>${parent.version}</version>
+
+    <properties>
+        <java.version>1.8</java.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <!-- This is a temporary reference as the Maven Shade plugin
+                that supports Java 17 is not released yet -->
+            <id>maven-snapshots</id>
+            <url>https://repository.apache.org/content/repositories/snapshots/</url>
+        </pluginRepository>
+    </pluginRepositories>
+
+    <repositories>
+        <repository>
+            <id>placeholderapi</id>
+            <url>https://repo.extendedclip.com/content/repositories/placeholderapi/</url>
+        </repository>
+        <repository>
+            <id>codemc-nms</id>
+            <url>https://repo.codemc.io/repository/nms/</url>
+        </repository>
+        <repository>
+            <id>spigotmc-repo</id>
+            <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
+        </repository>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
+    </repositories>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.bstats</groupId>
+            <artifactId>bstats-bukkit</artifactId>
+            <version>2.2.1</version>
+            <optional>true</optional>
+        </dependency>
+
+        <dependency>
+            <groupId>net.lymarket.lyapi</groupId>
+            <artifactId>common</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>net.lymarket.lyapi</groupId>
+            <artifactId>versionsupport_1_8_R3</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>net.lymarket.lyapi</groupId>
+            <artifactId>versionsupport_1_9_R2</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>net.lymarket.lyapi</groupId>
+            <artifactId>versionsupport_1_10_R1</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>net.lymarket.lyapi</groupId>
+            <artifactId>versionsupport_1_11_R1</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>net.lymarket.lyapi</groupId>
+            <artifactId>versionsupport_1_12_R1</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>net.lymarket.lyapi</groupId>
+            <artifactId>versionsupport_1_13_R2</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>net.lymarket.lyapi</groupId>
+            <artifactId>versionsupport_1_14_R1</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>net.lymarket.lyapi</groupId>
+            <artifactId>versionsupport_1_15_R1</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>net.lymarket.lyapi</groupId>
+            <artifactId>versionsupport_1_16_R1</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>net.lymarket.lyapi</groupId>
+            <artifactId>versionsupport_1_16_R2</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>net.lymarket.lyapi</groupId>
+            <artifactId>versionsupport_v1_16_R3</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>net.lymarket.lyapi</groupId>
+            <artifactId>versionsupport_v1_17_R1</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>net.lymarket.lyapi</groupId>
+            <artifactId>versionsupport_v1_18_R1</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.spigotmc</groupId>
+            <artifactId>spigot</artifactId>
+            <version>1.8.8-R0.1-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>me.clip</groupId>
+            <artifactId>placeholderapi</artifactId>
+            <version>2.10.9</version>
+            <scope>provided</scope>
+        </dependency>
+
+
+        <dependency>
+            <groupId>com.github.cryptomorin</groupId>
+            <artifactId>XSeries</artifactId>
+            <version>8.6.1</version>
+            <!--exclude some clases -->
+            <exclusions>
+                <exclusion>
+                    <groupId>com.github.cryptomorin.particles</groupId>
+                    <artifactId>particles</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>xyz.xenondevs</groupId>
+            <artifactId>particle</artifactId>
+            <version>1.7</version>
+        </dependency>
+
+    </dependencies>
+
+    <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>plugin.yml</include>
+                </includes>
+            </resource>
+        </resources>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.3.1-SNAPSHOT</version>
+                <configuration>
+                    <relocations>
+                        <relocation>
+                            <pattern>org.bstats</pattern>
+                            <shadedPattern>net.lymarket.lyapi.spigot.libs.bstats</shadedPattern>
+                        </relocation>
+                    </relocations>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <!--<plugin>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>1.8</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <id>obfuscate</id>
+                        <configuration>
+                            <tasks>
+                                <property name="runtime_classpath" refid="maven.runtime.classpath"/>
+                                <taskdef name="yguard" classname="com.yworks.yguard.YGuardTask"
+                                         classpath="${runtime_classpath}"/>
+                                <yguard>
+                                    <inoutpair in="${project.build.directory}/${project.build.finalName}.jar"
+                                               out="${project.build.directory}/${project.build.finalName}-SNAPSHOT.jar"/>
+                                    <rename mainclass="net.lymarket.lyapi.spigot.SMain"
+                                            logfile="${project.build.directory}/yguard.log.xml"
+                                            scramble="true">
+                                        <keep>
+                                            <class classes="protected" methods="protected" fields="protected">
+                                                <patternset>
+                                                    <include name="net.minecraft.server.MinecraftServer"/>
+                                                    <include name="net.minecraft.realms.**"/>
+                                                    <include name="net.minecraft.client.ClientBrandRetriever"/>
+                                                    <include name="net.minecraft.client.main.Main"/>
+                                                    <include name="org.apache.logging.log4j.**"/>
+                                                    <include name="com.yworks.**"/>
+                                                    <include name="org.spigotmc.**"/>
+                                                    <include name="com.google.**"/>
+                                                    <include name="org.bukkit.**"/>
+                                                    <include name="net.lymarket.lyapi.spigot.SMain"/>
+                                                    &lt;!&ndash;<include name="studio.lydark.lymarket.agora.data.User"/>&ndash;&gt;
+                                                </patternset>
+                                            </class>
+                                            &lt;!&ndash;<class classes="private" methods="private" fields="private">
+                                                <patternset>
+                                                    <include name="studio.lydark.lymarket.agora.data.User"/>
+                                                </patternset>
+                                            </class>&ndash;&gt;
+                                            <package>
+                                                <patternset>
+                                                    <include name="org.apache.logging.log4j."/>
+                                                    <include name="net.lymarket.lyapi.spigot.SMain"/>
+                                                    <include name="org.bukkit.*"/>
+                                                </patternset>
+                                            </package>
+                                        </keep>
+                                        <property name="naming-scheme" value="best"/>
+                                        <property name="obfuscation-prefix" value="net.lymarket.lyapi.spigot.obfuscated"/>
+                                        <property name="language-conformity" value="illegal"/>
+                                    </rename>
+                                </yguard>
+                            </tasks>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>-->
+        </plugins>
+    </build>
+
+</project>
