@@ -89,6 +89,20 @@ public class ItemBuilder {
         return this;
     }
     
+    
+    public ItemBuilder addUnsafeEnchantment( Map < Enchantment, Integer > enchantments ){
+        is.addUnsafeEnchantments( enchantments );
+        return this;
+    }
+    
+    public ItemBuilder hideEnchants( boolean b ){
+        if ( !b ) return this;
+        ItemMeta meta = is.getItemMeta( );
+        meta.addItemFlags( ItemFlag.HIDE_ENCHANTS );
+        is.setItemMeta( meta );
+        return this;
+    }
+    
     public ItemBuilder setEnchanted( boolean b ){
         if ( !b ) return this;
         ItemMeta meta = is.getItemMeta( );

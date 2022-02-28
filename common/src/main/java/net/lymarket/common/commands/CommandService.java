@@ -11,13 +11,17 @@ public class CommandService {
     
     private final HashMap < String, CommandInfo > commands;
     
-    private final CommandMap commandMap;
+    private CommandMap commandMap;
     
-    public CommandService( ) throws NoSuchFieldException, IllegalAccessException{
+    public CommandService( ) {
         commands = new HashMap <>( );
+        try {
         final Field bukkitCommandMap = Bukkit.getServer( ).getClass( ).getDeclaredField( "commandMap" );
         bukkitCommandMap.setAccessible( true );
         commandMap = ( CommandMap ) bukkitCommandMap.get( Bukkit.getServer( ) );
+        } catch ( Exception e ) {
+        
+        }
     }
     
     public void registerCommands( ILyCommand command ){

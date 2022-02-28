@@ -1,6 +1,7 @@
 package net.lymarket.lyapi.spigot;
 
 
+import net.lymarket.common.commands.CommandService;
 import net.lymarket.common.version.VersionSupport;
 import net.lymarket.lyapi.spigot.listeners.MenuListener;
 import net.lymarket.lyapi.spigot.menu.IPlayerMenuUtility;
@@ -25,15 +26,19 @@ public final class SMain {
     
     private final String version = Bukkit.getServer( ).getClass( ).getName( ).split( "\\." )[3];
     
+    private final CommandService commandService;
+    
     private VersionSupport nms;
     
     public SMain( Plugin plugin ){
+    
         instance = this;
         utils = new Utils( );
         SMain.plugin = plugin;
-        
+    
         Class supp;
-        
+    
+        this.commandService = new CommandService( );
         try {
             supp = Class.forName( "net.lymarket.lyapi.support.version." + version + "." + version );
         } catch ( ClassNotFoundException e ) {
@@ -46,6 +51,7 @@ public final class SMain {
         } catch ( InstantiationException | NoSuchMethodException | InvocationTargetException | IllegalAccessException | ClassNotFoundException e ) {
             e.printStackTrace( );
         }
+        
         
         Bukkit.getServer( ).getPluginManager( ).registerEvents( new MenuListener( ) , plugin );
     }
@@ -80,5 +86,9 @@ public final class SMain {
     
     public String getVersion( ){
         return version;
+    }
+    
+    public CommandService getCommandService( ){
+        return this.commandService;
     }
 }
