@@ -13,6 +13,7 @@ import org.bukkit.plugin.Plugin;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
+import java.util.logging.Level;
 
 public final class SMain {
     
@@ -27,17 +28,19 @@ public final class SMain {
     private final String version = Bukkit.getServer( ).getClass( ).getName( ).split( "\\." )[3];
     
     private final CommandService commandService;
-    
+    private final String pluginName;
     private VersionSupport nms;
     
-    public SMain( Plugin plugin ){
     
+    public SMain( Plugin plugin , String pluginName ){
+        
         instance = this;
         utils = new Utils( );
         SMain.plugin = plugin;
-    
+        this.pluginName = "[" + pluginName + "] ";
+        
         Class supp;
-    
+        
         this.commandService = new CommandService( );
         try {
             supp = Class.forName( "net.lymarket.lyapi.support.version." + version + "." + version );
@@ -91,4 +94,17 @@ public final class SMain {
     public CommandService getCommandService( ){
         return this.commandService;
     }
+    
+    public String getPluginName( ){
+        return this.pluginName;
+    }
+    
+    public void log( Level logLevel , String message ){
+        plugin.getLogger( ).log( logLevel , pluginName + " " + message );
+    }
+    
+    public void log( Level logLevel , String message , Error error ){
+        plugin.getLogger( ).log( logLevel , pluginName + " " + message , error );
+    }
+    
 }

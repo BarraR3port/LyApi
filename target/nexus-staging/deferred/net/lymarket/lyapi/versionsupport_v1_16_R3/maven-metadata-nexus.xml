@@ -3,9 +3,10 @@
   <groupId>net.lymarket.lyapi</groupId>
   <artifactId>versionsupport_v1_16_R3</artifactId>
   <versioning>
+    <release>1.0.3</release>
     <versions>
-      <version>1.0.1-SNAPSHOT</version>
+      <version>1.0.3</version>
     </versions>
-    <lastUpdated>20220228105839</lastUpdated>
+    <lastUpdated>20220316070325</lastUpdated>
   </versioning>
 </metadata>

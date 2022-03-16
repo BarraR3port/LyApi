@@ -5,7 +5,7 @@
     <parent>
         <artifactId>LyApi</artifactId>
         <groupId>net.lymarket.lyapi</groupId>
-        <version>1.0.1-SNAPSHOT</version>
+        <version>1.0.3</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>lyapi-spigot</artifactId>
@@ -113,7 +113,7 @@
             <artifactId>versionsupport_v1_16_R3</artifactId>
             <version>${project.version}</version>
         </dependency>
-        <dependency>
+        <!--<dependency>
             <groupId>net.lymarket.lyapi</groupId>
             <artifactId>versionsupport_v1_17_R1</artifactId>
             <version>${project.version}</version>
@@ -122,7 +122,7 @@
             <groupId>net.lymarket.lyapi</groupId>
             <artifactId>versionsupport_v1_18_R1</artifactId>
             <version>${project.version}</version>
-        </dependency>
+        </dependency>-->
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot</artifactId>
@@ -190,66 +190,6 @@
                     </execution>
                 </executions>
             </plugin>
-            <!--<plugin>
-                <artifactId>maven-antrun-plugin</artifactId>
-                <version>1.8</version>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
-                        <id>obfuscate</id>
-                        <configuration>
-                            <tasks>
-                                <property name="runtime_classpath" refid="maven.runtime.classpath"/>
-                                <taskdef name="yguard" classname="com.yworks.yguard.YGuardTask"
-                                         classpath="${runtime_classpath}"/>
-                                <yguard>
-                                    <inoutpair in="${project.build.directory}/${project.build.finalName}.jar"
-                                               out="${project.build.directory}/${project.build.finalName}-SNAPSHOT.jar"/>
-                                    <rename mainclass="net.lymarket.lyapi.spigot.SMain"
-                                            logfile="${project.build.directory}/yguard.log.xml"
-                                            scramble="true">
-                                        <keep>
-                                            <class classes="protected" methods="protected" fields="protected">
-                                                <patternset>
-                                                    <include name="net.minecraft.server.MinecraftServer"/>
-                                                    <include name="net.minecraft.realms.**"/>
-                                                    <include name="net.minecraft.client.ClientBrandRetriever"/>
-                                                    <include name="net.minecraft.client.main.Main"/>
-                                                    <include name="org.apache.logging.log4j.**"/>
-                                                    <include name="com.yworks.**"/>
-                                                    <include name="org.spigotmc.**"/>
-                                                    <include name="com.google.**"/>
-                                                    <include name="org.bukkit.**"/>
-                                                    <include name="net.lymarket.lyapi.spigot.SMain"/>
-                                                    &lt;!&ndash;<include name="studio.lydark.lymarket.agora.data.User"/>&ndash;&gt;
-                                                </patternset>
-                                            </class>
-                                            &lt;!&ndash;<class classes="private" methods="private" fields="private">
-                                                <patternset>
-                                                    <include name="studio.lydark.lymarket.agora.data.User"/>
-                                                </patternset>
-                                            </class>&ndash;&gt;
-                                            <package>
-                                                <patternset>
-                                                    <include name="org.apache.logging.log4j."/>
-                                                    <include name="net.lymarket.lyapi.spigot.SMain"/>
-                                                    <include name="org.bukkit.*"/>
-                                                </patternset>
-                                            </package>
-                                        </keep>
-                                        <property name="naming-scheme" value="best"/>
-                                        <property name="obfuscation-prefix" value="net.lymarket.lyapi.spigot.obfuscated"/>
-                                        <property name="language-conformity" value="illegal"/>
-                                    </rename>
-                                </yguard>
-                            </tasks>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>-->
         </plugins>
     </build>
 

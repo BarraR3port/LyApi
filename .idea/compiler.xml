@@ -16,9 +16,7 @@
         <module name="versionsupport_1_16_R1" />
         <module name="versionsupport_1_10_R1" />
         <module name="versionsupport_1_11_R1" />
-        <module name="versionsupport_v1_18_R1" />
         <module name="common" />
-        <module name="versionsupport_v1_17_R1" />
         <module name="versionsupport_v1_16_R3" />
         <module name="lyapi-spigot" />
       </profile>

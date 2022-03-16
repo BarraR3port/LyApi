@@ -13,12 +13,12 @@ public class CommandService {
     
     private CommandMap commandMap;
     
-    public CommandService( ) {
+    public CommandService( ){
         commands = new HashMap <>( );
         try {
-        final Field bukkitCommandMap = Bukkit.getServer( ).getClass( ).getDeclaredField( "commandMap" );
-        bukkitCommandMap.setAccessible( true );
-        commandMap = ( CommandMap ) bukkitCommandMap.get( Bukkit.getServer( ) );
+            final Field bukkitCommandMap = Bukkit.getServer( ).getClass( ).getDeclaredField( "commandMap" );
+            bukkitCommandMap.setAccessible( true );
+            commandMap = ( CommandMap ) bukkitCommandMap.get( Bukkit.getServer( ) );
         } catch ( Exception e ) {
         
         }

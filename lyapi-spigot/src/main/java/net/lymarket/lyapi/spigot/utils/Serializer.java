@@ -21,6 +21,7 @@ public class Serializer {
         
         return new String[]{content , armor};
     }
+    
     public String inventoryToBase64( Inventory Inventory ) throws IllegalStateException{
         return toBase64( Inventory );
     }
