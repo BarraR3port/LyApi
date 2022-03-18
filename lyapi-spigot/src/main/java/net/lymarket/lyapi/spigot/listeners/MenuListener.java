@@ -13,47 +13,152 @@
 
 package net.lymarket.lyapi.spigot.listeners;
 
-import net.lymarket.lyapi.spigot.menu.InventoryMenu;
 import net.lymarket.lyapi.spigot.menu.Menu;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.InventoryType;
+import org.bukkit.event.inventory.*;
 import org.bukkit.inventory.InventoryHolder;
 
 public class MenuListener implements Listener {
     
     @EventHandler
     public void onMenuClick( InventoryClickEvent e ){
-        
-        if ( e.getClickedInventory( ) == null ) {
+        if ( e.getClickedInventory( ) == null )
             return;
-        }
+    
         InventoryHolder holder = e.getInventory( ).getHolder( );
         
         if ( holder instanceof Menu ) {
-            e.setCancelled( true );
+    
+            Menu menu = ( Menu ) holder;
+    
+            if ( menu.canMoveTopItems( ) && menu.canMoveBottomItems( ) ) {
+                e.setCancelled( true );
+                return;
+            }
+            if ( e.getClickedInventory( ).getType( ) == InventoryType.PLAYER && menu.canMoveBottomItems( ) )
+                return;
+            if ( e.getClickedInventory( ).getHolder( ) instanceof Menu && menu.canMoveTopItems( ) )
+                return;
+    
+            if ( e.getCurrentItem( ) == null || e.getCurrentItem( ).getType( ) == Material.AIR )
+                return;
+    
+            menu.handleMenu( e );
+        }
+    }
+    
+    @EventHandler
+    public void onMenuDrag( InventoryDragEvent e ){
+        
+        if ( e.getInventory( ) == null )
+            return;
+        
+        InventoryHolder holder = e.getInventory( ).getHolder( );
+        
+        if ( holder instanceof Menu ) {
             
             Menu menu = ( Menu ) holder;
             
-            if ( e.getClickedInventory( ).getType( ) == InventoryType.PLAYER && !menu.interactPlayerInv( ) ) {
+            if ( menu.canMoveTopItems( ) && menu.canMoveBottomItems( ) ) {
+                e.setCancelled( true );
                 return;
             }
-            if ( e.getCurrentItem( ) == null ) {
+            if ( e.getInventory( ).getType( ) == InventoryType.PLAYER && menu.canMoveBottomItems( ) )
                 return;
-            }
-            if ( e.getCurrentItem( ).getType( ) == Material.AIR ) {
+            if ( menu.canMoveTopItems( ) )
+                return;
+            
+            if ( e.getOldCursor( ) == null )
+                return;
+            menu.handleDragEvent( e );
+        }
+    }
+    
+    @EventHandler
+    public void handleClose( InventoryCloseEvent e ){
+        
+        if ( e.getInventory( ) == null )
+            return;
+        
+        InventoryHolder holder = e.getInventory( ).getHolder( );
+        
+        if ( holder instanceof Menu ) {
+            Menu menu = ( Menu ) holder;
+            menu.handleClose( e );
+        }
+    }
+    
+    @EventHandler
+    public void handleMove( InventoryMoveItemEvent e ){
+        
+        if ( e.getItem( ) == null )
+            return;
+        
+        InventoryHolder firstHolder = e.getInitiator( ).getHolder( );
+        
+        InventoryHolder destinationHolder = e.getDestination( ).getHolder( );
+        
+        if ( firstHolder instanceof Menu && destinationHolder instanceof Player ) {
+            
+            Menu menu = ( Menu ) firstHolder;
+            
+            if ( menu.canMoveTopItems( ) ) {
+                e.setCancelled( true );
                 return;
             }
             
-            menu.handleMenu( e );
+            if ( e.getItem( ) == null || e.getItem( ).getType( ) == Material.AIR )
+                return;
+            
+            menu.handleMove( e );
+            return;
         }
-        if ( holder instanceof InventoryMenu ) {
-            if ( e.getSlotType( ) == InventoryType.SlotType.OUTSIDE ) return;
-            InventoryMenu menu = ( InventoryMenu ) holder;
-            menu.handleMenu( e );
+        if ( firstHolder instanceof Player && destinationHolder instanceof Menu ) {
+            
+            Menu menu = ( Menu ) destinationHolder;
+            
+            if ( menu.canMoveBottomItems( ) ) {
+                e.setCancelled( true );
+                return;
+            }
+            
+            if ( e.getItem( ) == null || e.getItem( ).getType( ) == Material.AIR )
+                return;
+            
+            menu.handleMove( e );
         }
+    }
+    
+    @EventHandler
+    public void handlePickUp( InventoryPickupItemEvent e ){
+        
+        if ( e.getItem( ) == null )
+            return;
+        InventoryHolder firstHolder = e.getInventory( ).getHolder( );
+        
+        
+        if ( firstHolder instanceof Menu ) {
+            
+            Menu menu = ( Menu ) firstHolder;
+            
+            if ( menu.canMoveTopItems( ) && menu.canMoveBottomItems( ) ) {
+                e.setCancelled( true );
+                return;
+            }
+            if ( e.getInventory( ).getType( ) == InventoryType.PLAYER && menu.canMoveBottomItems( ) )
+                return;
+            if ( menu.canMoveTopItems( ) )
+                return;
+            
+            if ( e.getItem( ) == null || e.getItem( ).getItemStack( ).getType( ) == Material.AIR )
+                return;
+            
+            menu.handlePickUp( e );
+        }
+        
     }
 }
 

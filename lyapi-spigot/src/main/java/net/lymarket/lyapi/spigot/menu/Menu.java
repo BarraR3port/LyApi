@@ -14,11 +14,12 @@
 package net.lymarket.lyapi.spigot.menu;
 
 import com.cryptomorin.xseries.XMaterial;
-import net.lymarket.lyapi.spigot.SMain;
+import net.lymarket.lyapi.spigot.LyApi;
+import net.lymarket.lyapi.spigot.events.OpenCustomMenuEvent;
 import net.lymarket.lyapi.spigot.utils.ItemBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.*;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
@@ -30,6 +31,8 @@ public abstract class Menu implements InventoryHolder {
     protected Inventory inventory;
     protected IPlayerMenuUtility playerMenuUtility;
     protected boolean isOnSchedule = false;
+    protected boolean moveTopItems = true;
+    protected boolean moveBottomItems = true;
     
     public Menu( IPlayerMenuUtility playerMenuUtility ){
         this.playerMenuUtility = playerMenuUtility;
@@ -41,21 +44,50 @@ public abstract class Menu implements InventoryHolder {
     
     public abstract void handleMenu( InventoryClickEvent e );
     
+    public abstract void handleDragEvent( InventoryDragEvent e );
+    
+    public abstract void handleClose( InventoryCloseEvent e );
+    
+    public abstract void handleMove( InventoryMoveItemEvent e );
+    
+    public abstract void handlePickUp( InventoryPickupItemEvent e );
+    
     public abstract void setMenuItems( );
     
     public abstract boolean overridePlayerInv( );
     
-    public boolean interactPlayerInv( ){
-        return false;
+    public abstract void setOverridePlayerInv( boolean overridePlayerInv );
+    
+    public boolean canMoveTopItems( ){
+        return moveTopItems;
     }
     
+    public void allowMoveTopItems( boolean moveTopItems ){
+        this.moveTopItems = moveTopItems;
+    }
+    
+    public boolean canMoveBottomItems( ){
+        return moveBottomItems;
+    }
+    
+    public void allowMoveBottomItems( boolean moveBottomItems ){
+        this.moveBottomItems = moveBottomItems;
+    }
     
     public void open( ){
-        inventory = Bukkit.createInventory( this , getSlots( ) , SMain.getInstance( ).getUtils( ).format( getMenuName( ) ) );
+        
+        inventory = Bukkit.createInventory( this , getSlots( ) , LyApi.getInstance( ).getUtils( ).format( getMenuName( ) ) );
         
         this.setMenuItems( );
         
-        playerMenuUtility.getOwner( ).openInventory( inventory );
+        OpenCustomMenuEvent e = new OpenCustomMenuEvent( this , playerMenuUtility.getOwner( ) );
+        if ( e.isCancelled( ) ) {
+            return;
+        }
+        Bukkit.getPluginManager( ).callEvent( e );
+        
+        playerMenuUtility.getOwner( ).openInventory( e.getMenu( ).inventory );
+        
     }
     
     @Override
@@ -109,13 +141,13 @@ public abstract class Menu implements InventoryHolder {
     }
     
     protected void setOnSchedule( Player p , int slot , ItemStack item ){
-        Bukkit.getServer( ).getScheduler( ).runTaskLaterAsynchronously( SMain.getPlugin( ) , ( ) -> {
-            
+        Bukkit.getServer( ).getScheduler( ).runTaskLaterAsynchronously( LyApi.getPlugin( ) , ( ) -> {
+        
             if ( p.getOpenInventory( ).getTopInventory( ).getHolder( ) instanceof Menu ) {
                 p.getOpenInventory( ).getTopInventory( ).setItem( slot , item );
                 isOnSchedule = false;
             }
-            
+        
         } , 30L );
     }
 }

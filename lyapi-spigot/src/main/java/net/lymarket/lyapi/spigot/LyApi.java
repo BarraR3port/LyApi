@@ -14,6 +14,7 @@
 package net.lymarket.lyapi.spigot;
 
 
+import net.lymarket.common.Api;
 import net.lymarket.common.commands.CommandService;
 import net.lymarket.common.version.VersionSupport;
 import net.lymarket.lyapi.spigot.listeners.MenuListener;
@@ -28,11 +29,11 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.logging.Level;
 
-public final class SMain {
+public final class LyApi extends Api {
     
     private static final HashMap < Player, IPlayerMenuUtility > playerMenuUtilityMap = new HashMap <>( );
     
-    private static SMain instance;
+    private static LyApi instance;
     
     private static Plugin plugin;
     
@@ -41,15 +42,20 @@ public final class SMain {
     private final String version = Bukkit.getServer( ).getClass( ).getName( ).split( "\\." )[3];
     
     private final CommandService commandService;
+    
     private final String pluginName;
+    
     private VersionSupport nms;
     
+    public LyApi( Plugin plugin , String pluginName ){
+        this( plugin , pluginName , "§cYou don't have permission to do that!" );
+    }
     
-    public SMain( Plugin plugin , String pluginName ){
-        
+    public LyApi( Plugin plugin , String pluginName , String noPermissionError ){
+        super( noPermissionError );
         instance = this;
         utils = new Utils( );
-        SMain.plugin = plugin;
+        LyApi.plugin = plugin;
         this.pluginName = "[" + pluginName + "] ";
         
         Class supp;
@@ -76,7 +82,7 @@ public final class SMain {
         return plugin;
     }
     
-    public static SMain getInstance( ){
+    public static LyApi getInstance( ){
         return instance;
     }
     

@@ -14,6 +14,7 @@
 package net.lymarket.common.commands;
 
 
+import net.lymarket.common.Api;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.defaults.BukkitCommand;
 
@@ -36,7 +37,7 @@ public class CommandInfo extends BukkitCommand {
         this.subCommandMethod = subCommandMethod;
     }
     
-    public CommandInfo( Object object , Method commandMethod , Method subCommandMethod , Command command , SubCommand subCommands ){
+    public CommandInfo( Object object , Method commandMethod , Method subCommandMethod , Command command , Tab tab ){
         super( command.name( ) , command.description( ) , command.usage( ) , Arrays.asList( command.aliases( ) ) );
         this.object = object;
         this.commandMethod = commandMethod;
@@ -48,15 +49,15 @@ public class CommandInfo extends BukkitCommand {
     public boolean execute( CommandSender sender , String commandLabel , String[] args ){
         try {
             SCommandContext context = new SCommandContext( sender , args , this );
-            if ( !sender.hasPermission( this.getPermission( ) ) ) {
-                sender.sendMessage( "" );
+            if ( getPermission( ) != null && !sender.hasPermission( this.getPermission( ) ) ) {
+                sender.sendMessage( Api.NO_PERMISSION );
                 return false;
             }
-            
+    
             boolean ret = ( boolean ) commandMethod.invoke( object , context );
-            if ( !ret ) sender.sendMessage( "" );
+            if ( !ret ) sender.sendMessage( Api.NO_PERMISSION );
             return ret;
-            
+    
         } catch ( IllegalAccessException | InvocationTargetException e ) {
             e.printStackTrace( );
             return false;

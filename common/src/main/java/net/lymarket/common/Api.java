@@ -13,5 +13,21 @@
 
 package net.lymarket.common;
 
-public class Api {
+import org.bukkit.ChatColor;
+
+public abstract class Api {
+    
+    public static String NO_PERMISSION;
+    
+    public Api( String permissionError ){
+        NO_PERMISSION = permissionError;
+    }
+    
+    public Api getApi( ){
+        return this;
+    }
+    
+    public void setErrorMSG( String permissionError ){
+        NO_PERMISSION = ChatColor.translateAlternateColorCodes( '&' , permissionError );
+    }
 }

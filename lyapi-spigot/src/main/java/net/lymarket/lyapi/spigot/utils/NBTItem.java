@@ -13,7 +13,7 @@
 
 package net.lymarket.lyapi.spigot.utils;
 
-import net.lymarket.lyapi.spigot.SMain;
+import net.lymarket.lyapi.spigot.LyApi;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Objects;
@@ -27,11 +27,11 @@ public class NBTItem {
     }
     
     public static String getTag( ItemStack itemStack , String key ){
-        return SMain.getInstance( ).getNMS( ).getTag( itemStack , key );
+        return LyApi.getInstance( ).getNMS( ).getTag( itemStack , key );
     }
     
     public static boolean hasTag( ItemStack itemStack , String key ){
-        return SMain.getInstance( ).getNMS( ).hasTag( itemStack , key );
+        return LyApi.getInstance( ).getNMS( ).hasTag( itemStack , key );
     }
     
     public static Integer getInteger( ItemStack item , String key ){
@@ -60,7 +60,7 @@ public class NBTItem {
     }
     
     public ItemStack setTag( ItemStack itemStack , String key , String value ){
-        return SMain.getInstance( ).getNMS( ).setTag( itemStack , key , value );
+        return LyApi.getInstance( ).getNMS( ).setTag( itemStack , key , value );
     }
     
     public String getTag( String key ){

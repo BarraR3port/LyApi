@@ -16,7 +16,7 @@ package net.lymarket.lyapi.spigot.utils;
 import com.cryptomorin.xseries.XMaterial;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
-import net.lymarket.lyapi.spigot.SMain;
+import net.lymarket.lyapi.spigot.LyApi;
 import org.bukkit.Color;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
@@ -65,7 +65,7 @@ public class ItemBuilder {
     
     public ItemBuilder setDisplayName( String name ){
         ItemMeta im = is.getItemMeta( );
-        im.setDisplayName( SMain.getInstance( ).getUtils( ).format( name ) );
+        im.setDisplayName( LyApi.getInstance( ).getUtils( ).format( name ) );
         is.setItemMeta( im );
         return this;
     }
@@ -133,7 +133,7 @@ public class ItemBuilder {
     public ItemBuilder setLore( List < String > lore ){
         if ( lore == null ) return this;
         ItemMeta im = is.getItemMeta( );
-        im.setLore( lore.stream( ).map( SMain.getInstance( ).getUtils( )::format ).collect( Collectors.toList( ) ) );
+        im.setLore( lore.stream( ).map( LyApi.getInstance( ).getUtils( )::format ).collect( Collectors.toList( ) ) );
         is.setItemMeta( im );
         return this;
     }
@@ -164,7 +164,7 @@ public class ItemBuilder {
         ItemMeta im = is.getItemMeta( );
         List < String > lore = new ArrayList <>( );
         if ( im.hasLore( ) ) lore = new ArrayList <>( im.getLore( ) );
-        lore.add( SMain.getInstance( ).getUtils( ).format( line ) );
+        lore.add( LyApi.getInstance( ).getUtils( ).format( line ) );
         im.setLore( lore );
         is.setItemMeta( im );
         return this;
@@ -174,7 +174,7 @@ public class ItemBuilder {
         if ( line == null ) return this;
         ItemMeta im = is.getItemMeta( );
         List < String > lore = new ArrayList <>( im.getLore( ) );
-        lore.set( pos , SMain.getInstance( ).getUtils( ).format( line ) );
+        lore.set( pos , LyApi.getInstance( ).getUtils( ).format( line ) );
         im.setLore( lore );
         is.setItemMeta( im );
         return this;

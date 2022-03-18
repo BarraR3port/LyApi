@@ -10,6 +10,7 @@ this is not a plugin, this get compiled inside your project.
 ## Dependency:
 
 ```xml
+
 <repository>
     <id>lymarket</id>
     <url>https://repo.lydark.org/repository/lymarket/</url>
@@ -17,6 +18,7 @@ this is not a plugin, this get compiled inside your project.
 ```
 
 ```xml
+
 <dependency>
     <groupId>net.lymarket.lyapi</groupId>
     <artifactId>lyapi-spigot</artifactId>
@@ -31,12 +33,92 @@ this is not a plugin, this get compiled inside your project.
 
 public final class YourSexyPluginMainClass extends JavaPlugin {
     
-    private final SMain api;
+    private final LyApi api;
+    
+    public YourSexyPluginMainClass( ){
+        this.api = new LyApi( this , "YourSexyPluginName" );
+    }
     
     @Override
-    public void onEnable() {
-        this.api = new SMain(this, "YourSexyPluginName");
-        //....
+    public void onEnable( ){
+        /**
+         * If you want to have a custom Error when the player executes a command,
+         * and he doesn't have permission, you can do it by doing this:
+         **/
+        this.api.setErrorMSG( "&cYou don't have permission to do that!" );
+    
+    }
+    
+    public SMain getApi( ){
+        return api;
+    }
+}
+
+```
+
+## Create and register Commands:
+
+#### Example of a simple command:
+
+```java
+public class ExampleCommand implements ILyCommand {
+    
+    
+    @Command(name = "removehome", permission = "lydark.builder", aliases = {"removehome" , "rmhome" , "removeh" , "rmh"}, usage = "/removehome <home>")
+    public boolean command( SCommandContext context ){
+        
+        if ( !(context.getSender( ) instanceof Player) ) {
+            LyTools.getLang( ).sendErrorMsg( context.getSender( ) , "cant-execute-commands-from-console" );
+            return true;
+        }
+        
+        if ( context.getArgs( ).length == 0 ) {
+            LyTools.getLang( ).sendErrorMsg( context.getSender( ) , "use-this-command" , "command" , "/removehome (nombre)&c." );
+            return true;
+        }
+        Player p = ( Player ) context.getSender( );
+        String homeName = context.getArg( 0 ).toLowerCase( );
+        Home home = LyTools.getInstance( ).getDatabaseManager( ).getHomes( ).getHome( homeName );
+        if ( home.getOwner( ).equalsIgnoreCase( p.getName( ) ) || p.hasPermission( "lytools.admin" ) || p.hasPermission( "lytools.home.removeete" ) ) {
+            LyTools.getLang( ).sendMsg( p , (LyTools.getInstance( ).getDatabaseManager( ).getHomes( ).removeHome( context.getArg( 0 ) ) ?
+                    "homes.deleted-successfully" :
+                    "error.homes.error-deleting") , "home" , homeName );
+        }
+        return true;
+    }
+    
+    @Tab()
+    public ArrayList < String > tabComplete( STabContext sTabContext ){
+        ArrayList < String > list = new ArrayList <>( );
+        if ( sTabContext.getArgs( ).length == 1 ) {
+            list = LyTools.getInstance( ).getDatabaseManager( ).getHomes( ).getPlayerHomes( ( Player ) sTabContext.getSender( ) ).stream( ).map( Home::getName ).collect( Collectors.toCollection( ArrayList::new ) );
+        }
+        return list;
+    }
+}
+```
+
+### Register this command:
+
+```java
+
+public final class YourSexyPluginMainClass extends JavaPlugin {
+    
+    private final LyApi api;
+    
+    public YourSexyPluginMainClass( ){
+        this.api = new LyApi( this , "YourSexyPluginName" );
+    }
+    
+    @Override
+    public void onEnable( ){
+        /*
+         * If you want to have a custom Error when the player executes a command,
+         * and he doesn't have permission, you can do it by doing this:
+         */
+        this.api.setErrorMSG( "&cYou don't have permission to do that!" );
+        
+        api.getCommandService( ).registerCommands( new ExampleCommand( ) );
     }
     
     public SMain getApi( ){
@@ -48,6 +130,36 @@ public final class YourSexyPluginMainClass extends JavaPlugin {
 
 ## License:
 
+```license
+BSD 3-Clause License
+
+Copyright (c) 2022, LyDark Studios
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+
+1. Redistributions of source code must retain the above copyright notice, this
+   list of conditions and the following disclaimer.
+
+2. Redistributions in binary form must reproduce the above copyright notice,
+   this list of conditions and the following disclaimer in the documentation
+   and/or other materials provided with the distribution.
+
+3. Neither the name of the copyright holder nor the names of its
+   contributors may be used to endorse or promote products derived from
+   this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ```
 
 

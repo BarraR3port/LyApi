@@ -40,7 +40,7 @@ public class CommandService {
     public void registerCommands( ILyCommand command ){
         Class < ? > klass = command.getClass( );
         Command cmd = null;
-        SubCommand subCmd = null;
+        Tab subCmd = null;
         Method cmdMethod = null;
         Method subCmdMethod = null;
         for ( Method method : klass.getMethods( ) ) {
@@ -48,11 +48,11 @@ public class CommandService {
                 cmd = method.getAnnotation( Command.class );
                 cmdMethod = method;
             }
-            if ( method.isAnnotationPresent( SubCommand.class ) ) {
-                subCmd = method.getAnnotation( SubCommand.class );
+            if ( method.isAnnotationPresent( Tab.class ) ) {
+                subCmd = method.getAnnotation( Tab.class );
                 subCmdMethod = method;
             }
-            
+    
         }
         if ( cmd == null ) return;
         
