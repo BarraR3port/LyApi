@@ -29,34 +29,21 @@ public class MenuListener implements Listener {
             return;
     
         InventoryHolder holder = e.getInventory( ).getHolder( );
-        System.out.println( "aaaaaaaaaa" );
         if ( holder instanceof Menu ) {
     
             Menu menu = ( Menu ) holder;
     
-            System.out.println( "bbbbbbbbbbbb" );
-            if ( menu.canMoveTopItems( ) && menu.canMoveBottomItems( ) ) {
-                System.out.println( "cccccccccccccccc" );
+            if ( !menu.canMoveTopItems( ) && !menu.canMoveBottomItems( ) ) {
                 e.setCancelled( true );
                 return;
             }
-            if ( e.getClickedInventory( ).getType( ) == InventoryType.PLAYER && menu.canMoveBottomItems( ) ) {
-                System.out.println( "ddddddddddd" );
+            if ( e.getClickedInventory( ).getType( ) == InventoryType.PLAYER && !menu.canMoveBottomItems( ) )
                 return;
-            }
-            if ( e.getClickedInventory( ).getHolder( ) instanceof Menu && menu.canMoveTopItems( ) ) {
-                System.out.println( "eeeeeeeeeeeeee" );
+            if ( e.getClickedInventory( ).getHolder( ) instanceof Menu && !menu.canMoveTopItems( ) )
                 return;
-            }
-    
-            if ( e.getCurrentItem( ) == null || e.getCurrentItem( ).getType( ) == Material.AIR ) {
-                System.out.println( "fffffffffffffffff" );
+            if ( e.getCurrentItem( ) == null || e.getCurrentItem( ).getType( ) == Material.AIR )
                 return;
-            }
-    
-            System.out.println( "gggggggggggg" );
             menu.handleMenu( e );
-            System.out.println( "hhhhhhhhhhhhhhhhhhh" );
     
         }
     }
@@ -72,12 +59,12 @@ public class MenuListener implements Listener {
         if ( holder instanceof Menu ) {
             
             Menu menu = ( Menu ) holder;
-            
-            if ( menu.canMoveTopItems( ) && menu.canMoveBottomItems( ) ) {
+    
+            if ( !menu.canMoveTopItems( ) && !menu.canMoveBottomItems( ) ) {
                 e.setCancelled( true );
                 return;
             }
-            if ( e.getInventory( ).getType( ) == InventoryType.PLAYER && menu.canMoveBottomItems( ) )
+            if ( e.getInventory( ).getType( ) == InventoryType.PLAYER && !menu.canMoveBottomItems( ) )
                 return;
             if ( menu.canMoveTopItems( ) )
                 return;
@@ -115,8 +102,8 @@ public class MenuListener implements Listener {
         if ( firstHolder instanceof Menu && destinationHolder instanceof Player ) {
             
             Menu menu = ( Menu ) firstHolder;
-            
-            if ( menu.canMoveTopItems( ) ) {
+    
+            if ( !menu.canMoveTopItems( ) ) {
                 e.setCancelled( true );
                 return;
             }
@@ -130,8 +117,8 @@ public class MenuListener implements Listener {
         if ( firstHolder instanceof Player && destinationHolder instanceof Menu ) {
             
             Menu menu = ( Menu ) destinationHolder;
-            
-            if ( menu.canMoveBottomItems( ) ) {
+    
+            if ( !menu.canMoveBottomItems( ) ) {
                 e.setCancelled( true );
                 return;
             }
@@ -154,14 +141,14 @@ public class MenuListener implements Listener {
         if ( firstHolder instanceof Menu ) {
             
             Menu menu = ( Menu ) firstHolder;
-            
-            if ( menu.canMoveTopItems( ) && menu.canMoveBottomItems( ) ) {
+    
+            if ( !menu.canMoveTopItems( ) && !menu.canMoveBottomItems( ) ) {
                 e.setCancelled( true );
                 return;
             }
-            if ( e.getInventory( ).getType( ) == InventoryType.PLAYER && menu.canMoveBottomItems( ) )
+            if ( e.getInventory( ).getType( ) == InventoryType.PLAYER && !menu.canMoveBottomItems( ) )
                 return;
-            if ( menu.canMoveTopItems( ) )
+            if ( !menu.canMoveTopItems( ) )
                 return;
             
             if ( e.getItem( ) == null || e.getItem( ).getItemStack( ).getType( ) == Material.AIR )
