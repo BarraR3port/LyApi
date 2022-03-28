@@ -36,16 +36,17 @@ public final class YourSexyPluginMainClass extends JavaPlugin {
     private final LyApi api;
     
     public YourSexyPluginMainClass( ){
-        this.api = new LyApi( this , "YourSexyPluginName" );
+        api = new LyApi( "YourSexyPluginName" );
     }
     
     @Override
     public void onEnable( ){
+        api.init( this );
         /**
          * If you want to have a custom Error when the player executes a command,
          * and he doesn't have permission, you can do it by doing this:
          **/
-        this.api.setErrorMSG( "&cYou don't have permission to do that!" );
+        api.setErrorMSG( "&cYou don't have permission to do that!" );
     
     }
     
@@ -107,16 +108,17 @@ public final class YourSexyPluginMainClass extends JavaPlugin {
     private final LyApi api;
     
     public YourSexyPluginMainClass( ){
-        this.api = new LyApi( this , "YourSexyPluginName" );
+        api = new LyApi( "YourSexyPluginName" );
     }
     
     @Override
     public void onEnable( ){
+        api.init( this );
         /*
          * If you want to have a custom Error when the player executes a command,
          * and he doesn't have permission, you can do it by doing this:
          */
-        this.api.setErrorMSG( "&cYou don't have permission to do that!" );
+        api.setErrorMSG( "&cYou don't have permission to do that!" );
         
         api.getCommandService( ).registerCommands( new ExampleCommand( ) );
     }

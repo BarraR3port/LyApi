@@ -1,3 +1,4 @@
+net\lymarket\common\commands\Tab.class
 net\lymarket\common\commands\SCommandContext.class
 net\lymarket\common\Api.class
 net\lymarket\common\commands\CommandInfo.class
@@ -5,7 +6,6 @@ net\lymarket\common\commands\CommandService.class
 net\lymarket\common\commands\ILyCommand.class
 net\lymarket\common\version\VersionSupport.class
 net\lymarket\common\config\ConfigGenerator.class
-net\lymarket\common\commands\SubCommand.class
 net\lymarket\common\commands\Command.class
 net\lymarket\common\commands\STabContext.class
 net\lymarket\common\config\CommentConfig.class

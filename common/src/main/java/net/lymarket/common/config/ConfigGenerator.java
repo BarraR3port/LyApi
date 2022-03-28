@@ -103,12 +103,18 @@ public class ConfigGenerator extends CommentConfig {
     public void createData( ){
         if ( !file.exists( ) ) {
             if ( !this.filePath.exists( ) ) {
-                this.filePath.mkdirs( );
+                final boolean result = this.filePath.mkdirs( );
+                if ( !result ) {
+                    throw new IllegalStateException( "Could not create directory for " + this.filePath.getAbsolutePath( ) );
+                }
             }
             
             //If file isn't a resource, create from scratch
             try {
-                this.file.createNewFile( );
+                final boolean result = this.file.createNewFile( );
+                if ( !result ) {
+                    throw new IllegalStateException( "Could not create directory for " + this.filePath.getAbsolutePath( ) );
+                }
                 writeToFile( this.plugin.getResource( this.resourcePath ) , this.file );
             } catch ( IOException e ) {
                 e.printStackTrace( );
@@ -118,7 +124,10 @@ public class ConfigGenerator extends CommentConfig {
     
     public void delete( ){
         if ( this.file.exists( ) ) {
-            this.file.delete( );
+            final boolean result = this.file.delete( );
+            if ( !result ) {
+                throw new IllegalStateException( "Could not delete file " + this.file.getAbsolutePath( ) );
+            }
         }
     }
     

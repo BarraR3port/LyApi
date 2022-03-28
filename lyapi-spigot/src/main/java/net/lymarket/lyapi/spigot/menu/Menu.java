@@ -142,12 +142,12 @@ public abstract class Menu implements InventoryHolder {
     
     protected void setOnSchedule( Player p , int slot , ItemStack item ){
         Bukkit.getServer( ).getScheduler( ).runTaskLaterAsynchronously( LyApi.getPlugin( ) , ( ) -> {
-        
+    
             if ( p.getOpenInventory( ).getTopInventory( ).getHolder( ) instanceof Menu ) {
                 p.getOpenInventory( ).getTopInventory( ).setItem( slot , item );
                 isOnSchedule = false;
             }
-        
+    
         } , 30L );
     }
 }

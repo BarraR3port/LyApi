@@ -1,3 +1,4 @@
+net\lymarket\lyapi\spigot\events\OpenCustomMenuEvent.class
 net\lymarket\lyapi\spigot\utils\effect\XEffect$9.class
 net\lymarket\lyapi\spigot\utils\effect\EffectDisplay$Axis.class
 net\lymarket\lyapi\spigot\utils\effect\XEffect$12.class
@@ -22,12 +23,12 @@ net\lymarket\lyapi\spigot\utils\effect\XEffect$15.class
 net\lymarket\lyapi\spigot\utils\effect\XEffect$6.class
 net\lymarket\lyapi\spigot\utils\effect\XEffect$16.class
 net\lymarket\lyapi\spigot\menu\Menu.class
-net\lymarket\lyapi\spigot\SMain.class
 net\lymarket\lyapi\spigot\listeners\MenuListener.class
 net\lymarket\lyapi\spigot\menu\PlayerMenuUtility.class
 net\lymarket\lyapi\spigot\utils\effect\XEffect$10.class
 net\lymarket\lyapi\spigot\utils\NBTItem.class
 net\lymarket\lyapi\spigot\menu\InventoryMenu.class
 net\lymarket\lyapi\spigot\utils\effect\XEffect$18.class
+net\lymarket\lyapi\spigot\LyApi.class
 net\lymarket\lyapi\spigot\utils\effect\XEffect$13.class
 net\lymarket\lyapi\spigot\utils\effect\XEffect$4.class

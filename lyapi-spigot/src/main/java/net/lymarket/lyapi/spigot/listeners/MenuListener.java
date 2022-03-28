@@ -29,24 +29,35 @@ public class MenuListener implements Listener {
             return;
     
         InventoryHolder holder = e.getInventory( ).getHolder( );
-        
+        System.out.println( "aaaaaaaaaa" );
         if ( holder instanceof Menu ) {
     
             Menu menu = ( Menu ) holder;
     
+            System.out.println( "bbbbbbbbbbbb" );
             if ( menu.canMoveTopItems( ) && menu.canMoveBottomItems( ) ) {
+                System.out.println( "cccccccccccccccc" );
                 e.setCancelled( true );
                 return;
             }
-            if ( e.getClickedInventory( ).getType( ) == InventoryType.PLAYER && menu.canMoveBottomItems( ) )
+            if ( e.getClickedInventory( ).getType( ) == InventoryType.PLAYER && menu.canMoveBottomItems( ) ) {
+                System.out.println( "ddddddddddd" );
                 return;
-            if ( e.getClickedInventory( ).getHolder( ) instanceof Menu && menu.canMoveTopItems( ) )
+            }
+            if ( e.getClickedInventory( ).getHolder( ) instanceof Menu && menu.canMoveTopItems( ) ) {
+                System.out.println( "eeeeeeeeeeeeee" );
                 return;
+            }
     
-            if ( e.getCurrentItem( ) == null || e.getCurrentItem( ).getType( ) == Material.AIR )
+            if ( e.getCurrentItem( ) == null || e.getCurrentItem( ).getType( ) == Material.AIR ) {
+                System.out.println( "fffffffffffffffff" );
                 return;
+            }
     
+            System.out.println( "gggggggggggg" );
             menu.handleMenu( e );
+            System.out.println( "hhhhhhhhhhhhhhhhhhh" );
+    
         }
     }
     

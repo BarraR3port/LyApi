@@ -39,43 +39,22 @@ public final class LyApi extends Api {
     
     private final Utils utils;
     
-    private final String version = Bukkit.getServer( ).getClass( ).getName( ).split( "\\." )[3];
+    private String version;
     
-    private final CommandService commandService;
+    private CommandService commandService;
     
     private final String pluginName;
     
     private VersionSupport nms;
     
-    public LyApi( Plugin plugin , String pluginName ){
-        this( plugin , pluginName , "§cYou don't have permission to do that!" );
+    public LyApi( String pluginName ){
+        this( pluginName , "§cYou don't have permission to do that!" );
     }
     
-    public LyApi( Plugin plugin , String pluginName , String noPermissionError ){
+    public LyApi( String pluginName , String noPermissionError ){
         super( noPermissionError );
-        instance = this;
         utils = new Utils( );
-        LyApi.plugin = plugin;
         this.pluginName = "[" + pluginName + "] ";
-        
-        Class supp;
-        
-        this.commandService = new CommandService( );
-        try {
-            supp = Class.forName( "net.lymarket.lyapi.support.version." + version + "." + version );
-        } catch ( ClassNotFoundException e ) {
-            return;
-        }
-        
-        try {
-            //noinspection unchecked
-            this.nms = ( VersionSupport ) supp.getConstructor( Class.forName( "org.bukkit.plugin.Plugin" ) , String.class ).newInstance( plugin , version );
-        } catch ( InstantiationException | NoSuchMethodException | InvocationTargetException | IllegalAccessException | ClassNotFoundException e ) {
-            e.printStackTrace( );
-        }
-        
-        
-        Bukkit.getServer( ).getPluginManager( ).registerEvents( new MenuListener( ) , plugin );
     }
     
     public static Plugin getPlugin( ){
@@ -124,6 +103,31 @@ public final class LyApi extends Api {
     
     public void log( Level logLevel , String message , Error error ){
         plugin.getLogger( ).log( logLevel , pluginName + " " + message , error );
+    }
+    
+    public LyApi init( Plugin plugin ){
+        LyApi.plugin = plugin;
+        this.version = Bukkit.getServer( ).getClass( ).getName( ).split( "\\." )[3];
+        Class supp;
+        
+        try {
+            supp = Class.forName( "net.lymarket.lyapi.support.version." + version + "." + version );
+        } catch ( ClassNotFoundException e ) {
+            return null;
+        }
+        
+        try {
+            //noinspection unchecked
+            this.nms = ( VersionSupport ) supp.getConstructor( Class.forName( "org.bukkit.plugin.Plugin" ) , String.class ).newInstance( plugin , version );
+        } catch ( InstantiationException | NoSuchMethodException | InvocationTargetException | IllegalAccessException | ClassNotFoundException e ) {
+            e.printStackTrace( );
+        }
+        
+        this.commandService = new CommandService( );
+        plugin.getServer( ).getPluginManager( ).registerEvents( new MenuListener( ) , plugin );
+        
+        instance = this;
+        return this;
     }
     
 }

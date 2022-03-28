@@ -16,10 +16,9 @@ package net.lymarket.lyapi.spigot.menu;
 import com.cryptomorin.xseries.XMaterial;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
-import org.bukkit.Material;
+import net.lymarket.lyapi.spigot.utils.ItemBuilder;
 import org.bukkit.SkullType;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 
 import java.lang.reflect.Field;
@@ -40,26 +39,39 @@ public abstract class PaginatedMenu extends Menu {
         super( playerMenuUtility );
     }
     
+    public void nextPage( ){
+        page++;
+        inventory.clear( );
+        addMenuBorder( );
+        setMenuItems( );
+    }
+    
+    public void prevPage( ){
+        page = Math.max( page - 1 , 0 );
+        inventory.clear( );
+        addMenuBorder( );
+        setMenuItems( );
+    }
+    
+    
     public void addMenuBorder( ){
+        inventory.setItem( 48 , page == 0 ? FILLER_GLASS :
+                new ItemBuilder( XMaterial.PLAYER_HEAD.parseMaterial( ) )
+                        .setHeadSkin( "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODY1MmUyYjkzNmNhODAyNmJkMjg2NTFkN2M5ZjI4MTlkMmU5MjM2OTc3MzRkMThkZmRiMTM1NTBmOGZkYWQ1ZiJ9fX0=" )
+                        .setDisplayName( "&aPrevious" )
+                        .addTag( "ly-menu-previous" , "ly-menu-previous" )
+                        .build( ) );
         
-        if ( page == 0 ) {
-            inventory.setItem( 48 , FILLER_GLASS );
-        } else {
-            ItemStack left = createItem( "§a§lLeft" , "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODY1MmUyYjkzNmNhODAyNmJkMjg2NTFkN2M5ZjI4MTlkMmU5MjM2OTc3MzRkMThkZmRiMTM1NTBmOGZkYWQ1ZiJ9fX0=" );
-            
-            inventory.setItem( 48 , left );
-        }
+        inventory.setItem( 50 , new ItemBuilder( XMaterial.PLAYER_HEAD.parseMaterial( ) )
+                .setHeadSkin( "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmEzYjhmNjgxZGFhZDhiZjQzNmNhZThkYTNmZTgxMzFmNjJhMTYyYWI4MWFmNjM5YzNlMDY0NGFhNmFiYWMyZiJ9fX0=" )
+                .setDisplayName( "&aNext" )
+                .addTag( "ly-menu-next" , "ly-menu-next" )
+                .build( ) );
         
-        ItemStack right = createItem( "§a§lRight" , "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmEzYjhmNjgxZGFhZDhiZjQzNmNhZThkYTNmZTgxMzFmNjJhMTYyYWI4MWFmNjM5YzNlMDY0NGFhNmFiYWMyZiJ9fX0=" );
-        
-        inventory.setItem( 50 , right );
-        
-        ItemStack close = new ItemStack( Material.BARRIER , 1 );
-        ItemMeta closemeta = close.getItemMeta( );
-        closemeta.setDisplayName( "§c§lClose" );
-        close.setItemMeta( closemeta );
-        
-        inventory.setItem( 49 , close );
+        inventory.setItem( 49 , new ItemBuilder( XMaterial.BARRIER.parseMaterial( ) )
+                .setDisplayName( "&cClose" )
+                .addTag( "ly-menu-close" , "ly-menu-close" )
+                .build( ) );
         
         for ( int i = 0; i < 10; i++ ) {
             if ( inventory.getItem( i ) == null ) {
@@ -104,13 +116,9 @@ public abstract class PaginatedMenu extends Menu {
     }
     
     private ItemStack createFiller( ){
-        assert XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial( ) != null;
-        ItemStack FILLER_GLASS = new ItemStack( XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial( ) , 1 , ( short ) 15 );
-        ItemMeta fillermeta = FILLER_GLASS.getItemMeta( );
-        fillermeta.setDisplayName( " " );
-        FILLER_GLASS.setItemMeta( fillermeta );
-        
-        return FILLER_GLASS;
+        return new ItemBuilder( XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial( ) )
+                .setDisplayName( " " ).build( );
+    
     }
     
     
