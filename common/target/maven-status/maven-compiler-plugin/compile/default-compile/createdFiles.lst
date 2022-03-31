@@ -9,3 +9,4 @@ net\lymarket\common\config\ConfigGenerator.class
 net\lymarket\common\commands\Command.class
 net\lymarket\common\commands\STabContext.class
 net\lymarket\common\config\CommentConfig.class
+net\lymarket\common\lang\ILang.class

@@ -5,7 +5,10 @@ customers ask for the src of the plugin we develop for them, they could access t
 
 ### Info
 
-this is not a plugin, this get compiled inside your project.
+This is not a plugin, this get compiled inside your project.
+
+If you want to use it on minecraft versions higher than 1.16 you need to compile it without the commented tags in the
+poms files.
 
 ## Dependency:
 
@@ -33,24 +36,23 @@ this is not a plugin, this get compiled inside your project.
 
 public final class YourSexyPluginMainClass extends JavaPlugin {
     
-    private final LyApi api;
-    
-    public YourSexyPluginMainClass( ){
-        api = new LyApi( "YourSexyPluginName" );
-    }
+    private static LyApi api;
     
     @Override
     public void onEnable( ){
-        api.init( this );
+        api = new LyApi( this , "YourSexyPluginName" );
         /**
+         * By default, the message is: "§cYou don't have permission to do that!"
+         *
          * If you want to have a custom Error when the player executes a command,
          * and he doesn't have permission, you can do it by doing this:
          **/
-        api.setErrorMSG( "&cYou don't have permission to do that!" );
+        api = new LyApi( this , "YourSexyPluginName" , "§Your Custom No Permission Msg" );
+    
     
     }
     
-    public SMain getApi( ){
+    public static LyApi getApi( ){
         return api;
     }
 }
@@ -59,7 +61,7 @@ public final class YourSexyPluginMainClass extends JavaPlugin {
 
 ## Create and register Commands:
 
-#### Example of a simple command:
+#### Example of a simple command class:
 
 ```java
 public class ExampleCommand implements ILyCommand {
@@ -99,31 +101,76 @@ public class ExampleCommand implements ILyCommand {
 }
 ```
 
-### Register this command:
+### Create a Language :
+
+```java
+
+public class ESLang extends ILang {
+    
+    public ESLang( ConfigGenerator configGenerator , String prefix , String errorPrefix ){
+        super( configGenerator , prefix , errorPrefix );
+    }
+}
+
+```
+
+### Register commands and Languages:
 
 ```java
 
 public final class YourSexyPluginMainClass extends JavaPlugin {
     
-    private final LyApi api;
-    
-    public YourSexyPluginMainClass( ){
-        api = new LyApi( "YourSexyPluginName" );
-    }
+    private static LyApi api;
     
     @Override
     public void onEnable( ){
-        api.init( this );
-        /*
+        /**
+         * The fastest way to use the api is this:
+         * Some stuff will be added and defined by default.
+         * */
+        api = new LyApi( this , "YourSexyPluginName" );
+        
+        /**
+         * You can modify some default stuff like the error message.
+         *
+         * By default, the message is: "§cYou don't have permission to do that!"
+         *
          * If you want to have a custom Error when the player executes a command,
          * and he doesn't have permission, you can do it by doing this:
-         */
-        api.setErrorMSG( "&cYou don't have permission to do that!" );
+         **/
+        api = new LyApi( this , "YourSexyPluginName" , "§Your Custom No Permission Msg" );
         
-        api.getCommandService( ).registerCommands( new ExampleCommand( ) );
+        /**
+         * Register your Language:
+         *
+         * In order to do that, it has to be registered when you initiate and register the API.
+         * Example:
+         * */
+        
+        api = new LyApi( this , "YourSexyPluginName" , "§Your Custom No Permission Msg" , new ESLang( new ConfigGenerator( this , "es.yml" ) , "&cYourPluginPrefix" , "YourPluginError" ) );
+        
+        /**
+         * Little disclaimer:
+         * If you want multiple Language support you can just add the ILang class you decide to use.
+         * One example:
+         * */
+        ILang lang = LangType.valueOf( configManager.getConfig( ).getString( "global.lang" ) ) == LangType.ES ? new ESLang( this , new ConfigGenerator( this , "es.yml" ) , "&cYourPluginPrefix" , "YourPluginError" ) : new ENLang( this , new ConfigGenerator( this , "en.yml" ) , "&cYourPluginPrefix" , "YourPluginError" );
+        
+        api = new LyApi( this , "YourSexyPluginName" , "§Your Custom No Permission Msg" , lang );
+        
+        
+        /**
+         * Register your commands:
+         *
+         * In order to do that, it has to be registered after you initiate and register the API.
+         * Example:
+         * */
+        CommandService commandService = new CommandService( );
+        commandService.registerCommands( new ExampleCommand( ) );
+    
     }
     
-    public SMain getApi( ){
+    public static LyApi getApi( ){
         return api;
     }
 }
