@@ -11,7 +11,7 @@
  * Contact: contact@lymarket.net
  */
 
-package net.lymarket.lyapi.support.version.v1_18_R1;
+package net.lymarket.lyapi.support.version.v1_18_R2;
 
 import com.mojang.datafixers.util.Pair;
 import net.lymarket.common.version.VersionSupport;
@@ -25,8 +25,8 @@ import net.minecraft.server.level.EntityPlayer;
 import net.minecraft.world.entity.EnumItemSlot;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import org.bukkit.craftbukkit.v1_18_R1.entity.CraftPlayer;
-import org.bukkit.craftbukkit.v1_18_R1.inventory.CraftItemStack;
+import org.bukkit.craftbukkit.v1_18_R2.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_18_R2.inventory.CraftItemStack;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
@@ -36,25 +36,25 @@ import java.util.List;
 import java.util.UUID;
 
 @SuppressWarnings("unused")
-public class v1_18_R1 extends VersionSupport {
+public class v1_18_R2 extends VersionSupport {
     
     private static final UUID chatUUID = new UUID( 0L , 0L );
     
-    public v1_18_R1( Plugin plugin , String name ){
+    public v1_18_R2( Plugin plugin , String name ){
         super( plugin , name );
     }
     
     @Override
     public String getTag( org.bukkit.inventory.ItemStack itemStack , String key ){
         ItemStack i = CraftItemStack.asNMSCopy( itemStack );
-        NBTTagCompound tag = i.s( );
+        NBTTagCompound tag = i.t( );
         return tag == null ? null : tag.e( key ) ? tag.l( key ) : null;
     }
     
     @Override
     public boolean hasTag( org.bukkit.inventory.ItemStack itemStack , String key ){
         ItemStack i = CraftItemStack.asNMSCopy( itemStack );
-        NBTTagCompound tag = i.s( );
+        NBTTagCompound tag = i.t( );
         return tag != null && tag.e( key );
     }
     
@@ -122,7 +122,7 @@ public class v1_18_R1 extends VersionSupport {
     @Override
     public org.bukkit.inventory.ItemStack addCustomData( org.bukkit.inventory.ItemStack i , String data ){
         ItemStack itemStack = CraftItemStack.asNMSCopy( i );
-        NBTTagCompound tag = itemStack.s( );
+        NBTTagCompound tag = itemStack.t( );
         if ( tag == null ) {
             tag = new NBTTagCompound( );
             itemStack.c( tag );
@@ -135,7 +135,7 @@ public class v1_18_R1 extends VersionSupport {
     @Override
     public org.bukkit.inventory.ItemStack setTag( org.bukkit.inventory.ItemStack itemStack , String key , String value ){
         ItemStack is = CraftItemStack.asNMSCopy( itemStack );
-        NBTTagCompound tag = is.s( );
+        NBTTagCompound tag = is.t( );
         if ( tag == null ) {
             tag = new NBTTagCompound( );
             is.c( tag );
@@ -148,7 +148,7 @@ public class v1_18_R1 extends VersionSupport {
     @Override
     public boolean isCustomBedWarsItem( org.bukkit.inventory.ItemStack i ){
         ItemStack itemStack = CraftItemStack.asNMSCopy( i );
-        NBTTagCompound tag = itemStack.s( );
+        NBTTagCompound tag = itemStack.t( );
         if ( tag == null ) return false;
         return tag.e( "LyApi" );
     }
@@ -156,7 +156,7 @@ public class v1_18_R1 extends VersionSupport {
     @Override
     public String getCustomData( org.bukkit.inventory.ItemStack i ){
         ItemStack itemStack = CraftItemStack.asNMSCopy( i );
-        NBTTagCompound tag = itemStack.s( );
+        NBTTagCompound tag = itemStack.t( );
         if ( tag == null ) return "";
         return tag.l( "LyApi" );
     }
@@ -172,7 +172,7 @@ public class v1_18_R1 extends VersionSupport {
         
         if ( copyTagFrom != null ) {
             ItemStack i = CraftItemStack.asNMSCopy( head );
-            i.c( CraftItemStack.asNMSCopy( copyTagFrom ).s( ) );
+            i.c( CraftItemStack.asNMSCopy( copyTagFrom ).t( ) );
             head = CraftItemStack.asBukkitCopy( i );
         }
 

@@ -14,10 +14,13 @@
 package net.lymarket.lyapi.spigot;
 
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import net.lymarket.common.Api;
 import net.lymarket.common.commands.CommandService;
 import net.lymarket.common.lang.ILang;
 import net.lymarket.common.version.VersionSupport;
+import net.lymarket.lyapi.spigot.error.LyApiInitializationError;
 import net.lymarket.lyapi.spigot.listeners.MenuListener;
 import net.lymarket.lyapi.spigot.menu.IPlayerMenuUtility;
 import net.lymarket.lyapi.spigot.menu.PlayerMenuUtility;
@@ -38,26 +41,34 @@ public final class LyApi extends Api {
     private static LyApi instance;
     
     private static Plugin plugin;
+    
     private static ILang lang;
+    
     private final Utils utils;
+    
     private final String pluginName;
+    
     private final String version;
-    private CommandService commandService;
+    
+    private final CommandService commandService;
+    
+    private final Gson gson;
+    
     private VersionSupport nms;
     
-    public LyApi( JavaPlugin plugin , String pluginName ){
+    public LyApi( JavaPlugin plugin , String pluginName ) throws LyApiInitializationError{
         this( plugin , pluginName , "§cYou don't have permission to do that!" );
     }
     
-    public LyApi( JavaPlugin plugin , String pluginName , ILang language ){
+    public LyApi( JavaPlugin plugin , String pluginName , ILang language ) throws LyApiInitializationError{
         this( plugin , pluginName , "§cYou don't have permission to do that!" , language );
     }
     
-    public LyApi( JavaPlugin plugin , String pluginName , String noPermissionError ){
+    public LyApi( JavaPlugin plugin , String pluginName , String noPermissionError ) throws LyApiInitializationError{
         this( plugin , pluginName , noPermissionError , null );
     }
     
-    public LyApi( JavaPlugin plugin , String pluginName , String noPermissionError , ILang language ){
+    public LyApi( JavaPlugin plugin , String pluginName , String noPermissionError , ILang language ) throws LyApiInitializationError{
         super( noPermissionError );
         instance = this;
         utils = new Utils( );
@@ -69,7 +80,7 @@ public final class LyApi extends Api {
         try {
             supp = Class.forName( "net.lymarket.lyapi.support.version." + version + "." + version );
         } catch ( ClassNotFoundException e ) {
-            return;
+            throw new LyApiInitializationError( version );
         }
         
         try {
@@ -78,8 +89,8 @@ public final class LyApi extends Api {
         } catch ( InstantiationException | NoSuchMethodException | InvocationTargetException | IllegalAccessException | ClassNotFoundException e ) {
             e.printStackTrace( );
         }
-        
-        commandService = new CommandService( );
+        this.gson = new GsonBuilder( ).setDateFormat( "MMM dd, yyyy HH:mm:ss a" ).serializeNulls( ).create( );
+        this.commandService = new CommandService( );
         plugin.getServer( ).getPluginManager( ).registerEvents( new MenuListener( ) , plugin );
     }
     
@@ -145,6 +156,10 @@ public final class LyApi extends Api {
     
     public void log( Level logLevel , String message , Error error ){
         plugin.getLogger( ).log( logLevel , pluginName + " " + message , error );
+    }
+    
+    public Gson getGson( ){
+        return this.gson;
     }
     
 }

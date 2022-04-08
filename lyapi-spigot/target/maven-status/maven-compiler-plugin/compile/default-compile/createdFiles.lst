@@ -6,6 +6,7 @@ net\lymarket\lyapi\spigot\utils\effect\XEffect$7.class
 net\lymarket\lyapi\spigot\utils\effect\XEffect$2.class
 net\lymarket\lyapi\spigot\utils\effect\EffectDisplay.class
 net\lymarket\lyapi\spigot\utils\effect\XEffect$5.class
+net\lymarket\lyapi\spigot\error\LyApiInitializationError.class
 net\lymarket\lyapi\spigot\utils\Utils.class
 net\lymarket\lyapi\spigot\utils\effect\XEffect$14.class
 net\lymarket\lyapi\spigot\utils\effect\XEffect$17.class

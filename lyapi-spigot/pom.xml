@@ -18,7 +18,7 @@
     <parent>
         <artifactId>LyApi</artifactId>
         <groupId>net.lymarket.lyapi</groupId>
-        <version>1.1.2</version>
+        <version>1.1.4</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>lyapi-spigot</artifactId>
@@ -126,7 +126,7 @@
             <artifactId>versionsupport_v1_16_R3</artifactId>
             <version>${project.version}</version>
         </dependency>
-        <!--<dependency>
+        <dependency>
             <groupId>net.lymarket.lyapi</groupId>
             <artifactId>versionsupport_v1_17_R1</artifactId>
             <version>${project.version}</version>
@@ -135,7 +135,12 @@
             <groupId>net.lymarket.lyapi</groupId>
             <artifactId>versionsupport_v1_18_R1</artifactId>
             <version>${project.version}</version>
-        </dependency>-->
+        </dependency>
+        <dependency>
+            <groupId>net.lymarket.lyapi</groupId>
+            <artifactId>versionsupport_v1_18_R2</artifactId>
+            <version>${project.version}</version>
+        </dependency>
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot</artifactId>

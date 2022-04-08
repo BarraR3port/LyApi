@@ -35,18 +35,31 @@ public abstract class PaginatedMenu extends Menu {
     
     protected ItemStack FILLER_GLASS = createFiller( );
     
+    protected int size = 0;
+    
     public PaginatedMenu( IPlayerMenuUtility playerMenuUtility ){
         super( playerMenuUtility );
     }
     
+    @Override
+    public int getSlots( ){
+        return 54;
+    }
+    
+    public abstract void setSize( );
+    
     public void nextPage( ){
-        page++;
-        inventory.clear( );
-        addMenuBorder( );
-        setMenuItems( );
+        setSize( );
+        if ( index + 1 <= size ) {
+            page++;
+            inventory.clear( );
+            addMenuBorder( );
+            setMenuItems( );
+        }
     }
     
     public void prevPage( ){
+        setSize( );
         page = Math.max( page - 1 , 0 );
         inventory.clear( );
         addMenuBorder( );
@@ -67,8 +80,8 @@ public abstract class PaginatedMenu extends Menu {
                 .setDisplayName( "&aNext" )
                 .addTag( "ly-menu-next" , "ly-menu-next" )
                 .build( ) );
-        
-        inventory.setItem( 49 , new ItemBuilder( XMaterial.BARRIER.parseMaterial( ) )
+    
+        inventory.setItem( 49 , index + 1 >= size ? FILLER_GLASS : new ItemBuilder( XMaterial.BARRIER.parseMaterial( ) )
                 .setDisplayName( "&cClose" )
                 .addTag( "ly-menu-close" , "ly-menu-close" )
                 .build( ) );
