@@ -59,6 +59,7 @@ public final class LyApi extends Api {
     
     public LyApi( JavaPlugin plugin , String pluginName , String noPermissionError , ILang language ){
         super( noPermissionError );
+        instance = this;
         utils = new Utils( );
         this.pluginName = "[" + pluginName + "] ";
         LyApi.plugin = plugin;
@@ -80,7 +81,6 @@ public final class LyApi extends Api {
         
         commandService = new CommandService( );
         plugin.getServer( ).getPluginManager( ).registerEvents( new MenuListener( ) , plugin );
-        instance = this;
     }
     
     public static Plugin getPlugin( ){

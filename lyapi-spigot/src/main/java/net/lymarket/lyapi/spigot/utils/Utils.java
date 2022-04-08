@@ -67,52 +67,52 @@ public class Utils {
     
     
     public TextComponent hoverOverMessage( String msg , List < String > hover ){
-        TextComponent text = new TextComponent( LyApi.getInstance( ).getUtils( ).format( msg ) );
+        TextComponent text = new TextComponent( format( msg ) );
         StringBuilder hovermsg = new StringBuilder( );
         Iterator < String > iterator = hover.iterator( );
         while (iterator.hasNext( )) {
             String s = iterator.next( );
             hovermsg.append( s ).append( (iterator.hasNext( ) ? "\n" : "") );
         }
-        text.setHoverEvent( new HoverEvent( HoverEvent.Action.SHOW_TEXT , new ComponentBuilder( LyApi.getInstance( ).getUtils( ).format( hovermsg.toString( ) ) ).create( ) ) );
+        text.setHoverEvent( new HoverEvent( HoverEvent.Action.SHOW_TEXT , new ComponentBuilder( format( hovermsg.toString( ) ) ).create( ) ) );
         return text;
     }
     
     public TextComponent hoverOverMessageURL( String msg , List < String > hover , String url ){
-        TextComponent text = new TextComponent( LyApi.getInstance( ).getUtils( ).format( msg ) );
+        TextComponent text = new TextComponent( format( msg ) );
         StringBuilder hovermsg = new StringBuilder( );
         Iterator < String > iterator = hover.iterator( );
         while (iterator.hasNext( )) {
             String s = iterator.next( );
             hovermsg.append( s ).append( (iterator.hasNext( ) ? "\n" : "") );
         }
-        text.setHoverEvent( new HoverEvent( HoverEvent.Action.SHOW_TEXT , new ComponentBuilder( LyApi.getInstance( ).getUtils( ).format( hovermsg.toString( ) ) ).create( ) ) );
+        text.setHoverEvent( new HoverEvent( HoverEvent.Action.SHOW_TEXT , new ComponentBuilder( format( hovermsg.toString( ) ) ).create( ) ) );
         text.setClickEvent( new ClickEvent( ClickEvent.Action.OPEN_URL , url ) );
         return text;
     }
     
     public TextComponent hoverOverMessageRunCommand( String msg , List < String > hover , String command ){
-        TextComponent text = new TextComponent( LyApi.getInstance( ).getUtils( ).format( msg ) );
+        TextComponent text = new TextComponent( format( msg ) );
         StringBuilder hovermsg = new StringBuilder( );
         Iterator < String > iterator = hover.iterator( );
         while (iterator.hasNext( )) {
             String s = iterator.next( );
             hovermsg.append( s ).append( (iterator.hasNext( ) ? "\n" : "") );
         }
-        text.setHoverEvent( new HoverEvent( HoverEvent.Action.SHOW_TEXT , new ComponentBuilder( LyApi.getInstance( ).getUtils( ).format( hovermsg.toString( ) ) ).create( ) ) );
+        text.setHoverEvent( new HoverEvent( HoverEvent.Action.SHOW_TEXT , new ComponentBuilder( format( hovermsg.toString( ) ) ).create( ) ) );
         text.setClickEvent( new ClickEvent( ClickEvent.Action.RUN_COMMAND , command ) );
         return text;
     }
     
     public TextComponent hoverOverMessageSuggestCommand( String msg , List < String > hover , String command ){
-        TextComponent text = new TextComponent( LyApi.getInstance( ).getUtils( ).format( msg ) );
+        TextComponent text = new TextComponent( format( msg ) );
         StringBuilder hovermsg = new StringBuilder( );
         Iterator < String > iterator = hover.iterator( );
         while (iterator.hasNext( )) {
             String s = iterator.next( );
             hovermsg.append( s ).append( (iterator.hasNext( ) ? "\n" : "") );
         }
-        text.setHoverEvent( new HoverEvent( HoverEvent.Action.SHOW_TEXT , new ComponentBuilder( LyApi.getInstance( ).getUtils( ).format( hovermsg.toString( ) ) ).create( ) ) );
+        text.setHoverEvent( new HoverEvent( HoverEvent.Action.SHOW_TEXT , new ComponentBuilder( format( hovermsg.toString( ) ) ).create( ) ) );
         text.setClickEvent( new ClickEvent( ClickEvent.Action.SUGGEST_COMMAND , command ) );
         return text;
     }
