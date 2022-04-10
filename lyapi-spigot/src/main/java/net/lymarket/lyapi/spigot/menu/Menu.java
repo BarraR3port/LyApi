@@ -18,6 +18,7 @@ import net.lymarket.lyapi.spigot.LyApi;
 import net.lymarket.lyapi.spigot.events.OpenCustomMenuEvent;
 import net.lymarket.lyapi.spigot.utils.ItemBuilder;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.*;
 import org.bukkit.inventory.Inventory;
@@ -28,6 +29,10 @@ import java.util.List;
 
 public abstract class Menu implements InventoryHolder {
     
+    protected final ItemStack CLOSE_ITEM;
+    protected final ItemStack PREV_ITEM;
+    protected final ItemStack NEXT_ITEM;
+    protected final ItemStack FILLER_GLASS;
     protected Inventory inventory;
     protected IPlayerMenuUtility playerMenuUtility;
     protected boolean isOnSchedule = false;
@@ -35,7 +40,15 @@ public abstract class Menu implements InventoryHolder {
     protected boolean moveBottomItems = true;
     
     public Menu( IPlayerMenuUtility playerMenuUtility ){
+        this( playerMenuUtility , XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial( ) );
+    }
+    
+    public Menu( IPlayerMenuUtility playerMenuUtility , Material fillerGlass ){
         this.playerMenuUtility = playerMenuUtility;
+        CLOSE_ITEM = new ItemBuilder( XMaterial.BARRIER.parseMaterial( ) ).setDisplayName( "&cClose" ).addTag( "ly-menu-close" , "ly-menu-close" ).build( );
+        FILLER_GLASS = new ItemBuilder( fillerGlass ).setDisplayName( " " ).build( );
+        NEXT_ITEM = new ItemBuilder( XMaterial.PLAYER_HEAD.parseMaterial( ) ).setHeadSkin( "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmEzYjhmNjgxZGFhZDhiZjQzNmNhZThkYTNmZTgxMzFmNjJhMTYyYWI4MWFmNjM5YzNlMDY0NGFhNmFiYWMyZiJ9fX0=" ).setDisplayName( "&aNext" ).addTag( "ly-menu-next" , "ly-menu-next" ).build( );
+        PREV_ITEM = new ItemBuilder( XMaterial.PLAYER_HEAD.parseMaterial( ) ).setHeadSkin( "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODY1MmUyYjkzNmNhODAyNmJkMjg2NTFkN2M5ZjI4MTlkMmU5MjM2OTc3MzRkMThkZmRiMTM1NTBmOGZkYWQ1ZiJ9fX0=" ).setDisplayName( "&aPrevious" ).addTag( "ly-menu-previous" , "ly-menu-previous" ).build( );
     }
     
     public abstract String getMenuName( );
@@ -79,15 +92,20 @@ public abstract class Menu implements InventoryHolder {
         inventory = Bukkit.createInventory( this , getSlots( ) , LyApi.getInstance( ).getUtils( ).format( getMenuName( ) ) );
         
         this.setMenuItems( );
-        
+    
         OpenCustomMenuEvent e = new OpenCustomMenuEvent( this , playerMenuUtility.getOwner( ) );
         if ( e.isCancelled( ) ) {
             return;
         }
         Bukkit.getPluginManager( ).callEvent( e );
-        
+    
         playerMenuUtility.getOwner( ).openInventory( e.getMenu( ).inventory );
-        
+    
+    }
+    
+    public void reOpen( ){
+        inventory.clear( );
+        this.setMenuItems( );
     }
     
     @Override
@@ -142,12 +160,17 @@ public abstract class Menu implements InventoryHolder {
     
     protected void setOnSchedule( Player p , int slot , ItemStack item ){
         Bukkit.getServer( ).getScheduler( ).runTaskLaterAsynchronously( LyApi.getPlugin( ) , ( ) -> {
-    
+            
             if ( p.getOpenInventory( ).getTopInventory( ).getHolder( ) instanceof Menu ) {
                 p.getOpenInventory( ).getTopInventory( ).setItem( slot , item );
                 isOnSchedule = false;
             }
-    
+            
         } , 30L );
     }
+    
+    public Player getOwner( ){
+        return playerMenuUtility.getOwner( );
+    }
+    
 }

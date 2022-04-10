@@ -16,7 +16,7 @@ package net.lymarket.lyapi.spigot.menu;
 import com.cryptomorin.xseries.XMaterial;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
-import net.lymarket.lyapi.spigot.utils.ItemBuilder;
+import org.bukkit.Material;
 import org.bukkit.SkullType;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
@@ -33,12 +33,14 @@ public abstract class PaginatedMenu extends Menu {
     
     protected int index = 0;
     
-    protected ItemStack FILLER_GLASS = createFiller( );
-    
     protected int size = 0;
     
     public PaginatedMenu( IPlayerMenuUtility playerMenuUtility ){
         super( playerMenuUtility );
+    }
+    
+    public PaginatedMenu( IPlayerMenuUtility playerMenuUtility , Material fillerItem ){
+        super( playerMenuUtility , fillerItem );
     }
     
     @Override
@@ -68,30 +70,18 @@ public abstract class PaginatedMenu extends Menu {
     
     
     public void addMenuBorder( ){
-        inventory.setItem( 48 , page == 0 ? FILLER_GLASS :
-                new ItemBuilder( XMaterial.PLAYER_HEAD.parseMaterial( ) )
-                        .setHeadSkin( "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODY1MmUyYjkzNmNhODAyNmJkMjg2NTFkN2M5ZjI4MTlkMmU5MjM2OTc3MzRkMThkZmRiMTM1NTBmOGZkYWQ1ZiJ9fX0=" )
-                        .setDisplayName( "&aPrevious" )
-                        .addTag( "ly-menu-previous" , "ly-menu-previous" )
-                        .build( ) );
-        
-        inventory.setItem( 50 , new ItemBuilder( XMaterial.PLAYER_HEAD.parseMaterial( ) )
-                .setHeadSkin( "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmEzYjhmNjgxZGFhZDhiZjQzNmNhZThkYTNmZTgxMzFmNjJhMTYyYWI4MWFmNjM5YzNlMDY0NGFhNmFiYWMyZiJ9fX0=" )
-                .setDisplayName( "&aNext" )
-                .addTag( "ly-menu-next" , "ly-menu-next" )
-                .build( ) );
+        inventory.setItem( 48 , page == 0 ? FILLER_GLASS : PREV_ITEM );
     
-        inventory.setItem( 49 , index + 1 >= size ? FILLER_GLASS : new ItemBuilder( XMaterial.BARRIER.parseMaterial( ) )
-                .setDisplayName( "&cClose" )
-                .addTag( "ly-menu-close" , "ly-menu-close" )
-                .build( ) );
-        
+        inventory.setItem( 50 , CLOSE_ITEM );
+    
+        inventory.setItem( 49 , index + 1 >= size ? FILLER_GLASS : NEXT_ITEM );
+    
         for ( int i = 0; i < 10; i++ ) {
             if ( inventory.getItem( i ) == null ) {
                 inventory.setItem( i , FILLER_GLASS );
             }
         }
-        
+    
         inventory.setItem( 17 , FILLER_GLASS );
         inventory.setItem( 18 , FILLER_GLASS );
         inventory.setItem( 26 , FILLER_GLASS );
@@ -127,12 +117,5 @@ public abstract class PaginatedMenu extends Menu {
         item.setItemMeta( itemmeta );
         return item;
     }
-    
-    private ItemStack createFiller( ){
-        return new ItemBuilder( XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial( ) )
-                .setDisplayName( " " ).build( );
-    
-    }
-    
     
 }
