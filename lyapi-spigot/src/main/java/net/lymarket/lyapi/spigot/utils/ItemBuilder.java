@@ -64,6 +64,7 @@ public class ItemBuilder {
     }
     
     public ItemBuilder setDisplayName( String name ){
+        if ( name == null ) return this;
         ItemMeta im = is.getItemMeta( );
         im.setDisplayName( LyApi.getInstance( ).getUtils( ).format( name ) );
         is.setItemMeta( im );
@@ -71,16 +72,20 @@ public class ItemBuilder {
     }
     
     public ItemBuilder addUnsafeEnchantment( Enchantment ench , int level ){
+        if ( ench == null ) return this;
+        if ( level < 0 ) return this;
         is.addUnsafeEnchantment( ench , level );
         return this;
     }
     
     public ItemBuilder removeEnchantment( Enchantment ench ){
+        if ( ench == null ) return this;
         is.removeEnchantment( ench );
         return this;
     }
     
     public ItemBuilder setSkullOwner( String owner ){
+        if ( owner == null ) return this;
         try {
             SkullMeta im = ( SkullMeta ) is.getItemMeta( );
             im.setOwner( owner );

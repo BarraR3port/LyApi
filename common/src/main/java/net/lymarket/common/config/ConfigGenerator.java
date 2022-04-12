@@ -77,7 +77,27 @@ public class ConfigGenerator extends CommentConfig {
     }
     
     public void loadConfig( ) throws Exception{
-        this.load( file );
+        try {
+            this.load( file );
+        } catch ( FileNotFoundException e ) {
+            loadFile( );
+            createData( );
+        
+            try {
+                loadConfig( );
+            
+            } catch ( Exception ex ) {
+                ex.printStackTrace( );
+            }
+        }
+    }
+    
+    public void reloadConfig( ){
+        try {
+            this.loadConfig( );
+        } catch ( Exception e ) {
+            e.printStackTrace( );
+        }
     }
     
     public void loadFile( ){

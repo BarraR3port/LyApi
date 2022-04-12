@@ -38,9 +38,9 @@ public class MenuListener implements Listener {
                 return;
             }
             if ( e.getClickedInventory( ).getType( ) == InventoryType.PLAYER && !menu.canMoveBottomItems( ) )
-                return;
+                e.setCancelled( true );
             if ( e.getClickedInventory( ).getHolder( ) instanceof Menu && !menu.canMoveTopItems( ) )
-                return;
+                e.setCancelled( true );
             if ( e.getCurrentItem( ) == null || e.getCurrentItem( ).getType( ) == Material.AIR )
                 return;
             menu.handleMenu( e );
@@ -65,12 +65,12 @@ public class MenuListener implements Listener {
                 return;
             }
             if ( e.getInventory( ).getType( ) == InventoryType.PLAYER && !menu.canMoveBottomItems( ) )
-                return;
+                e.setCancelled( true );
             if ( menu.canMoveTopItems( ) )
-                return;
-            
+                e.setCancelled( true );
             if ( e.getOldCursor( ) == null )
                 return;
+    
             menu.handleDragEvent( e );
         }
     }
@@ -91,8 +91,7 @@ public class MenuListener implements Listener {
     
     @EventHandler
     public void handleMove( InventoryMoveItemEvent e ){
-        
-        if ( e.getItem( ) == null )
+        if ( e.getItem( ) == null || e.getItem( ).getType( ) == Material.AIR )
             return;
         
         InventoryHolder firstHolder = e.getInitiator( ).getHolder( );
@@ -100,59 +99,50 @@ public class MenuListener implements Listener {
         InventoryHolder destinationHolder = e.getDestination( ).getHolder( );
         
         if ( firstHolder instanceof Menu && destinationHolder instanceof Player ) {
-            
+    
             Menu menu = ( Menu ) firstHolder;
     
             if ( !menu.canMoveTopItems( ) ) {
                 e.setCancelled( true );
-                return;
             }
-            
+    
             if ( e.getItem( ) == null || e.getItem( ).getType( ) == Material.AIR )
                 return;
-            
+    
             menu.handleMove( e );
-            return;
-        }
-        if ( firstHolder instanceof Player && destinationHolder instanceof Menu ) {
-            
+    
+        } else if ( firstHolder instanceof Player && destinationHolder instanceof Menu ) {
+    
             Menu menu = ( Menu ) destinationHolder;
     
             if ( !menu.canMoveBottomItems( ) ) {
                 e.setCancelled( true );
-                return;
             }
-            
-            if ( e.getItem( ) == null || e.getItem( ).getType( ) == Material.AIR )
-                return;
-            
+    
             menu.handleMove( e );
         }
     }
     
     @EventHandler
     public void handlePickUp( InventoryPickupItemEvent e ){
-        
-        if ( e.getItem( ) == null )
+    
+        if ( e.getItem( ) == null || e.getItem( ).getItemStack( ).getType( ) == Material.AIR )
             return;
         InventoryHolder firstHolder = e.getInventory( ).getHolder( );
-        
-        
-        if ( firstHolder instanceof Menu ) {
-            
-            Menu menu = ( Menu ) firstHolder;
     
+    
+        if ( firstHolder instanceof Menu ) {
+        
+            Menu menu = ( Menu ) firstHolder;
+        
             if ( !menu.canMoveTopItems( ) && !menu.canMoveBottomItems( ) ) {
                 e.setCancelled( true );
-                return;
+            
             }
             if ( e.getInventory( ).getType( ) == InventoryType.PLAYER && !menu.canMoveBottomItems( ) )
-                return;
+                e.setCancelled( true );
             if ( !menu.canMoveTopItems( ) )
-                return;
-            
-            if ( e.getItem( ) == null || e.getItem( ).getItemStack( ).getType( ) == Material.AIR )
-                return;
+                e.setCancelled( true );
             
             menu.handlePickUp( e );
         }

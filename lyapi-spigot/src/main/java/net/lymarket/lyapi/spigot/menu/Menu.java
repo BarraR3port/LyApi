@@ -29,10 +29,10 @@ import java.util.List;
 
 public abstract class Menu implements InventoryHolder {
     
-    protected final ItemStack CLOSE_ITEM;
-    protected final ItemStack PREV_ITEM;
-    protected final ItemStack NEXT_ITEM;
-    protected final ItemStack FILLER_GLASS;
+    protected ItemStack CLOSE_ITEM;
+    protected ItemStack PREV_ITEM;
+    protected ItemStack NEXT_ITEM;
+    protected ItemStack FILLER_GLASS;
     protected Inventory inventory;
     protected IPlayerMenuUtility playerMenuUtility;
     protected boolean isOnSchedule = false;
