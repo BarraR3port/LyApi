@@ -18,7 +18,7 @@
     <parent>
         <artifactId>LyApi</artifactId>
         <groupId>net.lymarket.lyapi</groupId>
-        <version>1.2.0</version>
+        <version>1.2.3</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>lyapi-spigot</artifactId>
@@ -219,6 +219,9 @@
                         <goals>
                             <goal>shade</goal>
                         </goals>
+                        <configuration>
+                            <createDependencyReducedPom>false</createDependencyReducedPom>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>

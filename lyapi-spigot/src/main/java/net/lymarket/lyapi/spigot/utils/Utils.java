@@ -21,6 +21,7 @@ import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.PlayerInventory;
@@ -33,43 +34,45 @@ import java.util.List;
 
 public class Utils {
     
-    private final HashMap < String, String > inventory;
-    private final Serializer serializer = new Serializer( );
+    private static final HashMap < String, String > inventory = new HashMap <>( );
     
     public Utils( ){
-        this.inventory = new HashMap <>( );
     }
     
-    public void sendMessage( Player player , String message ){
+    public static void sendMessage( CommandSender player , String message ){
         player.sendMessage( format( message ) );
     }
     
-    public void playSound( Player p , String sound ){
+    public static void sendMessage( Player sender , TextComponent... message ){
+        sender.spigot( ).sendMessage( message );
+    }
+    
+    public static void playSound( Player p , String sound ){
         XSound.play( p , sound );
     }
     
-    public void playSound( Player p , Sound sound ){
+    public static void playSound( Player p , Sound sound ){
         XSound.play( p , sound.name( ) );
     }
     
     
-    public String getServer( ){
+    public static String getServer( ){
         return LyApi.getPlugin( ).getConfig( ).getString( "server.name" );
     }
     
-    public String format( String msg ){
+    public static String format( String msg ){
         return ChatColor.translateAlternateColorCodes( '&' , msg );
     }
     
-    public TextComponent formatTC( String msg ){
+    public static TextComponent formatTC( String msg ){
         return new TextComponent( format( msg ) );
     }
     
     
-    public TextComponent hoverOverMessage( String msg , List < String > hover ){
-        TextComponent text = new TextComponent( format( msg ) );
-        StringBuilder hovermsg = new StringBuilder( );
-        Iterator < String > iterator = hover.iterator( );
+    public static TextComponent hoverOverMessage( String msg , List < String > hover ){
+        final TextComponent text = new TextComponent( format( msg ) );
+        final StringBuilder hovermsg = new StringBuilder( );
+        final Iterator < String > iterator = hover.iterator( );
         while (iterator.hasNext( )) {
             String s = iterator.next( );
             hovermsg.append( s ).append( (iterator.hasNext( ) ? "\n" : "") );
@@ -78,10 +81,10 @@ public class Utils {
         return text;
     }
     
-    public TextComponent hoverOverMessageURL( String msg , List < String > hover , String url ){
-        TextComponent text = new TextComponent( format( msg ) );
-        StringBuilder hovermsg = new StringBuilder( );
-        Iterator < String > iterator = hover.iterator( );
+    public static TextComponent hoverOverMessageURL( String msg , List < String > hover , String url ){
+        final TextComponent text = new TextComponent( format( msg ) );
+        final StringBuilder hovermsg = new StringBuilder( );
+        final Iterator < String > iterator = hover.iterator( );
         while (iterator.hasNext( )) {
             String s = iterator.next( );
             hovermsg.append( s ).append( (iterator.hasNext( ) ? "\n" : "") );
@@ -91,10 +94,10 @@ public class Utils {
         return text;
     }
     
-    public TextComponent hoverOverMessageRunCommand( String msg , List < String > hover , String command ){
-        TextComponent text = new TextComponent( format( msg ) );
-        StringBuilder hovermsg = new StringBuilder( );
-        Iterator < String > iterator = hover.iterator( );
+    public static TextComponent hoverOverMessageRunCommand( String msg , List < String > hover , String command ){
+        final TextComponent text = new TextComponent( format( msg ) );
+        final StringBuilder hovermsg = new StringBuilder( );
+        final Iterator < String > iterator = hover.iterator( );
         while (iterator.hasNext( )) {
             String s = iterator.next( );
             hovermsg.append( s ).append( (iterator.hasNext( ) ? "\n" : "") );
@@ -104,10 +107,10 @@ public class Utils {
         return text;
     }
     
-    public TextComponent hoverOverMessageSuggestCommand( String msg , List < String > hover , String command ){
-        TextComponent text = new TextComponent( format( msg ) );
-        StringBuilder hovermsg = new StringBuilder( );
-        Iterator < String > iterator = hover.iterator( );
+    public static TextComponent hoverOverMessageSuggestCommand( String msg , List < String > hover , String command ){
+        final TextComponent text = new TextComponent( format( msg ) );
+        final StringBuilder hovermsg = new StringBuilder( );
+        final Iterator < String > iterator = hover.iterator( );
         while (iterator.hasNext( )) {
             String s = iterator.next( );
             hovermsg.append( s ).append( (iterator.hasNext( ) ? "\n" : "") );
@@ -117,21 +120,21 @@ public class Utils {
         return text;
     }
     
-    public void savePlayerInventory( String name , PlayerInventory inv ){
-        String[] serialized = serializer.playerInventoryToBase64( inv );
-        List < String > serialized2 = Arrays.asList( serialized );
-        String serialized3 = serialized2.get( 0 );
-        this.inventory.put( name , serialized3 );
+    public static void savePlayerInventory( String name , PlayerInventory inv ){
+        final String[] serialized = Serializer.playerInventoryToBase64( inv );
+        final List < String > serialized2 = Arrays.asList( serialized );
+        final String serialized3 = serialized2.get( 0 );
+        inventory.put( name , serialized3 );
     }
     
-    public void removePlayerInventory( String name ){
-        this.inventory.remove( name );
+    public static void removePlayerInventory( String name ){
+        inventory.remove( name );
     }
     
-    public Inventory getPlayerInventory( String name ){
-        String noSerialized = this.inventory.get( name );
+    public static Inventory getPlayerInventory( String name ){
+        final String noSerialized = inventory.get( name );
         try {
-            return serializer.fromBase64( noSerialized );
+            return Serializer.fromBase64( noSerialized );
         } catch ( IOException e ) {
             e.printStackTrace( );
         }

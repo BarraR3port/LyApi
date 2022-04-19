@@ -15,6 +15,7 @@ package net.lymarket.common.commands;
 
 
 import net.lymarket.common.Api;
+import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.defaults.BukkitCommand;
 
@@ -49,13 +50,17 @@ public class CommandInfo extends BukkitCommand {
     public boolean execute( CommandSender sender , String commandLabel , String[] args ){
         try {
             SCommandContext context = new SCommandContext( sender , args , this );
-            if ( getPermission( ) != null && !sender.hasPermission( this.getPermission( ) ) ) {
-                sender.sendMessage( Api.NO_PERMISSION );
-                return false;
+            if ( getPermission( ) != null || !getPermission( ).equalsIgnoreCase( "" ) ) {
+                if ( !sender.hasPermission( this.getPermission( ) ) ) {
+                    sender.sendMessage( ChatColor.translateAlternateColorCodes( '&' , Api.NO_PERMISSION.replace( "permission" , this.getPermission( ) ) ) );
+                    return false;
+                }
             }
     
+    
             boolean ret = ( boolean ) commandMethod.invoke( object , context );
-            if ( !ret ) sender.sendMessage( Api.NO_PERMISSION );
+            if ( !ret )
+                sender.sendMessage( ChatColor.translateAlternateColorCodes( '&' , Api.NO_PERMISSION.replace( "permission" , this.getPermission( ) ) ) );
             return ret;
     
         } catch ( IllegalAccessException | InvocationTargetException e ) {
@@ -73,7 +78,7 @@ public class CommandInfo extends BukkitCommand {
             
         } catch ( IllegalAccessException | InvocationTargetException e ) {
             e.printStackTrace( );
-            return null;
+            return new ArrayList <>( );
         }
     }
 }

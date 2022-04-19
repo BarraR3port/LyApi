@@ -14,18 +14,16 @@
 package net.lymarket.lyapi.spigot;
 
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import net.lymarket.common.Api;
 import net.lymarket.common.commands.CommandService;
+import net.lymarket.common.error.LyApiInitializationError;
 import net.lymarket.common.lang.ILang;
 import net.lymarket.common.version.VersionSupport;
-import net.lymarket.lyapi.spigot.error.LyApiInitializationError;
 import net.lymarket.lyapi.spigot.listeners.MenuListener;
 import net.lymarket.lyapi.spigot.menu.IPlayerMenuUtility;
 import net.lymarket.lyapi.spigot.menu.PlayerMenuUtility;
-import net.lymarket.lyapi.spigot.utils.Utils;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -44,15 +42,11 @@ public final class LyApi extends Api {
     
     private static ILang lang;
     
-    private final Utils utils;
-    
     private final String pluginName;
     
     private final String version;
     
     private final CommandService commandService;
-    
-    private final Gson gson;
     
     private VersionSupport nms;
     
@@ -71,7 +65,6 @@ public final class LyApi extends Api {
     public LyApi( JavaPlugin plugin , String pluginName , String noPermissionError , ILang language ) throws LyApiInitializationError{
         super( noPermissionError );
         instance = this;
-        utils = new Utils( );
         this.pluginName = "[" + pluginName + "] ";
         LyApi.plugin = plugin;
         lang = language;
@@ -82,14 +75,14 @@ public final class LyApi extends Api {
         } catch ( ClassNotFoundException e ) {
             throw new LyApiInitializationError( version );
         }
-        
+    
         try {
             //noinspection unchecked
             this.nms = ( VersionSupport ) supp.getConstructor( Class.forName( "org.bukkit.plugin.Plugin" ) , String.class ).newInstance( plugin , version );
-        } catch ( InstantiationException | NoSuchMethodException | InvocationTargetException | IllegalAccessException | ClassNotFoundException e ) {
+        } catch ( InstantiationException | NoSuchMethodException | InvocationTargetException | IllegalAccessException |
+                  ClassNotFoundException e ) {
             e.printStackTrace( );
         }
-        this.gson = new GsonBuilder( ).setDateFormat( "MMM dd, yyyy HH:mm:ss a" ).serializeNulls( ).create( );
         this.commandService = new CommandService( );
         plugin.getServer( ).getPluginManager( ).registerEvents( new MenuListener( ) , plugin );
     }
@@ -134,10 +127,6 @@ public final class LyApi extends Api {
         return nms;
     }
     
-    public Utils getUtils( ){
-        return utils;
-    }
-    
     public String getVersion( ){
         return version;
     }
@@ -158,8 +147,8 @@ public final class LyApi extends Api {
         plugin.getLogger( ).log( logLevel , pluginName + " " + message , error );
     }
     
-    public Gson getGson( ){
-        return this.gson;
+    @Override
+    public void setErrorMSG( String permissionError ){
+        NO_PERMISSION = ChatColor.translateAlternateColorCodes( '&' , permissionError );
     }
-    
 }

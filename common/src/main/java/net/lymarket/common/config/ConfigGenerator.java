@@ -82,10 +82,10 @@ public class ConfigGenerator extends CommentConfig {
         } catch ( FileNotFoundException e ) {
             loadFile( );
             createData( );
-        
+    
             try {
                 loadConfig( );
-            
+        
             } catch ( Exception ex ) {
                 ex.printStackTrace( );
             }

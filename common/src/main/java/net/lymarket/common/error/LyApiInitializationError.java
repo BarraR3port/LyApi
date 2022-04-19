@@ -11,7 +11,7 @@
  * Contact: contact@lymarket.net
  */
 
-package net.lymarket.lyapi.spigot.error;
+package net.lymarket.common.error;
 
 public class LyApiInitializationError extends Exception {
     

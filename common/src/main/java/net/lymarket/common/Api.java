@@ -13,21 +13,31 @@
 
 package net.lymarket.common;
 
-import org.bukkit.ChatColor;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 public abstract class Api {
     
     public static String NO_PERMISSION;
     
+    private static Gson gson;
+    
     public Api( String permissionError ){
         NO_PERMISSION = permissionError;
+        gson = new GsonBuilder( ).setDateFormat( "MMM dd, yyyy HH:mm:ss a" ).serializeNulls( ).create( );
+    }
+    
+    public Api( ){
+        this( "&cYou don't have permission to do that." );
+    }
+    
+    public static Gson getGson( ){
+        return gson;
     }
     
     public Api getApi( ){
         return this;
     }
     
-    public void setErrorMSG( String permissionError ){
-        NO_PERMISSION = ChatColor.translateAlternateColorCodes( '&' , permissionError );
-    }
+    public abstract void setErrorMSG( String permissionError );
 }

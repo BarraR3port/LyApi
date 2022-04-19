@@ -15,8 +15,8 @@ package net.lymarket.lyapi.spigot.config;
 
 import com.cryptomorin.xseries.XMaterial;
 import net.lymarket.common.config.ConfigGenerator;
-import net.lymarket.lyapi.spigot.LyApi;
 import net.lymarket.lyapi.spigot.utils.ItemBuilder;
+import net.lymarket.lyapi.spigot.utils.Utils;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
@@ -90,7 +90,7 @@ public class Config extends ConfigGenerator {
         try {
             for ( String s : item.getItemMeta( ).getLore( ) ) {
                 for ( String key2 : replacements.keySet( ) ) {
-                    s = s.replace( "%" + key2 + "%" , LyApi.getInstance( ).getUtils( ).format( replacements.get( key2 ) ) );
+                    s = s.replace( "%" + key2 + "%" , Utils.format( replacements.get( key2 ) ) );
                 }
                 lore.add( s );
             }
@@ -101,7 +101,7 @@ public class Config extends ConfigGenerator {
         
         String name = item.getItemMeta( ).getDisplayName( );
         for ( String key2 : replacements.keySet( ) ) {
-            name = name.replace( "%" + key2 + "%" , LyApi.getInstance( ).getUtils( ).format( replacements.get( key2 ) ) );
+            name = name.replace( "%" + key2 + "%" , Utils.format( replacements.get( key2 ) ) );
         }
         
         

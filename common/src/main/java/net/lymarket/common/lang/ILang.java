@@ -55,7 +55,7 @@ public abstract class ILang {
             sendErrorMsg( c , key );
             return;
         }
-        c.sendMessage( ChatColor.translateAlternateColorCodes( '&' , prefix + getConfig( ).getString( key ) ) );
+        c.sendMessage( format( prefix + getConfig( ).getString( key ) ) );
     }
     
     
@@ -64,7 +64,7 @@ public abstract class ILang {
             sendErrorMsg( c , key , wordToReplace , replacement );
             return;
         }
-        c.sendMessage( ChatColor.translateAlternateColorCodes( '&' , prefix + getConfig( ).getString( key ).replace( "%" + wordToReplace + "%" , replacement ) ) );
+        c.sendMessage( format( prefix + getConfig( ).getString( key ).replace( "%" + wordToReplace + "%" , replacement ) ) );
     }
     
     public void sendMsg( CommandSender c , String key , HashMap < String, String > wordsToReplace ){
@@ -76,17 +76,17 @@ public abstract class ILang {
         for ( String wordToReplace : wordsToReplace.keySet( ) ) {
             msg = msg.replace( "%" + wordToReplace + "%" , wordsToReplace.get( wordToReplace ) );
         }
-        c.sendMessage( ChatColor.translateAlternateColorCodes( '&' , prefix + msg ) );
+        c.sendMessage( format( prefix + msg ) );
     }
     
     
     public void sendErrorMsg( CommandSender c , String key ){
-        c.sendMessage( ChatColor.translateAlternateColorCodes( '&' , "&c[&7ERROR&c] " + getConfig( ).getString( key.contains( "error." ) ? "" : "error." + key ) ) );
+        c.sendMessage( format( "&c[&7ERROR&c] " + getConfig( ).getString( key.contains( "error." ) ? "" : "error." + key ) ) );
     }
     
     
     public void sendErrorMsg( CommandSender c , String key , String wordToReplace , String replacement ){
-        c.sendMessage( ChatColor.translateAlternateColorCodes( '&' , "&c[&7ERROR&c] " + getConfig( ).getString( key.contains( "error." ) ? "" : "error." + key ).replace( "%" + wordToReplace + "%" , replacement ) ) );
+        c.sendMessage( format( "&c[&7ERROR&c] " + getConfig( ).getString( key.contains( "error." ) ? "" : "error." + key ).replace( "%" + wordToReplace + "%" , replacement ) ) );
     }
     
     public void sendErrorMsg( CommandSender c , String key , HashMap < String, String > wordsToReplace ){
@@ -94,16 +94,36 @@ public abstract class ILang {
         for ( String wordToReplace : wordsToReplace.keySet( ) ) {
             msg = msg.replace( "%" + wordToReplace + "%" , wordsToReplace.get( wordToReplace ) );
         }
-        c.sendMessage( ChatColor.translateAlternateColorCodes( '&' , "&c[&7ERROR&c] " + msg ) );
+        c.sendMessage( format( "&c[&7ERROR&c] " + msg ) );
     }
     
     
     public String getMSG( String key ){
-        return ChatColor.translateAlternateColorCodes( '&' , getConfig( ).getString( key ) );
+        return format( getConfig( ).getString( key ) );
     }
     
     public String getMSG( String key , String wordToReplace , String replacement ){
-        return ChatColor.translateAlternateColorCodes( '&' , getConfig( ).getString( key ) ).replace( "%" + wordToReplace + "%" , replacement );
+        return format( getConfig( ).getString( key ) ).replace( "%" + wordToReplace + "%" , replacement );
+    }
+    
+    public String getMSG( String key , HashMap < String, String > wordsToReplace ){
+        String msg = getConfig( ).getString( key );
+        for ( String wordToReplace : wordsToReplace.keySet( ) ) {
+            msg = msg.replace( "%" + wordToReplace + "%" , wordsToReplace.get( wordToReplace ) );
+        }
+        return format( msg );
+    }
+    
+    public String getErrorMSG( String key , HashMap < String, String > wordsToReplace ){
+        String msg = getConfig( ).getString( key.contains( "error." ) ? "" : "error." + key );
+        for ( String wordToReplace : wordsToReplace.keySet( ) ) {
+            msg = msg.replace( "%" + wordToReplace + "%" , wordsToReplace.get( wordToReplace ) );
+        }
+        return format( "&c[&7ERROR&c] " + msg );
+    }
+    
+    public String format( String msg ){
+        return ChatColor.translateAlternateColorCodes( '&' , msg );
     }
     
     

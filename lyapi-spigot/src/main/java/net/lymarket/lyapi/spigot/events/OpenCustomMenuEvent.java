@@ -45,10 +45,6 @@ public class OpenCustomMenuEvent extends Event implements Cancellable {
         this.menu = menu;
     }
     
-    public void overridePlayerInv( boolean override ){
-        menu.setOverridePlayerInv( override );
-    }
-    
     
     @Override
     public HandlerList getHandlers( ){

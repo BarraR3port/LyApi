@@ -20,7 +20,7 @@
     <groupId>net.lymarket.lyapi</groupId>
     <artifactId>LyApi</artifactId>
     <packaging>pom</packaging>
-    <version>1.2.0</version>
+    <version>1.2.3</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -163,6 +163,7 @@
     <modules>
         <module>common</module>
         <module>lyapi-spigot</module>
+        <module>lyapi-velocity</module>
         <module>versionsupport_1_8_R3</module>
         <module>versionsupport_1_9_R2</module>
         <module>versionsupport_1_10_R1</module>

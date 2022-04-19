@@ -1,7 +1,5 @@
 net.lymarket.lyapi.spigot
 net.lymarket.lyapi.spigot.config
-net.lymarket.lyapi.spigot.db
-net.lymarket.lyapi.spigot.error
 net.lymarket.lyapi.spigot.events
 net.lymarket.lyapi.spigot.listeners
 net.lymarket.lyapi.spigot.menu

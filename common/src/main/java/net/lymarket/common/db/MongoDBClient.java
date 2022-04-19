@@ -11,14 +11,14 @@
  * Contact: contact@lymarket.net
  */
 
-package net.lymarket.lyapi.spigot.db;
+package net.lymarket.common.db;
 
 import com.mongodb.ConnectionString;
 import com.mongodb.Function;
 import com.mongodb.MongoClientSettings;
 import com.mongodb.MongoTimeoutException;
 import com.mongodb.client.*;
-import net.lymarket.lyapi.spigot.LyApi;
+import net.lymarket.common.Api;
 import org.bson.Document;
 import org.bson.codecs.configuration.CodecRegistries;
 import org.bson.codecs.configuration.CodecRegistry;
@@ -66,7 +66,7 @@ public class MongoDBClient {
     }
     
     public boolean replaceOneFast( String name , Bson filter , Object replace ){
-        String json = LyApi.getInstance( ).getGson( ).toJson( replace );
+        String json = Api.getGson( ).toJson( replace );
         Document document = Document.parse( json );
         
         return replaceOneFast( name , filter , document );
@@ -91,7 +91,7 @@ public class MongoDBClient {
             FindIterable < Document > documents = collection.find( );
             MongoCursor < Document > cursor = documents.cursor( );
             while (cursor.hasNext( )) {
-                T current = LyApi.getInstance( ).getGson( ).fromJson( cursor.next( ).toJson( ) , klass );
+                T current = Api.getGson( ).fromJson( cursor.next( ).toJson( ) , klass );
                 if ( filter.apply( current ) ) list.add( current );
             }
         } catch ( MongoTimeoutException TimeOut ) {
@@ -107,7 +107,7 @@ public class MongoDBClient {
             FindIterable < Document > documents = collection.find( );
             MongoCursor < Document > cursor = documents.cursor( );
             while (cursor.hasNext( )) {
-                T current = LyApi.getInstance( ).getGson( ).fromJson( cursor.next( ).toJson( ) , klass );
+                T current = Api.getGson( ).fromJson( cursor.next( ).toJson( ) , klass );
                 list.add( current );
             }
         } catch ( MongoTimeoutException TimeOut ) {
@@ -121,7 +121,7 @@ public class MongoDBClient {
         FindIterable < Document > documents = collection.find( );
         MongoCursor < Document > cursor = documents.cursor( );
         while (cursor.hasNext( )) {
-            T current = LyApi.getInstance( ).getGson( ).fromJson( cursor.next( ).toJson( ) , klass );
+            T current = Api.getGson( ).fromJson( cursor.next( ).toJson( ) , klass );
             if ( filter.apply( current ) ) return current;
         }
         return null;
@@ -129,7 +129,7 @@ public class MongoDBClient {
     
     public boolean insertOne( String name , Object data ){
         MongoCollection < Document > collection = database.getCollection( name );
-        return collection.insertOne( Document.parse( LyApi.getInstance( ).getGson( ).toJson( data ) ) ).wasAcknowledged( );
+        return collection.insertOne( Document.parse( Api.getGson( ).toJson( data ) ) ).wasAcknowledged( );
     }
     
     public boolean deleteOne( String name , Bson filter ){
