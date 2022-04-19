@@ -686,7 +686,7 @@ public class EffectDisplay implements Cloneable {
     
     /**
      * Adds color properties to the particle settings.
-     * The particle must be {@link ParticleEffect#}
+     * The particle must be {@link ParticleEffect#WATER_DROP}
      * to get custom colors.
      *
      * @param color the RGB color of the particle.
@@ -712,8 +712,8 @@ public class EffectDisplay implements Cloneable {
     }
     /*
      *//**
-     * Adds data for {@link ParticleEffect#BLOCK_CRACK}, {@link ParticleEffect#BLOCK_DUST}
-     * and {@link ParticleEffect#FALLING_DUST} particles. The displayed particle
+     * Adds data for {@link ParticleEffect#WATER_DROPBLOCK_CRACK}, {@link ParticleEffect#WATER_DROPBLOCK_DUST}
+     * and {@link ParticleEffect#WATER_DROPFALLING_DUST} particles. The displayed particle
      * will depend on the given block data for its color.
      * <p>
      * Only works on minecraft version 1.13 and more, because
@@ -731,17 +731,16 @@ public class EffectDisplay implements Cloneable {
     }*/
     
     /**
-     * Adds data for {@link ParticleEffect#}, {@link ParticleEffect#}
-     * and {@link ParticleEffect#} particles if the minecraft version is 1.13 or more.
+     * Adds data for {@link ParticleEffect#WATER_DROP}, {@link ParticleEffect#WATER_DROP}
+     * and {@link ParticleEffect#WATER_DROP} particles if the minecraft version is 1.13 or more.
      * <p>
-     * If version is at most 1.12, old particles {@link ParticleEffect#},
-     * {@link ParticleEffect#} and {@link ParticleEffect#} will support this data.
+     * If version is at most 1.12, old particles {@link ParticleEffect#WATER_DROP},
+     * {@link ParticleEffect#WATER_DROP} and {@link ParticleEffect#WATER_DROP} will support this data.
      *
      * @param materialData the material data that will change the particle data.
      *
      * @return the same particle display, but modified.
      *
-     * @see #()
      * @since 5.1.0
      */
     @SuppressWarnings("deprecation")
@@ -752,7 +751,7 @@ public class EffectDisplay implements Cloneable {
     }
     
     /**
-     * Adds extra data for {@link ParticleEffect#}
+     * Adds extra data for {@link ParticleEffect#WATER_DROP}
      * particle, depending on the given item stack.
      *
      * @param item the item stack that will change the particle data.

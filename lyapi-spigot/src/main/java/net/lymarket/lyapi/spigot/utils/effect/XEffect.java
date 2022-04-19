@@ -1502,7 +1502,7 @@ public final class XEffect {
      *
      * @param plugin the timer handler.
      * @param cloud  recommended particle is {@link ParticleEffect#CLOUD} or {@link ParticleEffect#SMOKE_LARGE} and the offset xyz should be higher than 2
-     * @param rain   recommended particle is {@link ParticleEffect#WATER_DROP} or {@link ParticleEffect#FALLING_LAVA} and the offset xyz should be the same as cloud.
+     * @param rain   recommended particle is {@link ParticleEffect#WATER_DROP} or {@link ParticleEffect#WATER_DROP} and the offset xyz should be the same as cloud.
      *
      * @return the timer task handling the animation.
      *
@@ -2025,7 +2025,7 @@ public final class XEffect {
      * @param colorScheme the color scheme for the julia set.
      * @param moveX       the amount to move in the x axis.
      * @param moveY       the amount to move in the y axis.
-     * @param display     The particle should be {@link ParticleEffect#}
+     * @param display     The particle should be {@link ParticleEffect#WATER_DROP}
      *
      * @see #mandelbrot(double , double , double , double , double , int , EffectDisplay)
      * @since 4.0.0

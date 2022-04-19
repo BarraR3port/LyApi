@@ -170,4 +170,9 @@ public class ConfigGenerator extends CommentConfig {
         input.close( );
         output.close( );
     }
+    
+    public String[] getStringArrayList( String path ){
+        return this.getStringList( path ).toArray( new String[0] );
+    }
+    
 }

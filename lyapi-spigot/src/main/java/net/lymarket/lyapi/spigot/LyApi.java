@@ -122,8 +122,8 @@ public final class LyApi extends Api {
      * Set the main Language {@link ILang}.
      *
      * <p>The state of immutable instances will never change.</p>
-     *
-     * @apiNote This method allows you to set the language of the plugin.
+     * <p>
+     * This method allows you to set the language of the plugin.
      */
     public LyApi setLanguage( ILang language ){
         lang = language;

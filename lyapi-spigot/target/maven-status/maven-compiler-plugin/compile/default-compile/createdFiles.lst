@@ -2,6 +2,7 @@ net\lymarket\lyapi\spigot\events\OpenCustomMenuEvent.class
 net\lymarket\lyapi\spigot\utils\effect\XEffect$9.class
 net\lymarket\lyapi\spigot\utils\effect\EffectDisplay$Axis.class
 net\lymarket\lyapi\spigot\utils\effect\XEffect$12.class
+net\lymarket\lyapi\spigot\config\Config.class
 net\lymarket\lyapi\spigot\utils\effect\XEffect$7.class
 net\lymarket\lyapi\spigot\utils\effect\XEffect$2.class
 net\lymarket\lyapi\spigot\utils\effect\EffectDisplay.class
@@ -11,6 +12,7 @@ net\lymarket\lyapi\spigot\utils\Utils.class
 net\lymarket\lyapi\spigot\utils\effect\XEffect$14.class
 net\lymarket\lyapi\spigot\utils\effect\XEffect$17.class
 net\lymarket\lyapi\spigot\utils\effect\XEffect$8.class
+net\lymarket\lyapi\spigot\db\MongoDBClient.class
 net\lymarket\lyapi\spigot\utils\Serializer.class
 net\lymarket\lyapi\spigot\menu\IPlayerMenuUtility.class
 net\lymarket\lyapi\spigot\utils\effect\EffectDisplay$1.class

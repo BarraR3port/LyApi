@@ -13,10 +13,11 @@
 
 package net.lymarket.common.commands;
 
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.*;
 
 @Retention(RetentionPolicy.RUNTIME)
+@Inherited
+@Target(ElementType.METHOD)
 public @interface Tab {
 
 }

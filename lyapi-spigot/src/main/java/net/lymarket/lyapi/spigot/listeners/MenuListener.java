@@ -30,19 +30,18 @@ public class MenuListener implements Listener {
     
         InventoryHolder holder = e.getInventory( ).getHolder( );
         if ( holder instanceof Menu ) {
+            if ( e.getCurrentItem( ) == null || e.getCurrentItem( ).getType( ) == Material.AIR )
+                return;
     
             Menu menu = ( Menu ) holder;
-    
             if ( !menu.canMoveTopItems( ) && !menu.canMoveBottomItems( ) ) {
                 e.setCancelled( true );
-                return;
             }
             if ( e.getClickedInventory( ).getType( ) == InventoryType.PLAYER && !menu.canMoveBottomItems( ) )
                 e.setCancelled( true );
             if ( e.getClickedInventory( ).getHolder( ) instanceof Menu && !menu.canMoveTopItems( ) )
                 e.setCancelled( true );
-            if ( e.getCurrentItem( ) == null || e.getCurrentItem( ).getType( ) == Material.AIR )
-                return;
+    
             menu.handleMenu( e );
     
         }
@@ -62,7 +61,6 @@ public class MenuListener implements Listener {
     
             if ( !menu.canMoveTopItems( ) && !menu.canMoveBottomItems( ) ) {
                 e.setCancelled( true );
-                return;
             }
             if ( e.getInventory( ).getType( ) == InventoryType.PLAYER && !menu.canMoveBottomItems( ) )
                 e.setCancelled( true );
@@ -105,9 +103,6 @@ public class MenuListener implements Listener {
             if ( !menu.canMoveTopItems( ) ) {
                 e.setCancelled( true );
             }
-    
-            if ( e.getItem( ) == null || e.getItem( ).getType( ) == Material.AIR )
-                return;
     
             menu.handleMove( e );
     

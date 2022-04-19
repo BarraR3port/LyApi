@@ -24,6 +24,7 @@ import org.bukkit.SkullType;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.BookMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.inventory.meta.SkullMeta;
@@ -190,6 +191,7 @@ public class ItemBuilder {
         return this;
     }
     
+    /** @deprecated  */
     @Deprecated
     public ItemBuilder setWoolColor( DyeColor color ){
         if ( !is.getType( ).equals( Material.WOOL ) ) return this;
@@ -241,6 +243,45 @@ public class ItemBuilder {
         this.is = item.getItem( );
         return this;
     }
+    
+    public ItemBuilder createBook( String title , String... pages ){
+        if ( title == null || pages == null ) return this;
+        if ( pages.length == 0 ) return this;
+        BookMeta bm = ( BookMeta ) is.getItemMeta( );
+        bm.setTitle( title );
+        bm.setPages( pages );
+        is.setItemMeta( bm );
+        return this;
+    }
+    
+    public ItemBuilder setBookTitle( String title ){
+        BookMeta bm = ( BookMeta ) is.getItemMeta( );
+        bm.setTitle( title );
+        is.setItemMeta( bm );
+        return this;
+    }
+    
+    public ItemBuilder setBookAuthor( String author ){
+        BookMeta bm = ( BookMeta ) is.getItemMeta( );
+        bm.setAuthor( author );
+        is.setItemMeta( bm );
+        return this;
+    }
+    
+    public ItemBuilder setBookPages( String... pages ){
+        BookMeta bm = ( BookMeta ) is.getItemMeta( );
+        bm.setPages( pages );
+        is.setItemMeta( bm );
+        return this;
+    }
+    
+    public ItemBuilder setBookPage( int page , String text ){
+        BookMeta bm = ( BookMeta ) is.getItemMeta( );
+        bm.setPage( page , text );
+        is.setItemMeta( bm );
+        return this;
+    }
+    
     
     public ItemStack build( ){
         return is;
