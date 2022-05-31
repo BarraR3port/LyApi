@@ -1,1 +1,0 @@
-packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"net.lymarket.lyapi.support.version.v1_10_R1"}];updateSearchResults();
