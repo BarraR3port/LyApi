@@ -1,1 +1,0 @@
-typeSearchIndex = [{"l":"All Classes and Interfaces","u":"allclasses-index.html"},{"p":"net.lymarket.lyapi.support.version.v1_8_R3","l":"v1_8_R3"}];updateSearchResults();
