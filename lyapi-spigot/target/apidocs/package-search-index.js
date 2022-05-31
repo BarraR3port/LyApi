@@ -1,1 +1,0 @@
-packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"net.lymarket.lyapi.spigot"},{"l":"net.lymarket.lyapi.spigot.config"},{"l":"net.lymarket.lyapi.spigot.events"},{"l":"net.lymarket.lyapi.spigot.listeners"},{"l":"net.lymarket.lyapi.spigot.menu"},{"l":"net.lymarket.lyapi.spigot.utils"},{"l":"net.lymarket.lyapi.spigot.utils.effect"}];updateSearchResults();
