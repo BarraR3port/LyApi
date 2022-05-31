@@ -36,11 +36,16 @@ public class Utils {
     
     private static final HashMap < String, String > inventory = new HashMap <>( );
     
-    public Utils( ){
-    }
-    
     public static void sendMessage( CommandSender player , String message ){
         player.sendMessage( format( message ) );
+    }
+    
+    public static void sendMessage( CommandSender sender , TextComponent... message ){
+        if ( sender instanceof Player ) {
+            (( Player ) sender).spigot( ).sendMessage( message );
+        } else {
+            sender.sendMessage( formatTC( message ) );
+        }
     }
     
     public static void sendMessage( Player sender , TextComponent... message ){
@@ -64,10 +69,24 @@ public class Utils {
         return ChatColor.translateAlternateColorCodes( '&' , msg );
     }
     
+    public static String[] format( String... msg ){
+        for ( int i = 0; i < msg.length; i++ ) {
+            msg[i] = ChatColor.translateAlternateColorCodes( '&' , msg[i] );
+        }
+        return msg;
+    }
+    
+    public static String[] formatTC( TextComponent... msg ){
+        String[] finalMsg = new String[msg.length];
+        for ( int i = 0; i < msg.length; i++ ) {
+            finalMsg[i] = ChatColor.translateAlternateColorCodes( '&' , msg[i].toLegacyText( ) );
+        }
+        return finalMsg;
+    }
+    
     public static TextComponent formatTC( String msg ){
         return new TextComponent( format( msg ) );
     }
-    
     
     public static TextComponent hoverOverMessage( String msg , List < String > hover ){
         final TextComponent text = new TextComponent( format( msg ) );

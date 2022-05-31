@@ -25,11 +25,15 @@ import org.bukkit.event.inventory.*;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.scheduler.BukkitTask;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public abstract class Menu implements InventoryHolder {
     
+    private final ArrayList < BukkitTask > scheduleTask = new ArrayList <>( );
     protected ItemStack CLOSE_ITEM;
     protected ItemStack PREV_ITEM;
     protected ItemStack NEXT_ITEM;
@@ -39,9 +43,11 @@ public abstract class Menu implements InventoryHolder {
     protected boolean isOnSchedule = false;
     protected boolean moveTopItems = false;
     protected boolean moveBottomItems = false;
+    private UUID menu_uuid;
     
     public Menu( IPlayerMenuUtility playerMenuUtility ){
         this( playerMenuUtility , XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial( ) );
+        menu_uuid = UUID.randomUUID( );
     }
     
     public Menu( IPlayerMenuUtility playerMenuUtility , Material fillerGlass ){
@@ -50,6 +56,7 @@ public abstract class Menu implements InventoryHolder {
         FILLER_GLASS = new ItemBuilder( fillerGlass ).setDurability( ( short ) 15 ).setDisplayName( " " ).build( );
         NEXT_ITEM = new ItemBuilder( XMaterial.PLAYER_HEAD.parseMaterial( ) ).setHeadSkin( "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmEzYjhmNjgxZGFhZDhiZjQzNmNhZThkYTNmZTgxMzFmNjJhMTYyYWI4MWFmNjM5YzNlMDY0NGFhNmFiYWMyZiJ9fX0=" ).setDisplayName( "&aNext" ).addTag( "ly-menu-next" , "ly-menu-next" ).build( );
         PREV_ITEM = new ItemBuilder( XMaterial.PLAYER_HEAD.parseMaterial( ) ).setHeadSkin( "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODY1MmUyYjkzNmNhODAyNmJkMjg2NTFkN2M5ZjI4MTlkMmU5MjM2OTc3MzRkMThkZmRiMTM1NTBmOGZkYWQ1ZiJ9fX0=" ).setDisplayName( "&aPrevious" ).addTag( "ly-menu-previous" , "ly-menu-previous" ).build( );
+        menu_uuid = UUID.randomUUID( );
     }
     
     public abstract String getMenuName( );
@@ -65,7 +72,9 @@ public abstract class Menu implements InventoryHolder {
     }
     
     public void handleClose( InventoryCloseEvent e ){
-    
+        for ( BukkitTask task : scheduleTask ) {
+            task.cancel( );
+        }
     }
     
     public void handleMove( InventoryMoveItemEvent e ){
@@ -136,7 +145,7 @@ public abstract class Menu implements InventoryHolder {
                 .build( );
     }
     
-    public void checkSomething( Player p , int slot , ItemStack item , String name , List < String > lore ){
+    public void checkSomething( Player p , int slot , ItemStack item , String name , List < String > lore , UUID menu_uuid ){
         
         if ( isOnSchedule ) return;
         
@@ -147,11 +156,11 @@ public abstract class Menu implements InventoryHolder {
                 .setLore( lore )
                 .setDisplayName( name )
                 .build( ) );
-        setOnSchedule( p , slot , item );
+        setOnSchedule( p , slot , item , menu_uuid );
         
     }
     
-    public void checkSomething( Player p , int slot , ItemStack item , String name , String lore ){
+    public void checkSomething( Player p , int slot , ItemStack item , String name , String lore , UUID menu_uuid ){
         
         if ( isOnSchedule ) return;
         
@@ -162,23 +171,32 @@ public abstract class Menu implements InventoryHolder {
                 .addLoreLine( lore )
                 .setDisplayName( name )
                 .build( ) );
-        setOnSchedule( p , slot , item );
+        setOnSchedule( p , slot , item , menu_uuid );
         
     }
     
-    public void setOnSchedule( Player p , int slot , ItemStack item ){
-        Bukkit.getServer( ).getScheduler( ).runTaskLaterAsynchronously( LyApi.getPlugin( ) , ( ) -> {
+    public void setOnSchedule( Player p , int slot , ItemStack item , UUID menu_uuid ){
+        scheduleTask.add( Bukkit.getServer( ).getScheduler( ).runTaskLaterAsynchronously( LyApi.getPlugin( ) , ( ) -> {
             
-            if ( p.getOpenInventory( ).getTopInventory( ).getHolder( ) instanceof Menu ) {
-                p.getOpenInventory( ).getTopInventory( ).setItem( slot , item );
+            if ( getMenuUUID( ).equals( menu_uuid ) ) {
+                if ( p.getOpenInventory( ).getTopInventory( ).getHolder( ) instanceof Menu ) {
+                    Menu menu = ( Menu ) p.getOpenInventory( ).getTopInventory( ).getHolder( );
+                    if ( menu.getMenuUUID( ).equals( menu_uuid ) ) {
+                        p.getOpenInventory( ).getTopInventory( ).setItem( slot , item );
+                    }
+                }
                 isOnSchedule = false;
             }
             
-        } , 30L );
+        } , 30L ) );
     }
     
     public Player getOwner( ){
         return playerMenuUtility.getOwner( );
+    }
+    
+    public UUID getMenuUUID( ){
+        return menu_uuid;
     }
     
 }

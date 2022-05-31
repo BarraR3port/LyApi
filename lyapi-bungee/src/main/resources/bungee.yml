@@ -1,0 +1,3 @@
+name: LyApiBungee
+version: '${project.version}'
+main: net.lymarket.lyapi.bungee.LyApiBungee

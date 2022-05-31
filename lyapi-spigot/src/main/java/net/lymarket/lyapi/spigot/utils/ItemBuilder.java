@@ -124,7 +124,7 @@ public class ItemBuilder {
     public ItemBuilder setEnchanted( boolean b ){
         if ( !b ) return this;
         ItemMeta meta = is.getItemMeta( );
-        meta.addEnchant( Enchantment.LUCK , 0 , false );
+        meta.addEnchant( Enchantment.LUCK , 1 , false );
         meta.addItemFlags( ItemFlag.HIDE_ENCHANTS );
         is.setItemMeta( meta );
         return this;

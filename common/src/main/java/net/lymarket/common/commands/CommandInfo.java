@@ -73,9 +73,17 @@ public class CommandInfo extends BukkitCommand {
     public ArrayList < String > tabComplete( CommandSender sender , String alias , String[] args ){
         try {
             STabContext context = new STabContext( sender , alias , args , this );
-            
-            return ( ArrayList < String > ) subCommandMethod.invoke( object , context );
-            
+            final ArrayList < String > ret = ( ArrayList < String > ) subCommandMethod.invoke( object , context );
+            if ( ret == null )
+                return new ArrayList <>( );
+            final ArrayList < String > finalList = new ArrayList <>( );
+            for ( String s : ret ) {
+                if ( s.toLowerCase( ).startsWith( context.getArg( context.getArgs( ).length - 1 ).toLowerCase( ) ) ) {
+                    finalList.add( s );
+                }
+            }
+            return finalList;
+    
         } catch ( IllegalAccessException | InvocationTargetException e ) {
             e.printStackTrace( );
             return new ArrayList <>( );

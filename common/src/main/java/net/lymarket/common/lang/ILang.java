@@ -14,8 +14,10 @@
 package net.lymarket.common.lang;
 
 import net.lymarket.common.config.ConfigGenerator;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 import java.util.HashMap;
 
@@ -67,6 +69,19 @@ public abstract class ILang {
         c.sendMessage( format( prefix + getConfig( ).getString( key ).replace( "%" + wordToReplace + "%" , replacement ) ) );
     }
     
+    public void sendMsg( Player c , String key , String wordToReplace , TextComponent replacement ){
+        if ( key.contains( "error." ) ) {
+            sendErrorMsg( c , key , wordToReplace , replacement );
+            return;
+        }
+        String[] midMsg = (prefix + getConfig( ).getString( key )).split( "%" + wordToReplace + "%" );
+        TextComponent text = new TextComponent( format( midMsg[0] ) );
+        text.addExtra( replacement );
+        text.addExtra( format( midMsg[1] ) );
+        c.spigot( ).sendMessage( text );
+        
+    }
+    
     public void sendMsg( CommandSender c , String key , HashMap < String, String > wordsToReplace ){
         if ( key.contains( "error." ) ) {
             sendErrorMsg( c , key , wordsToReplace );
@@ -95,6 +110,15 @@ public abstract class ILang {
             msg = msg.replace( "%" + wordToReplace + "%" , wordsToReplace.get( wordToReplace ) );
         }
         c.sendMessage( format( "&c[&7ERROR&c] " + msg ) );
+    }
+    
+    public void sendErrorMsg( Player c , String key , String wordToReplace , TextComponent replacement ){
+        String msg = "&c[&7ERROR&c] " + getConfig( ).getString( key.contains( "error." ) ? "" : "error." + key );
+        String[] midMsg = msg.split( "%" + wordToReplace + "%" );
+        TextComponent text = new TextComponent( format( midMsg[0] ) );
+        text.addExtra( replacement );
+        text.addExtra( format( midMsg[1] ) );
+        c.spigot( ).sendMessage( text );
     }
     
     

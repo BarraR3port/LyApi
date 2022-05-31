@@ -20,13 +20,12 @@
     <parent>
         <artifactId>LyApi</artifactId>
         <groupId>net.lymarket.lyapi</groupId>
-        <version>1.2.3</version>
+        <version>1.2.4</version>
     </parent>
 
     <artifactId>lyapi-velocity</artifactId>
     <packaging>jar</packaging>
     <version>${parent.version}</version>
-
     <name>LyApiVelocity</name>
 
     <properties>
@@ -51,7 +50,6 @@
                     <target>${java.version}</target>
                 </configuration>
             </plugin>
-
         </plugins>
     </build>
 

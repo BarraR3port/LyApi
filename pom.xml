@@ -20,7 +20,7 @@
     <groupId>net.lymarket.lyapi</groupId>
     <artifactId>LyApi</artifactId>
     <packaging>pom</packaging>
-    <version>1.2.3</version>
+    <version>1.2.4</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -57,6 +57,7 @@
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
             <version>2.11.0</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.jetbrains</groupId>
@@ -164,6 +165,7 @@
         <module>common</module>
         <module>lyapi-spigot</module>
         <module>lyapi-velocity</module>
+        <module>lyapi-bungee</module>
         <module>versionsupport_1_8_R3</module>
         <module>versionsupport_1_9_R2</module>
         <module>versionsupport_1_10_R1</module>

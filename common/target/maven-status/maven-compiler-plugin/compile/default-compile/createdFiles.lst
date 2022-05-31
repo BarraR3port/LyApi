@@ -12,3 +12,4 @@ net\lymarket\common\commands\ILyCommand.class
 net\lymarket\common\db\MongoDBClient.class
 net\lymarket\common\version\VersionSupport.class
 net\lymarket\common\commands\STabContext.class
+net\lymarket\common\db\MongoDB.class

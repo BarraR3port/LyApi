@@ -52,7 +52,6 @@ public class CommandService {
                 subCmd = method.getAnnotation( Tab.class );
                 subCmdMethod = method;
             }
-    
         }
         if ( cmd == null ) return;
         
