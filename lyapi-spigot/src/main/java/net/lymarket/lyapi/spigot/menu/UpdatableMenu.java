@@ -17,18 +17,18 @@ import org.bukkit.Material;
 
 public abstract class UpdatableMenu extends Menu implements IUpdatableMenu {
     
-    public UpdatableMenu( IPlayerMenuUtility playerMenuUtility ){
-        super( playerMenuUtility );
+    public UpdatableMenu(IPlayerMenuUtility playerMenuUtility){
+        super(playerMenuUtility);
     }
     
-    public UpdatableMenu( IPlayerMenuUtility playerMenuUtility , Material fillerGlass ){
-        super( playerMenuUtility , fillerGlass );
+    public UpdatableMenu(IPlayerMenuUtility playerMenuUtility, Material fillerGlass){
+        super(playerMenuUtility, fillerGlass);
     }
     
     public void reOpen( ){
-        this.inventory.clear( );
-        this.onReOpen( );
-        this.setMenuItems( );
+        this.inventory.clear();
+        this.onReOpen();
+        this.setMenuItems();
     }
     
     public void onReOpen( ){

@@ -17,19 +17,19 @@ import org.bukkit.Material;
 
 public abstract class UpPaginatedMenu extends PaginatedMenu implements IUpdatableMenu {
     
-    public UpPaginatedMenu( IPlayerMenuUtility playerMenuUtility ){
-        super( playerMenuUtility );
+    public UpPaginatedMenu(IPlayerMenuUtility playerMenuUtility){
+        super(playerMenuUtility);
     }
     
-    public UpPaginatedMenu( IPlayerMenuUtility playerMenuUtility , Material fillerItem ){
-        super( playerMenuUtility , fillerItem );
+    public UpPaginatedMenu(IPlayerMenuUtility playerMenuUtility, Material fillerItem){
+        super(playerMenuUtility, fillerItem);
     }
     
     
     public void reOpen( ){
-        this.inventory.clear( );
-        this.onReOpen( );
-        this.setMenuItems( );
+        this.inventory.clear();
+        this.onReOpen();
+        this.setMenuItems();
     }
     
     public void onReOpen( ){

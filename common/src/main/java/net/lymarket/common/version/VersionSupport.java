@@ -25,7 +25,7 @@ public abstract class VersionSupport {
     private static String name;
     private final Plugin plugin;
     
-    public VersionSupport( Plugin plugin , String versionName ){
+    public VersionSupport(Plugin plugin, String versionName){
         name = versionName;
         this.plugin = plugin;
     }
@@ -41,51 +41,51 @@ public abstract class VersionSupport {
     /**
      * Send title, subtitle. null for empty
      */
-    public abstract void sendTitle( Player p , String title , String subtitle , int fadeIn , int stay , int fadeOut );
+    public abstract void sendTitle(Player p, String title, String subtitle, int fadeIn, int stay, int fadeOut);
     
     /**
      * Send action-bar message
      */
-    public abstract void playAction( Player p , String text );
+    public abstract void playAction(Player p, String text);
     
     /**
      * Add custom data to an ItemStack
      */
-    public abstract ItemStack addCustomData( ItemStack i , String data );
+    public abstract ItemStack addCustomData(ItemStack i, String data);
     
     
-    public abstract ItemStack setTag( ItemStack itemStack , String key , String value );
+    public abstract ItemStack setTag(ItemStack itemStack, String key, String value);
     
     /**
      * Get a custom item tag.
      *
      * @return null if not present.
      */
-    public abstract String getTag( ItemStack itemStack , String key );
+    public abstract String getTag(ItemStack itemStack, String key);
     
     /**
      * Has item tag.
      *
      * @return null if not present.
      */
-    public abstract boolean hasTag( ItemStack itemStack , String key );
+    public abstract boolean hasTag(ItemStack itemStack, String key);
     
     /**
      * Check if an item has a LyBedWars NBTTag
      */
-    public abstract boolean isCustomBedWarsItem( ItemStack i );
+    public abstract boolean isCustomBedWarsItem(ItemStack i);
     
     /**
      * Get the NBTTag from a LyBedWars item
      */
-    public abstract String getCustomData( ItemStack i );
+    public abstract String getCustomData(ItemStack i);
     
     
     /**
      * Check if is a player head
      */
-    public boolean isPlayerHead( String material , int data ){
-        return material.equalsIgnoreCase( "PLAYER_HEAD" );
+    public boolean isPlayerHead(String material, int data){
+        return material.equalsIgnoreCase("PLAYER_HEAD");
     }
     
     /**
@@ -99,29 +99,29 @@ public abstract class VersionSupport {
      *
      * @param copyTagFrom will copy nbt tag from this item.
      */
-    public abstract ItemStack getPlayerHead( Player player , @Nullable ItemStack copyTagFrom );
+    public abstract ItemStack getPlayerHead(Player player, @Nullable ItemStack copyTagFrom);
     
     
-    public void spigotShowPlayer( Player victim , Player receiver ){
-        receiver.showPlayer( victim );
+    public void spigotShowPlayer(Player victim, Player receiver){
+        receiver.showPlayer(victim);
     }
     
-    public void spigotHidePlayer( Player victim , Player receiver ){
-        receiver.hidePlayer( victim );
+    public void spigotHidePlayer(Player victim, Player receiver){
+        receiver.hidePlayer(victim);
     }
     
     /**
      * Hide an entity
      */
-    public abstract void hideEntity( Entity e , Player p );
+    public abstract void hideEntity(Entity e, Player p);
     
     /**
      * Hide player armor to a player
      */
-    public abstract void hideArmor( Player victim , Player receiver );
+    public abstract void hideArmor(Player victim, Player receiver);
     
     /**
      * Show a player armor
      */
-    public abstract void showArmor( Player victim , Player receiver );
+    public abstract void showArmor(Player victim, Player receiver);
 }

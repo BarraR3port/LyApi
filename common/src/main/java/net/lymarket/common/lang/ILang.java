@@ -29,21 +29,21 @@ public abstract class ILang {
     
     protected String errorPrefix;
     
-    public ILang( ConfigGenerator configGenerator , String prefix , String errorPrefix ){
+    public ILang(ConfigGenerator configGenerator, String prefix, String errorPrefix){
         this.lang = configGenerator;
         this.prefix = prefix;
         this.errorPrefix = errorPrefix;
     }
     
     public void saveLang( ){
-        lang.saveData( );
+        lang.saveData();
     }
     
     public void reloadLang( ){
         try {
-            lang.loadConfig( );
-        } catch ( Exception e ) {
-            e.printStackTrace( );
+            lang.loadConfig();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
     
@@ -52,102 +52,102 @@ public abstract class ILang {
     }
     
     
-    public void sendMsg( CommandSender c , String key ){
-        if ( key.contains( "error." ) ) {
-            sendErrorMsg( c , key );
+    public void sendMsg(CommandSender c, String key){
+        if (key.contains("error.")){
+            sendErrorMsg(c, key);
             return;
         }
-        c.sendMessage( format( prefix + getConfig( ).getString( key ) ) );
+        c.sendMessage(format(prefix + getConfig().getString(key)));
     }
     
     
-    public void sendMsg( CommandSender c , String key , String wordToReplace , String replacement ){
-        if ( key.contains( "error." ) ) {
-            sendErrorMsg( c , key , wordToReplace , replacement );
+    public void sendMsg(CommandSender c, String key, String wordToReplace, String replacement){
+        if (key.contains("error.")){
+            sendErrorMsg(c, key, wordToReplace, replacement);
             return;
         }
-        c.sendMessage( format( prefix + getConfig( ).getString( key ).replace( "%" + wordToReplace + "%" , replacement ) ) );
+        c.sendMessage(format(prefix + getConfig().getString(key).replace("%" + wordToReplace + "%", replacement)));
     }
     
-    public void sendMsg( Player c , String key , String wordToReplace , TextComponent replacement ){
-        if ( key.contains( "error." ) ) {
-            sendErrorMsg( c , key , wordToReplace , replacement );
+    public void sendMsg(Player c, String key, String wordToReplace, TextComponent replacement){
+        if (key.contains("error.")){
+            sendErrorMsg(c, key, wordToReplace, replacement);
             return;
         }
-        String[] midMsg = (prefix + getConfig( ).getString( key )).split( "%" + wordToReplace + "%" );
-        TextComponent text = new TextComponent( format( midMsg[0] ) );
-        text.addExtra( replacement );
-        text.addExtra( format( midMsg[1] ) );
-        c.spigot( ).sendMessage( text );
+        String[] midMsg = (prefix + getConfig().getString(key)).split("%" + wordToReplace + "%");
+        TextComponent text = new TextComponent(format(midMsg[0]));
+        text.addExtra(replacement);
+        text.addExtra(format(midMsg[1]));
+        c.spigot().sendMessage(text);
         
     }
     
-    public void sendMsg( CommandSender c , String key , HashMap < String, String > wordsToReplace ){
-        if ( key.contains( "error." ) ) {
-            sendErrorMsg( c , key , wordsToReplace );
+    public void sendMsg(CommandSender c, String key, HashMap < String, String > wordsToReplace){
+        if (key.contains("error.")){
+            sendErrorMsg(c, key, wordsToReplace);
             return;
         }
-        String msg = getConfig( ).getString( key );
-        for ( String wordToReplace : wordsToReplace.keySet( ) ) {
-            msg = msg.replace( "%" + wordToReplace + "%" , wordsToReplace.get( wordToReplace ) );
+        String msg = getConfig().getString(key);
+        for ( String wordToReplace : wordsToReplace.keySet() ){
+            msg = msg.replace("%" + wordToReplace + "%", wordsToReplace.get(wordToReplace));
         }
-        c.sendMessage( format( prefix + msg ) );
+        c.sendMessage(format(prefix + msg));
     }
     
     
-    public void sendErrorMsg( CommandSender c , String key ){
-        c.sendMessage( format( "&c[&7ERROR&c] " + getConfig( ).getString( key.contains( "error." ) ? "" : "error." + key ) ) );
+    public void sendErrorMsg(CommandSender c, String key){
+        c.sendMessage(format("&c[&7ERROR&c] " + getConfig().getString(key.contains("error.") ? "" : "error." + key)));
     }
     
     
-    public void sendErrorMsg( CommandSender c , String key , String wordToReplace , String replacement ){
-        c.sendMessage( format( "&c[&7ERROR&c] " + getConfig( ).getString( key.contains( "error." ) ? "" : "error." + key ).replace( "%" + wordToReplace + "%" , replacement ) ) );
+    public void sendErrorMsg(CommandSender c, String key, String wordToReplace, String replacement){
+        c.sendMessage(format("&c[&7ERROR&c] " + getConfig().getString(key.contains("error.") ? "" : "error." + key).replace("%" + wordToReplace + "%", replacement)));
     }
     
-    public void sendErrorMsg( CommandSender c , String key , HashMap < String, String > wordsToReplace ){
-        String msg = getConfig( ).getString( key.contains( "error." ) ? "" : "error." + key );
-        for ( String wordToReplace : wordsToReplace.keySet( ) ) {
-            msg = msg.replace( "%" + wordToReplace + "%" , wordsToReplace.get( wordToReplace ) );
+    public void sendErrorMsg(CommandSender c, String key, HashMap < String, String > wordsToReplace){
+        String msg = getConfig().getString(key.contains("error.") ? "" : "error." + key);
+        for ( String wordToReplace : wordsToReplace.keySet() ){
+            msg = msg.replace("%" + wordToReplace + "%", wordsToReplace.get(wordToReplace));
         }
-        c.sendMessage( format( "&c[&7ERROR&c] " + msg ) );
+        c.sendMessage(format("&c[&7ERROR&c] " + msg));
     }
     
-    public void sendErrorMsg( Player c , String key , String wordToReplace , TextComponent replacement ){
-        String msg = "&c[&7ERROR&c] " + getConfig( ).getString( key.contains( "error." ) ? "" : "error." + key );
-        String[] midMsg = msg.split( "%" + wordToReplace + "%" );
-        TextComponent text = new TextComponent( format( midMsg[0] ) );
-        text.addExtra( replacement );
-        text.addExtra( format( midMsg[1] ) );
-        c.spigot( ).sendMessage( text );
+    public void sendErrorMsg(Player c, String key, String wordToReplace, TextComponent replacement){
+        String msg = "&c[&7ERROR&c] " + getConfig().getString(key.contains("error.") ? "" : "error." + key);
+        String[] midMsg = msg.split("%" + wordToReplace + "%");
+        TextComponent text = new TextComponent(format(midMsg[0]));
+        text.addExtra(replacement);
+        text.addExtra(format(midMsg[1]));
+        c.spigot().sendMessage(text);
     }
     
     
-    public String getMSG( String key ){
-        return format( getConfig( ).getString( key ) );
+    public String getMSG(String key){
+        return format(getConfig().getString(key));
     }
     
-    public String getMSG( String key , String wordToReplace , String replacement ){
-        return format( getConfig( ).getString( key ) ).replace( "%" + wordToReplace + "%" , replacement );
+    public String getMSG(String key, String wordToReplace, String replacement){
+        return format(getConfig().getString(key)).replace("%" + wordToReplace + "%", replacement);
     }
     
-    public String getMSG( String key , HashMap < String, String > wordsToReplace ){
-        String msg = getConfig( ).getString( key );
-        for ( String wordToReplace : wordsToReplace.keySet( ) ) {
-            msg = msg.replace( "%" + wordToReplace + "%" , wordsToReplace.get( wordToReplace ) );
+    public String getMSG(String key, HashMap < String, String > wordsToReplace){
+        String msg = getConfig().getString(key);
+        for ( String wordToReplace : wordsToReplace.keySet() ){
+            msg = msg.replace("%" + wordToReplace + "%", wordsToReplace.get(wordToReplace));
         }
-        return format( msg );
+        return format(msg);
     }
     
-    public String getErrorMSG( String key , HashMap < String, String > wordsToReplace ){
-        String msg = getConfig( ).getString( key.contains( "error." ) ? "" : "error." + key );
-        for ( String wordToReplace : wordsToReplace.keySet( ) ) {
-            msg = msg.replace( "%" + wordToReplace + "%" , wordsToReplace.get( wordToReplace ) );
+    public String getErrorMSG(String key, HashMap < String, String > wordsToReplace){
+        String msg = getConfig().getString(key.contains("error.") ? "" : "error." + key);
+        for ( String wordToReplace : wordsToReplace.keySet() ){
+            msg = msg.replace("%" + wordToReplace + "%", wordsToReplace.get(wordToReplace));
         }
-        return format( "&c[&7ERROR&c] " + msg );
+        return format("&c[&7ERROR&c] " + msg);
     }
     
-    public String format( String msg ){
-        return ChatColor.translateAlternateColorCodes( '&' , msg );
+    public String format(String msg){
+        return ChatColor.translateAlternateColorCodes('&', msg);
     }
     
     

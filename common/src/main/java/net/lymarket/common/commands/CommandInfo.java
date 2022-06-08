@@ -32,23 +32,23 @@ public class CommandInfo extends BukkitCommand {
     private final Method commandMethod;
     private final Method subCommandMethod;
     
-    public CommandInfo( Object object , Method commandMethod , Method subCommandMethod , String name , String description , String usageMessage , List < String > aliases ){
-        super( name , description , usageMessage , aliases );
+    public CommandInfo(Object object, Method commandMethod, Method subCommandMethod, String name, String description, String usageMessage, List < String > aliases){
+        super(name, description, usageMessage, aliases);
         this.object = object;
         this.commandMethod = commandMethod;
         this.subCommandMethod = subCommandMethod;
     }
     
-    public CommandInfo( Object object , Method commandMethod , Method subCommandMethod , Command command , Tab tab ){
-        super( command.name( ) , command.description( ) , command.usage( ) , Arrays.asList( command.aliases( ) ) );
+    public CommandInfo(Object object, Method commandMethod, Method subCommandMethod, Command command, Tab tab){
+        super(command.name(), command.description(), command.usage(), Arrays.asList(command.aliases()));
         this.object = object;
         this.commandMethod = commandMethod;
         this.subCommandMethod = subCommandMethod;
-        setPermission( command.permission( ) );
+        setPermission(command.permission());
     }
     
     @Override
-    public boolean execute( CommandSender sender , String commandLabel , String[] args ){
+    public boolean execute(CommandSender sender, String commandLabel, String[] args){
         try {
             SCommandContext context = new SCommandContext(sender, args, this);
             if (getPermission() != null || !getPermission().equalsIgnoreCase("")){
@@ -57,8 +57,8 @@ public class CommandInfo extends BukkitCommand {
                     return false;
                 }
             }
-    
-    
+            
+            
             CommandResponse ret = (CommandResponse) commandMethod.invoke(object, context);
             if (ret.getResponse().equals(CommandResponse.ResponseType.NO_PERMISSION)){
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Api.NO_PERMISSION.replace("permission", ret.getPermission())));
@@ -66,31 +66,31 @@ public class CommandInfo extends BukkitCommand {
             } else {
                 return true;
             }
-    
-        } catch ( IllegalAccessException | InvocationTargetException e ) {
-            e.printStackTrace( );
+            
+        } catch (IllegalAccessException | InvocationTargetException e) {
+            e.printStackTrace();
             return false;
         }
     }
     
     @Override
-    public ArrayList < String > tabComplete( CommandSender sender , String alias , String[] args ){
+    public ArrayList < String > tabComplete(CommandSender sender, String alias, String[] args){
         try {
-            STabContext context = new STabContext( sender , alias , args , this );
-            final ArrayList < String > ret = ( ArrayList < String > ) subCommandMethod.invoke( object , context );
-            if ( ret == null )
-                return new ArrayList <>( );
-            final ArrayList < String > finalList = new ArrayList <>( );
-            for ( String s : ret ) {
-                if ( s.toLowerCase( ).startsWith( context.getArg( context.getArgs( ).length - 1 ).toLowerCase( ) ) ) {
-                    finalList.add( s );
+            STabContext context = new STabContext(sender, alias, args, this);
+            final ArrayList < String > ret = (ArrayList < String >) subCommandMethod.invoke(object, context);
+            if (ret == null)
+                return new ArrayList <>();
+            final ArrayList < String > finalList = new ArrayList <>();
+            for ( String s : ret ){
+                if (s.toLowerCase().startsWith(context.getArg(context.getArgs().length - 1).toLowerCase())){
+                    finalList.add(s);
                 }
             }
             return finalList;
-    
-        } catch ( IllegalAccessException | InvocationTargetException e ) {
-            e.printStackTrace( );
-            return new ArrayList <>( );
+            
+        } catch (IllegalAccessException | InvocationTargetException e) {
+            e.printStackTrace();
+            return new ArrayList <>();
         }
     }
 }

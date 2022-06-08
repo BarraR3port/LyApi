@@ -19,10 +19,10 @@ public interface IPlayerMenuUtility {
     
     Player getOwner( );
     
-    void setOwner( Player owner );
+    void setOwner(Player owner);
     
     Player getTarget( );
     
-    void setTarget( Player target );
+    void setTarget(Player target);
     
 }

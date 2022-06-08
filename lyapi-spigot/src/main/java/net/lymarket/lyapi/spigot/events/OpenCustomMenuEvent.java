@@ -23,12 +23,12 @@ import org.bukkit.event.HandlerList;
 public class OpenCustomMenuEvent extends Event implements Cancellable {
     
     private final Player player;
-    private final HandlerList HANDLERS = new HandlerList( );
+    private final HandlerList HANDLERS = new HandlerList();
     protected boolean canceled;
     private Menu menu;
     
-    public OpenCustomMenuEvent( Menu menu , Player player ){
-        super( );
+    public OpenCustomMenuEvent(Menu menu, Player player){
+        super();
         this.menu = menu;
         this.player = player;
     }
@@ -41,7 +41,7 @@ public class OpenCustomMenuEvent extends Event implements Cancellable {
         return menu;
     }
     
-    public void setMenu( Menu menu ){
+    public void setMenu(Menu menu){
         this.menu = menu;
     }
     
@@ -57,7 +57,7 @@ public class OpenCustomMenuEvent extends Event implements Cancellable {
     }
     
     @Override
-    public void setCancelled( boolean b ){
+    public void setCancelled(boolean b){
         this.canceled = b;
     }
 }

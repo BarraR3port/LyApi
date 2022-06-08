@@ -83,7 +83,7 @@ import java.util.concurrent.ThreadLocalRandom;
  * Most of the methods do not run asynchronous by default.
  * If you're doing a resource intensive operation it's recommended
  * to either use {@link CompletableFuture#runAsync(Runnable)} or
- * {@link BukkitRunnable#runTaskTimerAsynchronously(Plugin , long , long)} for
+ * {@link BukkitRunnable#runTaskTimerAsynchronously(Plugin, long, long)} for
  * smoothly animated shapes.
  * For huge animations you can use splittable tasks.
  * https://www.spigotmc.org/threads/409003/
@@ -143,8 +143,8 @@ public final class XEffect {
      *
      * @since 1.0.0
      */
-    public static ParticleEffect getParticle( String particle ){
-        return Enums.getIfPresent( ParticleEffect.class , particle ).orNull( );
+    public static ParticleEffect getParticle(String particle){
+        return Enums.getIfPresent(ParticleEffect.class, particle).orNull();
     }
     
     /**
@@ -156,9 +156,9 @@ public final class XEffect {
      *
      * @since 1.0.0
      */
-    public static ParticleEffect randomParticle( String... particles ){
-        int rand = randInt( 0 , particles.length - 1 );
-        return getParticle( particles[rand] );
+    public static ParticleEffect randomParticle(String... particles){
+        int rand = randInt(0, particles.length - 1);
+        return getParticle(particles[rand]);
     }
     
     /**
@@ -169,11 +169,11 @@ public final class XEffect {
      *
      * @return a random number.
      *
-     * @see #randInt(int , int)
+     * @see #randInt(int, int)
      * @since 1.0.0
      */
-    public static double random( double min , double max ){
-        return ThreadLocalRandom.current( ).nextDouble( min , max );
+    public static double random(double min, double max){
+        return ThreadLocalRandom.current().nextDouble(min, max);
     }
     
     /**
@@ -184,11 +184,11 @@ public final class XEffect {
      *
      * @return a random number.
      *
-     * @see #random(double , double)
+     * @see #random(double, double)
      * @since 1.0.0
      */
-    public static int randInt( int min , int max ){
-        return ThreadLocalRandom.current( ).nextInt( min , max + 1 );
+    public static int randInt(int min, int max){
+        return ThreadLocalRandom.current().nextInt(min, max + 1);
     }
     
     /**
@@ -199,12 +199,12 @@ public final class XEffect {
      * @since 1.0.0
      */
     public static Color randomColor( ){
-        ThreadLocalRandom gen = ThreadLocalRandom.current( );
-        int randR = gen.nextInt( 0 , 256 );
-        int randG = gen.nextInt( 0 , 256 );
-        int randB = gen.nextInt( 0 , 256 );
-        
-        return Color.fromRGB( randR , randG , randB );
+        ThreadLocalRandom gen = ThreadLocalRandom.current();
+        int randR = gen.nextInt(0, 256);
+        int randG = gen.nextInt(0, 256);
+        int randB = gen.nextInt(0, 256);
+    
+        return Color.fromRGB(randR, randG, randB);
     }
     
     /* *//**
@@ -227,14 +227,14 @@ public final class XEffect {
      * @param rate       the rate of the biggest cirlce points.
      * @param rateChange the rate change of circle points.
      *
-     * @see #circle(double , double , EffectDisplay)
+     * @see #circle(double, double, EffectDisplay)
      * @since 1.0.0
      */
-    public static void blackSun( double radius , double radiusRate , double rate , double rateChange , EffectDisplay display ){
+    public static void blackSun(double radius, double radiusRate, double rate, double rateChange, EffectDisplay display){
         double j = 0;
-        for ( double i = 10; i > 0; i -= radiusRate ) {
+        for ( double i = 10; i > 0; i -= radiusRate ){
             j += rateChange;
-            circle( radius + i , rate - j , display );
+            circle(radius + i, rate - j, display);
         }
     }
     
@@ -244,12 +244,12 @@ public final class XEffect {
      * @param radius the circle radius.
      * @param rate   the rate of cirlce points/particles.
      *
-     * @see #sphere(double , double , EffectDisplay)
-     * @see #circle(double , double , double , double , double , EffectDisplay)
+     * @see #sphere(double, double, EffectDisplay)
+     * @see #circle(double, double, double, double, double, EffectDisplay)
      * @since 1.0.0
      */
-    public static void circle( double radius , double rate , EffectDisplay display ){
-        circle( radius , radius , 1 , rate , 0 , display );
+    public static void circle(double radius, double rate, EffectDisplay display){
+        circle(radius, radius, 1, rate, 0, display);
     }
     
     /**
@@ -274,44 +274,44 @@ public final class XEffect {
      *                  If you choose 0, it'll be a full circle {@link #PII}
      *                  If you choose -1, it'll do a full loop based on the extension.
      *
-     * @see #illuminati(double , double , EffectDisplay)
-     * @see #eye(double , double , double , double , EffectDisplay)
+     * @see #illuminati(double, double, EffectDisplay)
+     * @see #eye(double, double, double, double, EffectDisplay)
      */
-    public static void circle( double radius , double radius2 , double extension , double rate , double limit , EffectDisplay display ){
+    public static void circle(double radius, double radius2, double extension, double rate, double limit, EffectDisplay display){
         // 180 degrees = PI
         // We need a full circle, 360 so we need two pies!
         // https://www.spigotmc.org/threads/176792/
         // cos and sin methods only accept radians.
         // Converting degrees to radians is not resource intensive. It's a really simple operation.
         // However we can skip the conversion by using radians in the first place.
-        double rateDiv = Math.PI / Math.abs( rate );
-        
+        double rateDiv = Math.PI / Math.abs(rate);
+    
         // If no limit is specified do a full loop.
-        if ( limit == 0 ) limit = PII;
-        else if ( limit == -1 ) limit = PII / Math.abs( extension );
+        if (limit == 0) limit = PII;
+        else if (limit == -1) limit = PII / Math.abs(extension);
         // If the extension changes (isn't 1), the wave might not do a full
         // loop anymore. So by simply dividing PI from the extension you can get the limit for a full loop.
         // By full loop it means: sin(bx) {0 < x < PI} if b (the extension) is equal to 1
         // Using period => T = 2PI/|b|
-        
-        for ( double theta = 0; theta <= limit; theta += rateDiv ) {
+    
+        for ( double theta = 0; theta <= limit; theta += rateDiv ){
             // In order to curve our straight line in the loop, we need to
             // use cos and sin. It doesn't matter, you can get x as sin and z as cos.
             // But you'll get weird results if you use si+n or cos for both or using tan or cot.
-            double x = radius * Math.cos( extension * theta );
-            double z = radius2 * Math.sin( extension * theta );
-            
-            if ( display.isDirectional( ) ) {
+            double x = radius * Math.cos(extension * theta);
+            double z = radius2 * Math.sin(extension * theta);
+        
+            if (display.isDirectional()){
                 // We're going to get the angle in these two coordinates.
                 // Then we can spread each particle in the right angle.
-                double phi = Math.atan2( z , x );
-                double directionX = Math.cos( extension * phi );
-                double directionZ = Math.sin( extension * phi );
-                
-                display.offset( directionX , display.getOffset( ).getY( ) , directionZ );
-            }
+                double phi = Math.atan2(z, x);
+                double directionX = Math.cos(extension * phi);
+                double directionZ = Math.sin(extension * phi);
             
-            display.spawn( x , 0 , z );
+                display.offset(directionX, display.getOffset().getY(), directionZ);
+            }
+        
+            display.spawn(x, 0, z);
         }
     }
     
@@ -324,17 +324,17 @@ public final class XEffect {
      *
      * @since 4.0.0
      */
-    public static void diamond( double radiusRate , double rate , double height , EffectDisplay display ){
+    public static void diamond(double radiusRate, double rate, double height, EffectDisplay display){
         double count = 0;
-        for ( double y = 0; y < height * 2; y += rate ) {
+        for ( double y = 0; y < height * 2; y += rate ){
             // We're going to increase our x particles as we get closer to the center
             // and decrease as we move away. If the radius is equal to rate it'll form a rotated square.
-            if ( y < height ) count += radiusRate;
+            if (y < height) count += radiusRate;
             else count -= radiusRate;
             
             // Now we can make an arrow or a right triangle if let x be equal to 0
             // But we want both sides to have particle.
-            for ( double x = -count; x < count; x += rate ) display.spawn( x , y , 0 );
+            for ( double x = -count; x < count; x += rate ) display.spawn(x, y, 0);
         }
     }
     
@@ -349,34 +349,34 @@ public final class XEffect {
      *
      * @return the animation handler.
      *
-     * @see #magicCircles(JavaPlugin , double , double , double , double , EffectDisplay)
+     * @see #magicCircles(JavaPlugin, double, double, double, double, EffectDisplay)
      * @since 3.0.0
      */
-    public static BukkitTask circularBeam( JavaPlugin plugin , double maxRadius , double rate , double radiusRate , double extend , EffectDisplay display ){
-        return new BukkitRunnable( ) {
+    public static BukkitTask circularBeam(JavaPlugin plugin, double maxRadius, double rate, double radiusRate, double extend, EffectDisplay display){
+        return new BukkitRunnable() {
             final double rateDiv = Math.PI / rate;
             final double radiusDiv = Math.PI / radiusRate;
-            final Vector dir = display.getLocation( ).getDirection( ).normalize( ).multiply( extend );
+            final Vector dir = display.getLocation().getDirection().normalize().multiply(extend);
             double dynamicRadius = 0;
-            
+        
             @Override
             public void run( ){
                 // If we wanted to use actual numbers as the radius then the curve for
                 // each loop wouldn't be smooth.
-                double radius = maxRadius * Math.sin( dynamicRadius );
+                double radius = maxRadius * Math.sin(dynamicRadius);
                 // Spawn normal circles.
-                for ( double theta = 0; theta < PII; theta += rateDiv ) {
-                    double x = radius * Math.sin( theta );
-                    double z = radius * Math.cos( theta );
-                    display.spawn( x , 0 , z );
+                for ( double theta = 0; theta < PII; theta += rateDiv ){
+                    double x = radius * Math.sin(theta);
+                    double z = radius * Math.cos(theta);
+                    display.spawn(x, 0, z);
                 }
-                
+            
                 dynamicRadius += radiusDiv;
-                if ( dynamicRadius > Math.PI ) dynamicRadius = 0;
+                if (dynamicRadius > Math.PI) dynamicRadius = 0;
                 // Next circle center location.
-                display.getLocation( ).add( dir );
+                display.getLocation().add(dir);
             }
-        }.runTaskTimerAsynchronously( plugin , 0L , 1L );
+        }.runTaskTimerAsynchronously(plugin, 0L, 1L);
     }
     
     /**
@@ -389,14 +389,14 @@ public final class XEffect {
      *
      * @since 4.0.0
      */
-    public static void flower( int count , double radius , EffectDisplay display , Runnable runnable ){
-        for ( double theta = 0; theta < PII; theta += PII / count ) {
-            double x = radius * Math.cos( theta );
-            double z = radius * Math.sin( theta );
+    public static void flower(int count, double radius, EffectDisplay display, Runnable runnable){
+        for ( double theta = 0; theta < PII; theta += PII / count ){
+            double x = radius * Math.cos(theta);
+            double z = radius * Math.sin(theta);
             
-            display.getLocation( ).add( x , 0 , z );
-            runnable.run( );
-            display.getLocation( ).subtract( x , 0 , z );
+            display.getLocation().add(x, 0, z);
+            runnable.run();
+            display.getLocation().subtract(x, 0, z);
         }
     }
     
@@ -407,15 +407,15 @@ public final class XEffect {
      * @param rate       the rate of the circle points.
      * @param radiusRate the radius change of the circle to fill it.
      *
-     * @see #circle(double , double , EffectDisplay)
+     * @see #circle(double, double, EffectDisplay)
      * @since 4.0.0
      */
-    public static void filledCircle( double radius , double rate , double radiusRate , EffectDisplay display ){
+    public static void filledCircle(double radius, double rate, double radiusRate, EffectDisplay display){
         double dynamicRate = 0;
-        for ( double i = 0.1; i < radius; i += radiusRate ) {
-            if ( i > radius ) i = radius;
+        for ( double i = 0.1; i < radius; i += radiusRate ){
+            if (i > radius) i = radius;
             dynamicRate += rate / (radius / radiusRate);
-            circle( i , dynamicRate , display );
+            circle(i, dynamicRate, display);
         }
     }
     
@@ -448,60 +448,60 @@ public final class XEffect {
      *
      * @since 4.0.0
      */
-    public static BukkitTask chaoticDoublePendulum( JavaPlugin plugin , double radius , double gravity , double length , double length2 ,
-                                                    double mass1 , double mass2 ,
-                                                    boolean dimension3 , int speed , EffectDisplay display ){
+    public static BukkitTask chaoticDoublePendulum(JavaPlugin plugin, double radius, double gravity, double length, double length2,
+                                                   double mass1, double mass2,
+                                                   boolean dimension3, int speed, EffectDisplay display){
         // If you want the particles to stay. But it's gonna lag a lot.
         //Map<Vector, Vector> locs = new HashMap<>();
-        
-        return new BukkitRunnable( ) {
-            final Vector rotation = new Vector( Math.PI / 33 , Math.PI / 44 , Math.PI / 55 );
+    
+        return new BukkitRunnable() {
+            final Vector rotation = new Vector(Math.PI / 33, Math.PI / 44, Math.PI / 55);
             double theta = Math.PI / 2;
             double theta2 = Math.PI / 2;
             double thetaPrime = 0;
             double thetaPrime2 = 0;
-            
+        
             @Override
             public void run( ){
                 int repeat = speed;
                 while (repeat-- != 0) {
-                    if ( dimension3 ) display.rotate( rotation );
+                    if (dimension3) display.rotate(rotation);
                     double totalMass = mass1 + mass2;
                     double totalMassDouble = 2 * totalMass;
                     double deltaTheta = theta - theta2;
-                    
-                    double lenLunar = (totalMassDouble - mass2 * Math.cos( 2 * theta - 2 * theta2 ));
-                    double deltaCosTheta = Math.cos( deltaTheta );
-                    double deltaSinTheta = Math.sin( deltaTheta );
+                
+                    double lenLunar = (totalMassDouble - mass2 * Math.cos(2 * theta - 2 * theta2));
+                    double deltaCosTheta = Math.cos(deltaTheta);
+                    double deltaSinTheta = Math.sin(deltaTheta);
                     double phi = thetaPrime * thetaPrime * length;
                     double phi2 = thetaPrime2 * thetaPrime2 * length2;
-                    
+                
                     // Don't expect me to explain these... Read the website.
-                    double num1 = -gravity * totalMassDouble * Math.sin( theta );
-                    double num2 = -mass2 * gravity * Math.sin( theta - 2 * theta2 );
+                    double num1 = -gravity * totalMassDouble * Math.sin(theta);
+                    double num2 = -mass2 * gravity * Math.sin(theta - 2 * theta2);
                     double num3 = -2 * deltaSinTheta * mass2;
                     double num4 = phi2 + phi * deltaCosTheta;
                     double len = length * lenLunar;
                     double thetaDoublePrime = (num1 + num2 + num3 * num4) / len;
-                    
+                
                     num1 = 2 * deltaSinTheta;
                     num2 = phi * totalMass;
-                    num3 = gravity * totalMass * Math.cos( theta );
+                    num3 = gravity * totalMass * Math.cos(theta);
                     num4 = phi2 * mass2 * deltaCosTheta;
                     len = length2 * lenLunar;
                     double thetaDoublePrime2 = (num1 * (num2 + num3 + num4)) / len;
-                    
+                
                     thetaPrime += thetaDoublePrime;
                     thetaPrime2 += thetaDoublePrime2;
                     theta += thetaPrime;
                     theta2 += thetaPrime2;
-                    
-                    double x = radius * Math.sin( theta );
-                    double y = radius * Math.cos( theta );
-                    double x2 = x + radius * Math.sin( theta2 );
-                    double y2 = y + radius * Math.cos( theta2 );
-                    
-                    display.spawn( x2 , y2 , 0 );
+                
+                    double x = radius * Math.sin(theta);
+                    double y = radius * Math.cos(theta);
+                    double x2 = x + radius * Math.sin(theta2);
+                    double y2 = y + radius * Math.cos(theta2);
+                
+                    display.spawn(x2, y2, 0);
 
 //                locs.forEach((v, v2) -> {
 //                    EffectDisplay dis = display.clone();
@@ -511,7 +511,7 @@ public final class XEffect {
 //                locs.put(new Vector(x2, y2, 0), display.rotation.clone());
                 }
             }
-        }.runTaskTimerAsynchronously( plugin , 0L , 1L );
+        }.runTaskTimerAsynchronously(plugin, 0L, 1L);
     }
     
     /**
@@ -525,30 +525,30 @@ public final class XEffect {
      *
      * @return the animation handler.
      *
-     * @see #circularBeam(JavaPlugin , double , double , double , double , EffectDisplay)
+     * @see #circularBeam(JavaPlugin, double, double, double, double, EffectDisplay)
      * @since 3.0.0
      */
-    public static BukkitTask magicCircles( JavaPlugin plugin , double radius , double rate , double radiusRate , double distance , EffectDisplay display ){
-        return new BukkitRunnable( ) {
+    public static BukkitTask magicCircles(JavaPlugin plugin, double radius, double rate, double radiusRate, double distance, EffectDisplay display){
+        return new BukkitRunnable() {
             final double radiusDiv = Math.PI / radiusRate;
-            final Vector dir = display.getLocation( ).getDirection( ).normalize( ).multiply( distance );
+            final Vector dir = display.getLocation().getDirection().normalize().multiply(distance);
             double dynamicRadius = radius;
-            
+        
             @Override
             public void run( ){
                 double rateDiv = Math.PI / (rate * dynamicRadius);
-                for ( double theta = 0; theta < PII; theta += rateDiv ) {
-                    double x = dynamicRadius * Math.sin( theta );
-                    double z = dynamicRadius * Math.cos( theta );
-                    display.spawn( x , 0 , z );
+                for ( double theta = 0; theta < PII; theta += rateDiv ){
+                    double x = dynamicRadius * Math.sin(theta);
+                    double z = dynamicRadius * Math.cos(theta);
+                    display.spawn(x, 0, z);
                 }
-                
+            
                 // We're going to use normal numbers since the circle radius will be always changing
                 // in one axis.
                 dynamicRadius += radiusDiv;
-                display.getLocation( ).add( dir );
+                display.getLocation().add(dir);
             }
-        }.runTaskTimerAsynchronously( plugin , 0L , 1L );
+        }.runTaskTimerAsynchronously(plugin, 0L, 1L);
     }
     
     /**
@@ -559,18 +559,18 @@ public final class XEffect {
      *
      * @since 3.0.0
      */
-    public static void infinity( double radius , double rate , EffectDisplay display ){
+    public static void infinity(double radius, double rate, EffectDisplay display){
         double rateDiv = Math.PI / rate;
-        for ( double i = 0; i < PII; i += rateDiv ) {
-            double x = Math.sin( i );
-            double smooth = Math.pow( x , 2 ) + 1;
-            double curve = radius * Math.cos( i );
+        for ( double i = 0; i < PII; i += rateDiv ){
+            double x = Math.sin(i);
+            double smooth = Math.pow(x, 2) + 1;
+            double curve = radius * Math.cos(i);
             
             double z = curve / smooth;
             double y = (curve * x) / smooth;
             
             // If you remove x the infinity symbol will be 2D
-            circle( 1 , rate , display.cloneWithLocation( x , y , z ) );
+            circle(1, rate, display.cloneWithLocation(x, y, z));
         }
     }
     
@@ -584,32 +584,32 @@ public final class XEffect {
      *
      * @since 1.0.0
      */
-    public static void cone( double height , double radius , double rate , double circleRate , EffectDisplay display ){
+    public static void cone(double height, double radius, double rate, double circleRate, EffectDisplay display){
         // Our biggest radius / amount of loop times = the amount to subtract from the biggest radius so it wouldn't be negative.
         double radiusDiv = radius / (height / rate);
         // We're going spawn circles with different radiuses and rates to make a cone.
-        for ( double i = 0; i < height; i += rate ) {
+        for ( double i = 0; i < height; i += rate ){
             radius -= radiusDiv;
             // The remainder of radiusDiv division might be not 0
             // This will happen to the last loop only.
-            if ( radius < 0 ) radius = 0;
-            circle( radius , circleRate - i , display.cloneWithLocation( 0 , i , 0 ) );
+            if (radius < 0) radius = 0;
+            circle(radius, circleRate - i, display.cloneWithLocation(0, i, 0));
         }
     }
     
     /**
      * Spawn an ellipse.
      *
-     * @see #circle(double , double , EffectDisplay)
+     * @see #circle(double, double, EffectDisplay)
      * @since 2.0.0
      */
-    public static void ellipse( double start , double end , double rate , double radius , double otherRadius , EffectDisplay display ){
+    public static void ellipse(double start, double end, double rate, double radius, double otherRadius, EffectDisplay display){
         // The only difference between circles and ellipses are that
         // ellipses use a different radius for one of their axis.
-        for ( double theta = start; theta <= end; theta += rate ) {
-            double x = radius * Math.cos( theta );
-            double y = otherRadius * Math.sin( theta );
-            display.spawn( x , y , 0 );
+        for ( double theta = start; theta <= end; theta += rate ){
+            double x = radius * Math.cos(theta);
+            double y = otherRadius * Math.sin(theta);
+            display.spawn(x, y, 0);
         }
     }
     
@@ -625,54 +625,54 @@ public final class XEffect {
      *
      * @since 3.0.0
      */
-    public static BukkitTask blackhole( JavaPlugin plugin , int points , double radius , double rate , int mode , int time , EffectDisplay display ){
-        display.directional( );
+    public static BukkitTask blackhole(JavaPlugin plugin, int points, double radius, double rate, int mode, int time, EffectDisplay display){
+        display.directional();
         display.extra = 0.1;
-        
-        return new BukkitRunnable( ) {
+    
+        return new BukkitRunnable() {
             final double rateDiv = Math.PI / rate;
             int timer = time;
             double theta = 0;
-            
+        
             @Override
             public void run( ){
-                for ( int i = 0; i < points; i++ ) {
+                for ( int i = 0; i < points; i++ ){
                     // Spawn a circle.
-                    double angle = PII * (( double ) i / points);
-                    double x = radius * Math.cos( theta + angle );
-                    double z = radius * Math.sin( theta + angle );
-                    
+                    double angle = PII * ((double) i / points);
+                    double x = radius * Math.cos(theta + angle);
+                    double z = radius * Math.sin(theta + angle);
+                
                     // Set the angle of the circle point as its degree.
-                    double phi = Math.atan2( z , x );
-                    double xDirection = -Math.cos( phi );
-                    double zDirection = -Math.sin( phi );
-                    
-                    display.offset( xDirection , 0 , zDirection );
-                    display.spawn( x , 0 , z );
-                    
+                    double phi = Math.atan2(z, x);
+                    double xDirection = -Math.cos(phi);
+                    double zDirection = -Math.sin(phi);
+                
+                    display.offset(xDirection, 0, zDirection);
+                    display.spawn(x, 0, z);
+                
                     // The modes are done by random math methods that are
                     // just randomly tested to give a different shape.
-                    if ( mode > 1 ) {
-                        x = radius * Math.cos( -theta + angle );
-                        z = radius * Math.sin( -theta + angle );
-                        
+                    if (mode > 1){
+                        x = radius * Math.cos(-theta + angle);
+                        z = radius * Math.sin(-theta + angle);
+                    
                         // Eye shaped blackhole
-                        if ( mode == 2 ) phi = Math.atan2( z , x );
-                        else if ( mode == 3 ) phi = Math.atan2( x , z );
-                        else if ( mode == 4 ) Math.atan2( Math.log( x ) , Math.log( z ) );
-                        
-                        xDirection = -Math.cos( phi );
-                        zDirection = -Math.sin( phi );
-                        
-                        display.offset( xDirection , 0 , zDirection );
-                        display.spawn( x , 0 , z );
+                        if (mode == 2) phi = Math.atan2(z, x);
+                        else if (mode == 3) phi = Math.atan2(x, z);
+                        else if (mode == 4) Math.atan2(Math.log(x), Math.log(z));
+                    
+                        xDirection = -Math.cos(phi);
+                        zDirection = -Math.sin(phi);
+                    
+                        display.offset(xDirection, 0, zDirection);
+                        display.spawn(x, 0, z);
                     }
                 }
-                
+            
                 theta += rateDiv;
-                if ( --timer <= 0 ) cancel( );
+                if (--timer <= 0) cancel();
             }
-        }.runTaskTimerAsynchronously( plugin , 0L , 1L );
+        }.runTaskTimerAsynchronously(plugin, 0L, 1L);
     }
     
     /**
@@ -686,36 +686,36 @@ public final class XEffect {
      *
      * @since 2.0.0
      */
-    public static void rainbow( double radius , double rate , double curve , double layers , double compact , EffectDisplay display ){
+    public static void rainbow(double radius, double rate, double curve, double layers, double compact, EffectDisplay display){
         int[][] rainbow = {
-                {128 , 0 , 128} , // Violet
-                {75 , 0 , 130} , // Indigo
-                {0 , 0 , 255} , // Blue
-                {0 , 255 , 0} , // Green
-                {255 , 255 , 0} , // Yellow
-                {255 , 140 , 0} , // Orange
-                {255 , 0 , 0} // Red
+                {128, 0, 128}, // Violet
+                {75, 0, 130}, // Indigo
+                {0, 0, 255}, // Blue
+                {0, 255, 0}, // Green
+                {255, 255, 0}, // Yellow
+                {255, 140, 0}, // Orange
+                {255, 0, 0} // Red
         };
         double secondRadius = radius * curve;
         
         // Rainbows have 7 colors.
         // Refer to RAINBOW constant for the color order.
-        for ( int i = 0; i < 7; i++ ) {
+        for ( int i = 0; i < 7; i++ ){
             // Get the rainbow color in order.
             int[] rgb = rainbow[i];
-            display = EffectDisplay.colored( display.getLocation( ) , rgb[0] , rgb[1] , rgb[2] , 1 );
-            
+            display = EffectDisplay.colored(display.getLocation(), rgb[0], rgb[1], rgb[2], 1);
+        
             // Display the same color multiple times.
-            for ( int layer = 0; layer < layers; layer++ ) {
+            for ( int layer = 0; layer < layers; layer++ ){
                 double rateDiv = Math.PI / (rate * (i + 2));
-                
+            
                 // We're going to create our rainbow layer from half circles.
-                for ( double theta = 0; theta <= Math.PI; theta += rateDiv ) {
-                    double x = radius * Math.cos( theta );
-                    double y = secondRadius * Math.sin( theta );
-                    display.spawn( x , y , 0 );
+                for ( double theta = 0; theta <= Math.PI; theta += rateDiv ){
+                    double x = radius * Math.cos(theta);
+                    double y = secondRadius * Math.sin(theta);
+                    display.spawn(x, y, 0);
                 }
-                
+            
                 radius += compact;
             }
         }
@@ -727,24 +727,24 @@ public final class XEffect {
      * @param radius the radius of crescent's big circle.
      * @param rate   the rate of the crescent's circle points.
      *
-     * @see #circle(double , double , EffectDisplay)
+     * @see #circle(double, double, EffectDisplay)
      * @since 1.0.0
      */
-    public static void crescent( double radius , double rate , EffectDisplay display ){
+    public static void crescent(double radius, double rate, EffectDisplay display){
         double rateDiv = Math.PI / rate;
-        double end = Math.toRadians( 325 );
+        double end = Math.toRadians(325);
         
         // Crescents are two circles, one with a smaller radius and slightly shifted to the open part of the bigger circle.
         // To align the opening of the bigger circle with the +X axis we'll have to adjust our start and end  radians.
-        for ( double theta = Math.toRadians( 45 ); theta <= end; theta += rateDiv ) {
+        for ( double theta = Math.toRadians(45); theta <= end; theta += rateDiv ){
             // Our circle at the bottom.
-            double x = Math.cos( theta );
-            double z = Math.sin( theta );
-            display.spawn( radius * x , 0 , radius * z );
+            double x = Math.cos(theta);
+            double z = Math.sin(theta);
+            display.spawn(radius * x, 0, radius * z);
             
             // Slightly move the smaller circle to connect the openings.
             double smallerRadius = radius / 1.3;
-            display.spawn( smallerRadius * x + 0.8 , 0 , smallerRadius * z );
+            display.spawn(smallerRadius * x + 0.8, 0, smallerRadius * z);
         }
     }
     
@@ -758,35 +758,35 @@ public final class XEffect {
      *
      * @since 2.0.0
      */
-    public static void waveFunction( double extend , double heightRange , double size , double rate , EffectDisplay display ){
+    public static void waveFunction(double extend, double heightRange, double size, double rate, EffectDisplay display){
         double height = heightRange / 2;
         boolean increase = true;
-        double increaseRandomizer = random( heightRange / 2 , heightRange );
+        double increaseRandomizer = random(heightRange / 2, heightRange);
         double rateDiv = Math.PI / rate;
         // Each wave is like a circle curving up and down.
         size *= PII;
         
         // We're going to create randomized circles.
-        for ( double x = 0; x <= size; x += rateDiv ) {
+        for ( double x = 0; x <= size; x += rateDiv ){
             double xx = extend * x;
-            double y1 = Math.sin( x );
+            double y1 = Math.sin(x);
             
             // Maximum value of sin is 1, when our sin is 1 it means
             // one full circle has been created, so we'll regenerate our random height.
-            if ( y1 == 1 ) {
+            if (y1 == 1){
                 increase = !increase;
-                if ( increase ) increaseRandomizer = random( heightRange / 2 , heightRange );
-                else increaseRandomizer = random( -heightRange , -heightRange / 2 );
+                if (increase) increaseRandomizer = random(heightRange / 2, heightRange);
+                else increaseRandomizer = random(-heightRange, -heightRange / 2);
             }
             height += increaseRandomizer;
             
             // We'll generate horizontal cos/sin circles and move forward.
-            for ( double z = 0; z <= size; z += rateDiv ) {
-                double y2 = Math.cos( z );
+            for ( double z = 0; z <= size; z += rateDiv ){
+                double y2 = Math.cos(z);
                 double yy = height * y1 * y2;
                 double zz = extend * z;
                 
-                display.spawn( xx , yy , zz );
+                display.spawn(xx, yy, zz);
             }
         }
     }
@@ -804,38 +804,38 @@ public final class XEffect {
      *
      * @since 2.0.0
      */
-    public static BukkitTask vortex( JavaPlugin plugin , int points , double rate , EffectDisplay display ){
+    public static BukkitTask vortex(JavaPlugin plugin, int points, double rate, EffectDisplay display){
         double rateDiv = Math.PI / rate;
-        display.directional( );
-        
-        return new BukkitRunnable( ) {
+        display.directional();
+    
+        return new BukkitRunnable() {
             double theta = 0;
-            
+        
             @Override
             public void run( ){
                 theta += rateDiv;
-                
-                for ( int i = 0; i < points; i++ ) {
+            
+                for ( int i = 0; i < points; i++ ){
                     // Calculate our starting point in a circle radius.
-                    double multiplier = (PII * (( double ) i / points));
-                    double x = Math.cos( theta + multiplier );
-                    double z = Math.sin( theta + multiplier );
-                    
+                    double multiplier = (PII * ((double) i / points));
+                    double x = Math.cos(theta + multiplier);
+                    double z = Math.sin(theta + multiplier);
+                
                     // Calculate our direction of the spreading particles based on their angle.
-                    double angle = Math.atan2( z , x );
-                    double xDirection = Math.cos( angle );
-                    double zDirection = Math.sin( angle );
-                    
-                    display.offset( xDirection , 0 , zDirection );
-                    display.spawn( x , 0 , z );
+                    double angle = Math.atan2(z, x);
+                    double xDirection = Math.cos(angle);
+                    double zDirection = Math.sin(angle);
+                
+                    display.offset(xDirection, 0, zDirection);
+                    display.spawn(x, 0, z);
                 }
             }
-        }.runTaskTimerAsynchronously( plugin , 0L , 1L );
+        }.runTaskTimerAsynchronously(plugin, 0L, 1L);
     }
     
     /**
      * Not really a cylinder. It looks more like a cage.
-     * For an actual cylidner just use {@link #circle(double , double , EffectDisplay)}
+     * For an actual cylidner just use {@link #circle(double, double, EffectDisplay)}
      * and use one the xyz axis to build multiple circles.
      *
      * @param height the height of the cylinder.
@@ -844,11 +844,11 @@ public final class XEffect {
      *
      * @since 1.0.0
      */
-    public static void cylinder( double height , double radius , double rate , EffectDisplay display ){
-        filledCircle( radius , rate , 3 , display );
-        filledCircle( radius , rate , 3 , display.cloneWithLocation( 0 , height , 0 ) );
-        for ( double y = 0; y < height; y += 0.1 ) {
-            circle( radius , rate , display.cloneWithLocation( 0 , y , 0 ) );
+    public static void cylinder(double height, double radius, double rate, EffectDisplay display){
+        filledCircle(radius, rate, 3, display);
+        filledCircle(radius, rate, 3, display.cloneWithLocation(0, height, 0));
+        for ( double y = 0; y < height; y += 0.1 ){
+            circle(radius, rate, display.cloneWithLocation(0, y, 0));
         }
     }
     
@@ -864,33 +864,33 @@ public final class XEffect {
      *
      * @return the async task handling the movement.
      *
-     * @see #rotateAround(JavaPlugin , long , double , double , double , double , Runnable , EffectDisplay...)
-     * @see #guard(JavaPlugin , long , double , double , double , double , Runnable , EffectDisplay...)
+     * @see #rotateAround(JavaPlugin, long, double, double, double, double, Runnable, EffectDisplay...)
+     * @see #guard(JavaPlugin, long, double, double, double, double, Runnable, EffectDisplay...)
      * @since 1.0.0
      */
-    public static BukkitTask moveRotatingAround( JavaPlugin plugin , long update , double rate , double offsetx , double offsety , double offsetz ,
-                                                 Runnable runnable , EffectDisplay... displays ){
-        return new BukkitRunnable( ) {
+    public static BukkitTask moveRotatingAround(JavaPlugin plugin, long update, double rate, double offsetx, double offsety, double offsetz,
+                                                Runnable runnable, EffectDisplay... displays){
+        return new BukkitRunnable() {
             double rotation = 180;
-            
+        
             @Override
             public void run( ){
                 rotation += rate;
                 // Generate random radians.
-                double x = Math.toRadians( 90 + rotation );
-                double y = Math.toRadians( 60 + rotation );
-                double z = Math.toRadians( 30 + rotation );
-                
-                Vector vector = new Vector( offsetx * Math.PI , offsety * Math.PI , offsetz * Math.PI );
-                if ( offsetx != 0 ) EffectDisplay.rotateAround( vector , EffectDisplay.Axis.X , x );
-                if ( offsety != 0 ) EffectDisplay.rotateAround( vector , EffectDisplay.Axis.Y , y );
-                if ( offsetz != 0 ) EffectDisplay.rotateAround( vector , EffectDisplay.Axis.Z , z );
-                
-                for ( EffectDisplay display : displays ) display.getLocation( ).add( vector );
-                runnable.run( );
-                for ( EffectDisplay display : displays ) display.getLocation( ).subtract( vector );
+                double x = Math.toRadians(90 + rotation);
+                double y = Math.toRadians(60 + rotation);
+                double z = Math.toRadians(30 + rotation);
+            
+                Vector vector = new Vector(offsetx * Math.PI, offsety * Math.PI, offsetz * Math.PI);
+                if (offsetx != 0) EffectDisplay.rotateAround(vector, EffectDisplay.Axis.X, x);
+                if (offsety != 0) EffectDisplay.rotateAround(vector, EffectDisplay.Axis.Y, y);
+                if (offsetz != 0) EffectDisplay.rotateAround(vector, EffectDisplay.Axis.Z, z);
+            
+                for ( EffectDisplay display : displays ) display.getLocation().add(vector);
+                runnable.run();
+                for ( EffectDisplay display : displays ) display.getLocation().subtract(vector);
             }
-        }.runTaskTimerAsynchronously( plugin , 0L , update );
+        }.runTaskTimerAsynchronously(plugin, 0L, update);
     }
     
     /**
@@ -905,36 +905,36 @@ public final class XEffect {
      *
      * @return the async task handling the movement.
      *
-     * @see #rotateAround(JavaPlugin , long , double , double , double , double , Runnable , EffectDisplay...)
-     * @see #guard(JavaPlugin , long , double , double , double , double , Runnable , EffectDisplay...)
+     * @see #rotateAround(JavaPlugin, long, double, double, double, double, Runnable, EffectDisplay...)
+     * @see #guard(JavaPlugin, long, double, double, double, double, Runnable, EffectDisplay...)
      * @since 1.0.0
      */
-    public static BukkitTask moveAround( JavaPlugin plugin , long update , double rate , double endRate , double offsetx , double offsety , double offsetz ,
-                                         Runnable runnable , EffectDisplay... displays ){
-        return new BukkitRunnable( ) {
+    public static BukkitTask moveAround(JavaPlugin plugin, long update, double rate, double endRate, double offsetx, double offsety, double offsetz,
+                                        Runnable runnable, EffectDisplay... displays){
+        return new BukkitRunnable() {
             double multiplier = 0;
             boolean opposite = false;
-            
+        
             @Override
             public void run( ){
-                if ( opposite ) multiplier -= rate;
+                if (opposite) multiplier -= rate;
                 else multiplier += rate;
-                
+            
                 double x = multiplier * offsetx;
                 double y = multiplier * offsety;
                 double z = multiplier * offsetz;
-                
-                for ( EffectDisplay display : displays ) display.getLocation( ).add( x , y , z );
-                runnable.run( );
-                for ( EffectDisplay display : displays ) display.getLocation( ).subtract( x , y , z );
-                
-                if ( opposite ) {
-                    if ( multiplier <= 0 ) opposite = false;
+            
+                for ( EffectDisplay display : displays ) display.getLocation().add(x, y, z);
+                runnable.run();
+                for ( EffectDisplay display : displays ) display.getLocation().subtract(x, y, z);
+            
+                if (opposite){
+                    if (multiplier <= 0) opposite = false;
                 } else {
-                    if ( multiplier >= endRate ) opposite = true;
+                    if (multiplier >= endRate) opposite = true;
                 }
             }
-        }.runTaskTimerAsynchronously( plugin , 0L , update );
+        }.runTaskTimerAsynchronously(plugin, 0L, update);
     }
     
     /**
@@ -947,8 +947,8 @@ public final class XEffect {
      *
      * @since 1.0.0
      */
-    public static BukkitTask testDisplay( JavaPlugin plugin , Runnable runnable ){
-        return Bukkit.getScheduler( ).runTaskTimerAsynchronously( plugin , runnable , 0L , 1L );
+    public static BukkitTask testDisplay(JavaPlugin plugin, Runnable runnable){
+        return Bukkit.getScheduler().runTaskTimerAsynchronously(plugin, runnable, 0L, 1L);
     }
     
     /**
@@ -963,27 +963,27 @@ public final class XEffect {
      *
      * @return the async task handling the movement.
      *
-     * @see #moveRotatingAround(JavaPlugin , long , double , double , double , double , Runnable , EffectDisplay...)
-     * @see #guard(JavaPlugin , long , double , double , double , double , Runnable , EffectDisplay...)
+     * @see #moveRotatingAround(JavaPlugin, long, double, double, double, double, Runnable, EffectDisplay...)
+     * @see #guard(JavaPlugin, long, double, double, double, double, Runnable, EffectDisplay...)
      * @since 1.0.0
      */
-    public static BukkitTask rotateAround( JavaPlugin plugin , long update , double rate , double offsetx , double offsety , double offsetz ,
-                                           Runnable runnable , EffectDisplay... displays ){
-        return new BukkitRunnable( ) {
+    public static BukkitTask rotateAround(JavaPlugin plugin, long update, double rate, double offsetx, double offsety, double offsetz,
+                                          Runnable runnable, EffectDisplay... displays){
+        return new BukkitRunnable() {
             double rotation = 180;
-            
+        
             @Override
             public void run( ){
                 rotation += rate;
-                double x = Math.toRadians( (90 + rotation) * offsetx );
-                double y = Math.toRadians( (60 + rotation) * offsety );
-                double z = Math.toRadians( (30 + rotation) * offsetz );
-                
-                Vector vector = new Vector( x , y , z );
-                for ( EffectDisplay display : displays ) display.rotate( vector );
-                runnable.run( );
+                double x = Math.toRadians((90 + rotation) * offsetx);
+                double y = Math.toRadians((60 + rotation) * offsety);
+                double z = Math.toRadians((30 + rotation) * offsetz);
+            
+                Vector vector = new Vector(x, y, z);
+                for ( EffectDisplay display : displays ) display.rotate(vector);
+                runnable.run();
             }
-        }.runTaskTimerAsynchronously( plugin , 0L , update );
+        }.runTaskTimerAsynchronously(plugin, 0L, update);
     }
     
     /**
@@ -1006,33 +1006,33 @@ public final class XEffect {
      *
      * @return the async task handling the movement.
      *
-     * @see #rotateAround(JavaPlugin , long , double , double , double , double , Runnable , EffectDisplay...)
-     * @see #moveRotatingAround(JavaPlugin , long , double , double , double , double , Runnable , EffectDisplay...)
+     * @see #rotateAround(JavaPlugin, long, double, double, double, double, Runnable, EffectDisplay...)
+     * @see #moveRotatingAround(JavaPlugin, long, double, double, double, double, Runnable, EffectDisplay...)
      * @since 1.0.0
      */
-    public static BukkitTask guard( JavaPlugin plugin , long update , double rate , double offsetx , double offsety , double offsetz ,
-                                    Runnable runnable , EffectDisplay... displays ){
-        return new BukkitRunnable( ) {
+    public static BukkitTask guard(JavaPlugin plugin, long update, double rate, double offsetx, double offsety, double offsetz,
+                                   Runnable runnable, EffectDisplay... displays){
+        return new BukkitRunnable() {
             double rotation = 180;
-            
+        
             @Override
             public void run( ){
                 rotation += rate;
-                double x = Math.toRadians( (90 + rotation) * offsetx );
-                double y = Math.toRadians( (60 + rotation) * offsety );
-                double z = Math.toRadians( (30 + rotation) * offsetz );
-                
-                Vector vector = new Vector( offsetx * Math.PI , offsety * Math.PI , offsetz * Math.PI );
-                EffectDisplay.rotateAround( vector , x , y , z );
-                
-                for ( EffectDisplay display : displays ) {
-                    display.setRotation( new Vector( x , y , z ) );
-                    display.getLocation( ).add( vector );
+                double x = Math.toRadians((90 + rotation) * offsetx);
+                double y = Math.toRadians((60 + rotation) * offsety);
+                double z = Math.toRadians((30 + rotation) * offsetz);
+            
+                Vector vector = new Vector(offsetx * Math.PI, offsety * Math.PI, offsetz * Math.PI);
+                EffectDisplay.rotateAround(vector, x, y, z);
+            
+                for ( EffectDisplay display : displays ){
+                    display.setRotation(new Vector(x, y, z));
+                    display.getLocation().add(vector);
                 }
-                runnable.run( );
-                for ( EffectDisplay display : displays ) display.getLocation( ).subtract( vector );
+                runnable.run();
+                for ( EffectDisplay display : displays ) display.getLocation().subtract(vector);
             }
-        }.runTaskTimerAsynchronously( plugin , 0L , update );
+        }.runTaskTimerAsynchronously(plugin, 0L, update);
     }
     
     /**
@@ -1043,37 +1043,37 @@ public final class XEffect {
      * @param radius the circle radius.
      * @param rate   the rate of cirlce points/particles.
      *
-     * @see #circle(double , double , EffectDisplay)
+     * @see #circle(double, double, EffectDisplay)
      * @since 1.0.0
      */
-    public static void sphere( double radius , double rate , EffectDisplay display ){
+    public static void sphere(double radius, double rate, EffectDisplay display){
         // Cache
         double rateDiv = Math.PI / rate;
         
         // To make a sphere we're going to generate multiple circles
         // next to each other.
-        for ( double phi = 0; phi <= Math.PI; phi += rateDiv ) {
+        for ( double phi = 0; phi <= Math.PI; phi += rateDiv ){
             // Cache
-            double y1 = radius * Math.cos( phi );
-            double y2 = radius * Math.sin( phi );
+            double y1 = radius * Math.cos(phi);
+            double y2 = radius * Math.sin(phi);
             
-            for ( double theta = 0; theta <= PII; theta += rateDiv ) {
-                double x = Math.cos( theta ) * y2;
-                double z = Math.sin( theta ) * y2;
+            for ( double theta = 0; theta <= PII; theta += rateDiv ){
+                double x = Math.cos(theta) * y2;
+                double z = Math.sin(theta) * y2;
                 
-                if ( display.isDirectional( ) ) {
+                if (display.isDirectional()){
                     // We're going to do the same thing from spreading circle.
                     // Since this is a 3D shape we'll need to get the y value as well.
                     // I'm not sure if this is the right way to do it.
-                    double omega = Math.atan2( z , x );
-                    double directionX = Math.cos( omega );
-                    double directionY = Math.sin( Math.atan2( y2 , y1 ) );
-                    double directionZ = Math.sin( omega );
+                    double omega = Math.atan2(z, x);
+                    double directionX = Math.cos(omega);
+                    double directionY = Math.sin(Math.atan2(y2, y1));
+                    double directionZ = Math.sin(omega);
                     
-                    display.offset( directionX , directionY , directionZ );
+                    display.offset(directionX, directionY, directionZ);
                 }
                 
-                display.spawn( x , y1 , z );
+                display.spawn(x, y1, z);
             }
         }
     }
@@ -1088,28 +1088,28 @@ public final class XEffect {
      * @param minRandomDistance he minimum distance of spikes from sphere.
      * @param maxRandomDistance the maximum distance of spikes from sphere.
      *
-     * @see #sphere(double , double , EffectDisplay)
+     * @see #sphere(double, double, EffectDisplay)
      * @since 1.0.0
      */
-    public static void spikeSphere( double radius , double rate , int chance , double minRandomDistance , double maxRandomDistance , EffectDisplay display ){
+    public static void spikeSphere(double radius, double rate, int chance, double minRandomDistance, double maxRandomDistance, EffectDisplay display){
         double rateDiv = Math.PI / rate;
         
         // Generate normal circle points.
-        for ( double phi = 0; phi <= Math.PI; phi += rateDiv ) {
-            double y = radius * Math.cos( phi );
-            double sinPhi = radius * Math.sin( phi );
+        for ( double phi = 0; phi <= Math.PI; phi += rateDiv ){
+            double y = radius * Math.cos(phi);
+            double sinPhi = radius * Math.sin(phi);
             
-            for ( double theta = 0; theta <= PII; theta += rateDiv ) {
-                double x = Math.cos( theta ) * sinPhi;
-                double z = Math.sin( theta ) * sinPhi;
+            for ( double theta = 0; theta <= PII; theta += rateDiv ){
+                double x = Math.cos(theta) * sinPhi;
+                double z = Math.sin(theta) * sinPhi;
                 
-                if ( chance == 0 || randInt( 0 , chance ) == 1 ) {
-                    Location start = display.cloneLocation( x , y , z );
+                if (chance == 0 || randInt(0, chance) == 1){
+                    Location start = display.cloneLocation(x, y, z);
                     // We want to get the direction of our center location and the circle point
                     // so we cant spawn spikes on the opposite direction.
-                    Vector endVect = start.clone( ).subtract( display.getLocation( ) ).toVector( ).multiply( random( minRandomDistance , maxRandomDistance ) );
-                    Location end = start.clone( ).add( endVect );
-                    line( start , end , 0.1 , display );
+                    Vector endVect = start.clone().subtract(display.getLocation()).toVector().multiply(random(minRandomDistance, maxRandomDistance));
+                    Location end = start.clone().add(endVect);
+                    line(start, end, 0.1, display);
                 }
             }
         }
@@ -1124,25 +1124,25 @@ public final class XEffect {
      * @param radius     the radius of the ring.
      * @param tubeRadius the radius of the circles used to form the ring (tunnel circles)
      *
-     * @see #circle(double , double , EffectDisplay)
+     * @see #circle(double, double, EffectDisplay)
      * @since 1.0.0
      */
-    public static void ring( double rate , double radius , double tubeRadius , EffectDisplay display ){
+    public static void ring(double rate, double radius, double tubeRadius, EffectDisplay display){
         double rateDiv = Math.PI / rate;
         double tubeDiv = Math.PI / tubeRadius;
         
         // Use circles to build the ring.
-        for ( double theta = 0; theta <= PII; theta += rateDiv ) {
-            double cos = Math.cos( theta );
-            double sin = Math.sin( theta );
+        for ( double theta = 0; theta <= PII; theta += rateDiv ){
+            double cos = Math.cos(theta);
+            double sin = Math.sin(theta);
             
-            for ( double phi = 0; phi <= PII; phi += tubeDiv ) {
-                double finalRadius = radius + (tubeRadius * Math.cos( phi ));
+            for ( double phi = 0; phi <= PII; phi += tubeDiv ){
+                double finalRadius = radius + (tubeRadius * Math.cos(phi));
                 double x = finalRadius * cos;
                 double y = finalRadius * sin;
-                double z = tubeRadius * Math.sin( phi );
+                double z = tubeRadius * Math.sin(phi);
                 
-                display.spawn( x , y , z );
+                display.spawn(x, y, z);
             }
         }
     }
@@ -1158,27 +1158,27 @@ public final class XEffect {
      *
      * @since 1.0.0
      */
-    public static BukkitTask spread( JavaPlugin plugin , int amount , int rate , Location start , Location originEnd ,
-                                     double offsetx , double offsety , double offsetz , EffectDisplay display ){
-        return new BukkitRunnable( ) {
+    public static BukkitTask spread(JavaPlugin plugin, int amount, int rate, Location start, Location originEnd,
+                                    double offsetx, double offsety, double offsetz, EffectDisplay display){
+        return new BukkitRunnable() {
             int count = amount;
-            
+        
             @Override
             public void run( ){
                 int frame = rate;
-                
+            
                 while (frame-- != 0) {
-                    double x = random( -offsetx , offsetx );
-                    double y = random( -offsety , offsety );
-                    double z = random( -offsetz , offsetz );
-                    
-                    Location end = originEnd.clone( ).add( x , y , z );
-                    line( start , end , 0.1 , display );
-                }
+                    double x = random(-offsetx, offsetx);
+                    double y = random(-offsety, offsety);
+                    double z = random(-offsetz, offsetz);
                 
-                if ( count-- == 0 ) cancel( );
+                    Location end = originEnd.clone().add(x, y, z);
+                    line(start, end, 0.1, display);
+                }
+            
+                if (count-- == 0) cancel();
             }
-        }.runTaskTimerAsynchronously( plugin , 0L , 1L );
+        }.runTaskTimerAsynchronously(plugin, 0L, 1L);
     }
     
     /**
@@ -1193,17 +1193,17 @@ public final class XEffect {
      *
      * @since 1.0.0
      */
-    public static void heart( double cut , double cutAngle , double depth , double compressHeight , double rate , EffectDisplay display ){
-        for ( double theta = 0; theta <= PII; theta += Math.PI / rate ) {
+    public static void heart(double cut, double cutAngle, double depth, double compressHeight, double rate, EffectDisplay display){
+        for ( double theta = 0; theta <= PII; theta += Math.PI / rate ){
             double phi = theta / cut;
-            double cos = Math.cos( phi );
-            double sin = Math.sin( phi );
-            double omega = Math.pow( Math.abs( Math.sin( 2 * cutAngle * phi ) ) + depth * Math.abs( Math.sin( cutAngle * phi ) ) , 1 / compressHeight );
-            
+            double cos = Math.cos(phi);
+            double sin = Math.sin(phi);
+            double omega = Math.pow(Math.abs(Math.sin(2 * cutAngle * phi)) + depth * Math.abs(Math.sin(cutAngle * phi)), 1 / compressHeight);
+        
             double y = omega * (sin + cos);
             double z = omega * (cos - sin);
-            
-            display.spawn( 0 , y , z );
+        
+            display.spawn(0, y, z);
         }
     }
     
@@ -1215,11 +1215,11 @@ public final class XEffect {
      * @param radius the radius of the atom orbits.
      * @param rate   the rate of orbit points.
      *
-     * @see #atom(int , double , double , EffectDisplay , EffectDisplay)
+     * @see #atom(int, double, double, EffectDisplay, EffectDisplay)
      * @since 1.0.0
      */
-    public static BukkitTask atomic( JavaPlugin plugin , int orbits , double radius , double rate , EffectDisplay orbit ){
-        return new BukkitRunnable( ) {
+    public static BukkitTask atomic(JavaPlugin plugin, int orbits, double radius, double rate, EffectDisplay orbit){
+        return new BukkitRunnable() {
             final double rateDiv = Math.PI / rate;
             final double dist = Math.PI / orbits;
             double theta = 0;
@@ -1229,16 +1229,16 @@ public final class XEffect {
                 int orbital = orbits;
                 theta += rateDiv;
                 
-                double x = radius * Math.cos( theta );
-                double z = radius * Math.sin( theta );
+                double x = radius * Math.cos(theta);
+                double z = radius * Math.sin(theta);
                 
-                for ( double angle = 0; orbital > 0; angle += dist ) {
-                    orbit.setRotation( new Vector( 0 , 0 , angle ) );
-                    orbit.spawn( x , 0 , z );
+                for ( double angle = 0; orbital > 0; angle += dist ){
+                    orbit.setRotation(new Vector(0, 0, angle));
+                    orbit.spawn(x, 0, z);
                     orbital--;
                 }
             }
-        }.runTaskTimerAsynchronously( plugin , 0L , 1L );
+        }.runTaskTimerAsynchronously(plugin, 0L, 1L);
     }
     
     /**
@@ -1256,12 +1256,12 @@ public final class XEffect {
      *
      * @return the animation task.
      *
-     * @see #dnaReplication(JavaPlugin , double , double , int , double , int , int , EffectDisplay)
+     * @see #dnaReplication(JavaPlugin, double, double, int, double, int, int, EffectDisplay)
      * @since 3.0.0
      */
-    public static BukkitTask helix( JavaPlugin plugin , int strings , double radius , double rate , double extension , int height , int speed ,
-                                    boolean fadeUp , boolean fadeDown , EffectDisplay display ){
-        return new BukkitRunnable( ) {
+    public static BukkitTask helix(JavaPlugin plugin, int strings, double radius, double rate, double extension, int height, int speed,
+                                   boolean fadeUp, boolean fadeDown, EffectDisplay display){
+        return new BukkitRunnable() {
             // If we look at a helix string from above, we'll see a circle tunnel.
             // To make this tunnel we're going to generate circles while moving
             // upwards to get a curvy tunnel.
@@ -1279,29 +1279,29 @@ public final class XEffect {
                 int repeat = speed;
                 while (repeat-- > 0) {
                     y += rate;
-                    
+    
                     // 2D cirlce points.
-                    double x = dynamicRadius * Math.cos( extension * y );
-                    double z = dynamicRadius * Math.sin( extension * y );
-                    
-                    if ( !center ) {
+                    double x = dynamicRadius * Math.cos(extension * y);
+                    double z = dynamicRadius * Math.sin(extension * y);
+    
+                    if (!center){
                         dynamicRadius += radiusDiv2;
-                        if ( dynamicRadius >= radius ) center = true;
-                    } else if ( fadeUp ) dynamicRadius -= radiusDiv2;
-                    
+                        if (dynamicRadius >= radius) center = true;
+                    } else if (fadeUp) dynamicRadius -= radiusDiv2;
+    
                     // Now we're going to copy our points and rotate them.
                     int tempString = strings;
-                    for ( double angle = 0; tempString > 0; angle += dist ) {
-                        display.rotate( 0 , angle , 0 );
-                        display.spawn( x , y , z );
-                        display.rotate( 0 , -angle , 0 );
+                    for ( double angle = 0; tempString > 0; angle += dist ){
+                        display.rotate(0, angle, 0);
+                        display.spawn(x, y, z);
+                        display.rotate(0, -angle, 0);
                         tempString--;
                     }
-                    
-                    if ( y > height ) cancel( );
+    
+                    if (y > height) cancel();
                 }
             }
-        }.runTaskTimerAsynchronously( plugin , 0L , 1L );
+        }.runTaskTimerAsynchronously(plugin, 0L, 1L);
     }
     
     /**
@@ -1324,44 +1324,44 @@ public final class XEffect {
      *
      * @since 3.0.0
      */
-    public static void lightning( Location start , Vector direction , int entries , int branches , double radius ,
-                                  double offset , double offsetRate ,
-                                  double length , double lengthRate ,
-                                  double branch , double branchRate , EffectDisplay display ){
-        ThreadLocalRandom random = ThreadLocalRandom.current( );
-        if ( entries <= 0 ) return;
+    public static void lightning(Location start, Vector direction, int entries, int branches, double radius,
+                                 double offset, double offsetRate,
+                                 double length, double lengthRate,
+                                 double branch, double branchRate, EffectDisplay display){
+        ThreadLocalRandom random = ThreadLocalRandom.current();
+        if (entries <= 0) return;
         boolean inRange = true;
-        
+    
         // Check if we can create new branches or the current branch
         // length is already in range.
-        while (random.nextDouble( ) < branch || inRange) {
+        while (random.nextDouble() < branch || inRange) {
             // Break our straight line randomly.
             Vector randomizer = new Vector(
-                    random.nextDouble( -radius , radius ) , random.nextDouble( -radius , radius ) , random.nextDouble( -radius , radius ) )
-                    .normalize( ).multiply( (random.nextDouble( -radius , radius )) * offset );
-            Vector endVector = start.clone( ).toVector( ).add( direction.clone( ).multiply( length ) ).add( randomizer );
-            Location end = endVector.toLocation( start.getWorld( ) );
-            
+                    random.nextDouble(-radius, radius), random.nextDouble(-radius, radius), random.nextDouble(-radius, radius))
+                    .normalize().multiply((random.nextDouble(-radius, radius)) * offset);
+            Vector endVector = start.clone().toVector().add(direction.clone().multiply(length)).add(randomizer);
+            Location end = endVector.toLocation(start.getWorld());
+        
             // Check if the broken line length is in our max length range.
-            if ( end.distance( start ) <= length ) {
+            if (end.distance(start) <= length){
                 inRange = true;
                 continue;
             } else inRange = false;
-            
+        
             // Create particle points in our broken straight line.
-            int rate = ( int ) (start.distance( end ) / 0.1); // distance * (distance / 10)
-            Vector rateDir = endVector.clone( ).subtract( start.toVector( ) ).normalize( ).multiply( 0.1 );
-            for ( int i = 0; i < rate; i++ ) {
-                Location loc = start.clone( ).add( rateDir.clone( ).multiply( i ) );
-                display.spawn( loc );
+            int rate = (int) (start.distance(end) / 0.1); // distance * (distance / 10)
+            Vector rateDir = endVector.clone().subtract(start.toVector()).normalize().multiply(0.1);
+            for ( int i = 0; i < rate; i++ ){
+                Location loc = start.clone().add(rateDir.clone().multiply(i));
+                display.spawn(loc);
             }
-            
+        
             // Create new entries if possible.
-            lightning( end.clone( ) , direction , entries - 1 , branches - 1 , radius , offset * offsetRate , offsetRate ,
-                    length * lengthRate , lengthRate ,
-                    branch * branchRate , branchRate , display );
+            lightning(end.clone(), direction, entries - 1, branches - 1, radius, offset * offsetRate, offsetRate,
+                    length * lengthRate, lengthRate,
+                    branch * branchRate, branchRate, display);
             // Check if the maximum number of branches has already been used for this entry.
-            if ( branches <= 0 ) break;
+            if (branches <= 0) break;
         }
     }
     
@@ -1376,36 +1376,36 @@ public final class XEffect {
      * @param display             display for strings.
      * @param hydrogenBondDisplay display for hydrogen bonds.
      *
-     * @see #helix(JavaPlugin , int , double , double , double , int , int , boolean , boolean , EffectDisplay)
-     * @see #dnaReplication(JavaPlugin , double , double , int , double , int , int , EffectDisplay)
+     * @see #helix(JavaPlugin, int, double, double, double, int, int, boolean, boolean, EffectDisplay)
+     * @see #dnaReplication(JavaPlugin, double, double, int, double, int, int, EffectDisplay)
      * @since 1.0.0
      */
-    public static void dna( double radius , double rate , double extension , int height , int hydrogenBondDist , EffectDisplay display , EffectDisplay hydrogenBondDisplay ){
+    public static void dna(double radius, double rate, double extension, int height, int hydrogenBondDist, EffectDisplay display, EffectDisplay hydrogenBondDisplay){
         // The distance between each hydrogen bond from the previous bond.
         // All the nucleotides in DNA will form a bond but this will indicate the
         // distance between the phosphodiester bonds.
         int nucleotideDist = 0;
         
         // Move the helix upwards by forming phosphodiester bonds between two nucleotides on the same string.
-        for ( double y = 0; y <= height; y += rate ) {
+        for ( double y = 0; y <= height; y += rate ){
             nucleotideDist++;
             
             // The helix string is generated in a circle tunnel.
-            double x = radius * Math.cos( extension * y );
-            double z = radius * Math.sin( extension * y );
+            double x = radius * Math.cos(extension * y);
+            double z = radius * Math.sin(extension * y);
             
             // The two nucleotides on each DNA string.
             // Should be exactly facing each other with the same Y pos.
-            Location nucleotide1 = display.getLocation( ).clone( ).add( x , y , z );
-            display.spawn( x , y , z );
-            Location nucleotide2 = display.getLocation( ).clone( ).subtract( x , -y , z );
-            display.spawn( -x , y , -z );
+            Location nucleotide1 = display.getLocation().clone().add(x, y, z);
+            display.spawn(x, y, z);
+            Location nucleotide2 = display.getLocation().clone().subtract(x, -y, z);
+            display.spawn(-x, y, -z);
             
             // If it's the appropriate distance for two nucleotides to form a hydrogen bond.
             // We don't care about the type of nucleotide. It's going to be one bond only.
-            if ( nucleotideDist >= hydrogenBondDist ) {
+            if (nucleotideDist >= hydrogenBondDist){
                 nucleotideDist = 0;
-                line( nucleotide1 , nucleotide2 , rate * 2 , hydrogenBondDisplay );
+                line(nucleotide1, nucleotide2, rate * 2, hydrogenBondDisplay);
             }
         }
     }
@@ -1423,63 +1423,63 @@ public final class XEffect {
      *
      * @return the timer handling the animation.
      *
-     * @see #dna(double , double , double , int , int , EffectDisplay , EffectDisplay)
+     * @see #dna(double, double, double, int, int, EffectDisplay, EffectDisplay)
      * @since 3.0.0
      */
-    public static BukkitTask dnaReplication( JavaPlugin plugin , double radius , double rate , int speed , double extension ,
-                                             int height , int hydrogenBondDist , EffectDisplay display ){
+    public static BukkitTask dnaReplication(JavaPlugin plugin, double radius, double rate, int speed, double extension,
+                                            int height, int hydrogenBondDist, EffectDisplay display){
         // We'll use the common nucleotide colors.
-        EffectDisplay adenine = EffectDisplay.colored( null , java.awt.Color.BLUE , 1 ); // Blue
-        EffectDisplay thymine = EffectDisplay.colored( null , java.awt.Color.YELLOW , 1 ); // Yellow
-        EffectDisplay guanine = EffectDisplay.colored( null , java.awt.Color.GREEN , 1 ); // Green
-        EffectDisplay cytosine = EffectDisplay.colored( null , java.awt.Color.RED , 1 ); // Red
-        
-        return new BukkitRunnable( ) {
+        EffectDisplay adenine = EffectDisplay.colored(null, java.awt.Color.BLUE, 1); // Blue
+        EffectDisplay thymine = EffectDisplay.colored(null, java.awt.Color.YELLOW, 1); // Yellow
+        EffectDisplay guanine = EffectDisplay.colored(null, java.awt.Color.GREEN, 1); // Green
+        EffectDisplay cytosine = EffectDisplay.colored(null, java.awt.Color.RED, 1); // Red
+    
+        return new BukkitRunnable() {
             double y = 0;
             int nucleotideDist = 0;
-            
+        
             @Override
             public void run( ){
                 int repeat = speed;
                 while (repeat-- != 0) {
                     y += rate;
                     nucleotideDist++;
-                    
-                    double x = radius * Math.cos( extension * y );
-                    double z = radius * Math.sin( extension * y );
-                    Location nucleotide1 = display.getLocation( ).clone( ).add( x , y , z );
+                
+                    double x = radius * Math.cos(extension * y);
+                    double z = radius * Math.sin(extension * y);
+                    Location nucleotide1 = display.getLocation().clone().add(x, y, z);
                     //display.spawn(x, y, z);
-                    circle( 0.1 , 10 , display.cloneWithLocation( x , y , z ) );
-                    Location nucleotide2 = display.getLocation( ).clone( ).subtract( x , -y , z );
-                    circle( 0.1 , 10 , display.cloneWithLocation( -x , y , -z ) );
+                    circle(0.1, 10, display.cloneWithLocation(x, y, z));
+                    Location nucleotide2 = display.getLocation().clone().subtract(x, -y, z);
+                    circle(0.1, 10, display.cloneWithLocation(-x, y, -z));
                     //display.spawn(-x, y, -z);
-                    
+                
                     // We're going to find the midpoint of the two nucleotides so we can
                     // form our hydrogen bond.
                     // We'll convert locations to vectors since the midpoint method is only
                     // available for Vectors. Yes, we can still calculate the midpoint from locations too.
                     // Xm = (x1 + x2) / 2, Ym = (y1 + y2) / 2, Zm = (z1 + z2) / 2
-                    Location midPointBond = nucleotide1.toVector( ).midpoint( nucleotide2.toVector( ) ).toLocation( nucleotide1.getWorld( ) );
-                    
-                    if ( nucleotideDist >= hydrogenBondDist ) {
+                    Location midPointBond = nucleotide1.toVector().midpoint(nucleotide2.toVector()).toLocation(nucleotide1.getWorld());
+                
+                    if (nucleotideDist >= hydrogenBondDist){
                         nucleotideDist = 0;
-                        
+                    
                         // Adenine - Thymine
-                        if ( randInt( 0 , 1 ) == 1 ) {
-                            line( nucleotide1 , midPointBond , rate - 0.1 , adenine );
-                            line( nucleotide2 , midPointBond , rate - 0.1 , thymine );
+                        if (randInt(0, 1) == 1){
+                            line(nucleotide1, midPointBond, rate - 0.1, adenine);
+                            line(nucleotide2, midPointBond, rate - 0.1, thymine);
                         }
                         // Guanine - Cytosine
                         else {
-                            line( nucleotide1 , midPointBond , rate - 0.1 , cytosine );
-                            line( nucleotide2 , midPointBond , rate - 0.1 , guanine );
+                            line(nucleotide1, midPointBond, rate - 0.1, cytosine);
+                            line(nucleotide2, midPointBond, rate - 0.1, guanine);
                         }
                     }
-                    
-                    if ( y >= height ) cancel( );
+                
+                    if (y >= height) cancel();
                 }
             }
-        }.runTaskTimerAsynchronously( plugin , 0L , 1L );
+        }.runTaskTimerAsynchronously(plugin, 0L, 1L);
     }
     
     /**
@@ -1489,12 +1489,12 @@ public final class XEffect {
      * @param length the length of the line.
      * @param rate   the rate of points of the line.
      *
-     * @see #line(Location , Location , double , EffectDisplay)
+     * @see #line(Location, Location, double, EffectDisplay)
      * @since 1.0.0
      */
-    public static void drawLine( Player player , double length , double rate , EffectDisplay display ){
-        Location eye = player.getEyeLocation( );
-        line( eye , eye.clone( ).add( eye.getDirection( ).multiply( length ) ) , rate , display );
+    public static void drawLine(Player player, double length, double rate, EffectDisplay display){
+        Location eye = player.getEyeLocation();
+        line(eye, eye.clone().add(eye.getDirection().multiply(length)), rate, display);
     }
     
     /**
@@ -1508,14 +1508,14 @@ public final class XEffect {
      *
      * @since 1.0.0
      */
-    public static BukkitTask cloud( JavaPlugin plugin , EffectDisplay cloud , EffectDisplay rain ){
-        return new BukkitRunnable( ) {
+    public static BukkitTask cloud(JavaPlugin plugin, EffectDisplay cloud, EffectDisplay rain){
+        return new BukkitRunnable() {
             @Override
             public void run( ){
-                cloud.spawn( );
-                rain.spawn( );
+                cloud.spawn();
+                rain.spawn();
             }
-        }.runTaskTimerAsynchronously( plugin , 0L , 1L );
+        }.runTaskTimerAsynchronously(plugin, 0L, 1L);
     }
     
     /**
@@ -1527,27 +1527,27 @@ public final class XEffect {
      * @param end   the ending point of the line.
      * @param rate  the rate of points of the line.
      *
-     * @see #drawLine(Player , double , double , EffectDisplay)
+     * @see #drawLine(Player, double, double, EffectDisplay)
      * @since 1.0.0
      */
-    public static void line( Location start , Location end , double rate , EffectDisplay display ){
-        rate = Math.abs( rate );
-        double x = end.getX( ) - start.getX( );
-        double y = end.getY( ) - start.getY( );
-        double z = end.getZ( ) - start.getZ( );
-        double length = Math.sqrt( NumberConversions.square( x ) + NumberConversions.square( y ) + NumberConversions.square( z ) );
+    public static void line(Location start, Location end, double rate, EffectDisplay display){
+        rate = Math.abs(rate);
+        double x = end.getX() - start.getX();
+        double y = end.getY() - start.getY();
+        double z = end.getZ() - start.getZ();
+        double length = Math.sqrt(NumberConversions.square(x) + NumberConversions.square(y) + NumberConversions.square(z));
         
         x /= length;
         y /= length;
         z /= length;
         
-        EffectDisplay clone = display.clone( );
-        clone.withLocation( start );
-        for ( double i = 0; i < length; i += rate ) {
+        EffectDisplay clone = display.clone();
+        clone.withLocation(start);
+        for ( double i = 0; i < length; i += rate ){
             // Since the rate can be any number it's possible to get a higher number than
             // the length in the last loop.
-            if ( i > length ) i = length;
-            clone.spawn( x * i , y * i , z * i );
+            if (i > length) i = length;
+            clone.spawn(x * i, y * i, z * i);
         }
     }
     
@@ -1558,22 +1558,22 @@ public final class XEffect {
      * @param end   the ending point of the rectangle.
      * @param rate  the rate of the rectangle points.
      *
-     * @see #cube(Location , Location , double , EffectDisplay)
-     * @see #cage(Location , Location , double , double , EffectDisplay)
+     * @see #cube(Location, Location, double, EffectDisplay)
+     * @see #cage(Location, Location, double, double, EffectDisplay)
      * @since 3.0.0
      */
-    public static void rectangle( Location start , Location end , double rate , EffectDisplay display ){
-        display.withLocation( start );
-        double maxX = Math.max( start.getX( ) , end.getX( ) );
-        double minX = Math.min( start.getX( ) , end.getX( ) );
+    public static void rectangle(Location start, Location end, double rate, EffectDisplay display){
+        display.withLocation(start);
+        double maxX = Math.max(start.getX(), end.getX());
+        double minX = Math.min(start.getX(), end.getX());
         
-        double maxY = Math.max( start.getY( ) , end.getY( ) );
-        double minY = Math.min( start.getY( ) , end.getY( ) );
+        double maxY = Math.max(start.getY(), end.getY());
+        double minY = Math.min(start.getY(), end.getY());
         
         // A simple 2D Shape
-        for ( double x = minX; x <= maxX; x += rate ) {
-            for ( double y = minY; y <= maxY; y += rate ) {
-                display.spawn( x - minX , y - minY , 0 );
+        for ( double x = minX; x <= maxX; x += rate ){
+            for ( double y = minY; y <= maxY; y += rate ){
+                display.spawn(x - minX, y - minY, 0);
             }
         }
     }
@@ -1586,29 +1586,29 @@ public final class XEffect {
      * @param rate    the rate of cage two rectangles and the bar lines.
      * @param barRate the chance of bars for the cage.
      *
-     * @see #rectangle(Location , Location , double , EffectDisplay)
-     * @see #cylinder(double , double , double , EffectDisplay)
+     * @see #rectangle(Location, Location, double, EffectDisplay)
+     * @see #cylinder(double, double, double, EffectDisplay)
      * @since 3.0.0
      */
-    public static void cage( Location start , Location end , double rate , double barRate , EffectDisplay display ){
-        double maxX = Math.max( start.getX( ) , end.getX( ) );
-        double minX = Math.min( start.getX( ) , end.getX( ) );
+    public static void cage(Location start, Location end, double rate, double barRate, EffectDisplay display){
+        double maxX = Math.max(start.getX(), end.getX());
+        double minX = Math.min(start.getX(), end.getX());
         
-        double maxZ = Math.max( start.getZ( ) , end.getZ( ) );
-        double minZ = Math.min( start.getZ( ) , end.getZ( ) );
+        double maxZ = Math.max(start.getZ(), end.getZ());
+        double minZ = Math.min(start.getZ(), end.getZ());
         
         // Same thing as a rectangle.
         double barChance = 0;
-        for ( double x = minX; x <= maxX; x += rate ) {
-            for ( double z = minZ; z <= maxZ; z += rate ) {
-                Location barStart = display.spawn( x - minX , 0 , z - minZ );
-                Location barEnd = display.spawn( x - minX , 3 , z - minZ );
+        for ( double x = minX; x <= maxX; x += rate ){
+            for ( double z = minZ; z <= maxZ; z += rate ){
+                Location barStart = display.spawn(x - minX, 0, z - minZ);
+                Location barEnd = display.spawn(x - minX, 3, z - minZ);
                 
-                if ( (x == minX || x + rate > maxX) || (z == minZ || z + rate > maxZ) ) {
+                if ((x == minX || x + rate > maxX) || (z == minZ || z + rate > maxZ)){
                     barChance++;
-                    if ( barChance >= barRate ) {
+                    if (barChance >= barRate){
                         barChance = 0;
-                        line( barStart , barEnd , rate , display );
+                        line(barStart, barEnd, rate, display);
                     }
                 }
             }
@@ -1630,30 +1630,30 @@ public final class XEffect {
      * @param end   the ending point of the cube.
      * @param rate  the rate of cube points.
      *
-     * @see #cube(Location , Location , double , EffectDisplay)
-     * @see #structuredCube(Location , Location , double , EffectDisplay)
+     * @see #cube(Location, Location, double, EffectDisplay)
+     * @see #structuredCube(Location, Location, double, EffectDisplay)
      * @since 1.0.0
      */
-    public static void filledCube( Location start , Location end , double rate , EffectDisplay display ){
-        display.withLocation( start );
-        double maxX = Math.max( start.getX( ) , end.getX( ) );
-        double minX = Math.min( start.getX( ) , end.getX( ) );
-        
-        double maxY = Math.max( start.getY( ) , end.getY( ) );
-        double minY = Math.min( start.getY( ) , end.getY( ) );
-        
-        double maxZ = Math.max( start.getZ( ) , end.getZ( ) );
-        double minZ = Math.min( start.getZ( ) , end.getZ( ) );
-        
+    public static void filledCube(Location start, Location end, double rate, EffectDisplay display){
+        display.withLocation(start);
+        double maxX = Math.max(start.getX(), end.getX());
+        double minX = Math.min(start.getX(), end.getX());
+    
+        double maxY = Math.max(start.getY(), end.getY());
+        double minY = Math.min(start.getY(), end.getY());
+    
+        double maxZ = Math.max(start.getZ(), end.getZ());
+        double minZ = Math.min(start.getZ(), end.getZ());
+    
         // A simple 3D Shape.
         // This is really easy. You just have to loop
         // thro the z of each y and y of each x.
         // Although spawning 1D (line) and 2D (rectangle) shapes are possible
         // with this method alone, having them as separated methods is more efficient.
-        for ( double x = minX; x <= maxX; x += rate ) {
-            for ( double y = minY; y <= maxY; y += rate ) {
-                for ( double z = minZ; z <= maxZ; z += rate ) {
-                    display.spawn( x - minX , y - minY , z - minZ );
+        for ( double x = minX; x <= maxX; x += rate ){
+            for ( double y = minY; y <= maxY; y += rate ){
+                for ( double z = minZ; z <= maxZ; z += rate ){
+                    display.spawn(x - minX, y - minY, z - minZ);
                 }
             }
         }
@@ -1666,30 +1666,30 @@ public final class XEffect {
      * @param end   the ending point of the cube.
      * @param rate  the rate of cube points.
      *
-     * @see #filledCube(Location , Location , double , EffectDisplay)
-     * @see #structuredCube(Location , Location , double , EffectDisplay)
+     * @see #filledCube(Location, Location, double, EffectDisplay)
+     * @see #structuredCube(Location, Location, double, EffectDisplay)
      * @since 1.0.0
      */
-    public static void cube( Location start , Location end , double rate , EffectDisplay display ){
-        display.withLocation( start );
-        double maxX = Math.max( start.getX( ) , end.getX( ) );
-        double minX = Math.min( start.getX( ) , end.getX( ) );
+    public static void cube(Location start, Location end, double rate, EffectDisplay display){
+        display.withLocation(start);
+        double maxX = Math.max(start.getX(), end.getX());
+        double minX = Math.min(start.getX(), end.getX());
         
-        double maxY = Math.max( start.getY( ) , end.getY( ) );
-        double minY = Math.min( start.getY( ) , end.getY( ) );
+        double maxY = Math.max(start.getY(), end.getY());
+        double minY = Math.min(start.getY(), end.getY());
         
-        double maxZ = Math.max( start.getZ( ) , end.getZ( ) );
-        double minZ = Math.min( start.getZ( ) , end.getZ( ) );
+        double maxZ = Math.max(start.getZ(), end.getZ());
+        double minZ = Math.min(start.getZ(), end.getZ());
         
         // A simple 3D Shape.
-        for ( double x = minX; x <= maxX; x += rate ) {
-            for ( double y = minY; y <= maxY; y += rate ) {
-                for ( double z = minZ; z <= maxZ; z += rate ) {
+        for ( double x = minX; x <= maxX; x += rate ){
+            for ( double y = minY; y <= maxY; y += rate ){
+                for ( double z = minZ; z <= maxZ; z += rate ){
                     // We're going to filter the locations that are on the wall of the cube.
                     // So we don't fill the cube itself.
                     // Another way is to use 6 loops, one 2 axis loop for each side.
-                    if ( (y == minY || y + rate > maxY) || (x == minX || x + rate > maxX) || (z == minZ || z + rate > maxZ) ) {
-                        display.spawn( x - minX , y - minY , z - minZ );
+                    if ((y == minY || y + rate > maxY) || (x == minX || x + rate > maxX) || (z == minZ || z + rate > maxZ)){
+                        display.spawn(x - minX, y - minY, z - minZ);
                     }
                 }
             }
@@ -1703,33 +1703,33 @@ public final class XEffect {
      * @param end   the ending point of the cube.
      * @param rate  the rate of cube points.
      *
-     * @see #filledCube(Location , Location , double , EffectDisplay)
-     * @see #cube(Location , Location , double , EffectDisplay)
+     * @see #filledCube(Location, Location, double, EffectDisplay)
+     * @see #cube(Location, Location, double, EffectDisplay)
      * @since 1.0.0
      */
-    public static void structuredCube( Location start , Location end , double rate , EffectDisplay display ){
-        display.withLocation( start );
-        double maxX = Math.max( start.getX( ) , end.getX( ) );
-        double minX = Math.min( start.getX( ) , end.getX( ) );
+    public static void structuredCube(Location start, Location end, double rate, EffectDisplay display){
+        display.withLocation(start);
+        double maxX = Math.max(start.getX(), end.getX());
+        double minX = Math.min(start.getX(), end.getX());
         
-        double maxY = Math.max( start.getY( ) , end.getY( ) );
-        double minY = Math.min( start.getY( ) , end.getY( ) );
+        double maxY = Math.max(start.getY(), end.getY());
+        double minY = Math.min(start.getY(), end.getY());
         
-        double maxZ = Math.max( start.getZ( ) , end.getZ( ) );
-        double minZ = Math.min( start.getZ( ) , end.getZ( ) );
+        double maxZ = Math.max(start.getZ(), end.getZ());
+        double minZ = Math.min(start.getZ(), end.getZ());
         
         // A simple 3D Shape.
-        for ( double x = minX; x <= maxX; x += rate ) {
-            for ( double y = minY; y <= maxY; y += rate ) {
-                for ( double z = minZ; z <= maxZ; z += rate ) {
+        for ( double x = minX; x <= maxX; x += rate ){
+            for ( double y = minY; y <= maxY; y += rate ){
+                for ( double z = minZ; z <= maxZ; z += rate ){
                     // We only want the edges so we need to get the location
                     // where at least 2 xyz components are either min or max.
                     // Another way is to use 10 loops, one 1 axis loop for each side.
                     int components = 0;
-                    if ( x == minX || x + rate > maxX ) components++;
-                    if ( y == minY || y + rate > maxY ) components++;
-                    if ( z == minZ || z + rate > maxZ ) components++;
-                    if ( components >= 2 ) display.spawn( x - minX , y - minY , z - minZ );
+                    if (x == minX || x + rate > maxX) components++;
+                    if (y == minY || y + rate > maxY) components++;
+                    if (z == minZ || z + rate > maxZ) components++;
+                    if (components >= 2) display.spawn(x - minX, y - minY, z - minZ);
                 }
             }
         }
@@ -1749,63 +1749,63 @@ public final class XEffect {
      * @param sizeRate    the size
      * @param cubes       the dimension of the hypercube starting from 3D. E.g. {@code dimension 1 -> 4D tersseract}
      *
-     * @see #structuredCube(Location , Location , double , EffectDisplay)
-     * @see #tesseract(JavaPlugin , double , double , double , long , EffectDisplay)
+     * @see #structuredCube(Location, Location, double, EffectDisplay)
+     * @see #tesseract(JavaPlugin, double, double, double, long, EffectDisplay)
      * @since 1.0.0
      */
-    public static void hypercube( Location startOrigin , Location endOrigin , double rate , double sizeRate , int cubes , EffectDisplay display ){
+    public static void hypercube(Location startOrigin, Location endOrigin, double rate, double sizeRate, int cubes, EffectDisplay display){
         List < Location > previousPoints = null;
-        for ( int i = 0; i < cubes + 1; i++ ) {
-            List < Location > points = new ArrayList <>( 8 );
-            Location start = startOrigin.clone( ).subtract( i * sizeRate , i * sizeRate , i * sizeRate );
-            Location end = endOrigin.clone( ).add( i * sizeRate , i * sizeRate , i * sizeRate );
-            
-            display.withLocation( start );
-            double maxX = Math.max( start.getX( ) , end.getX( ) );
-            double minX = Math.min( start.getX( ) , end.getX( ) );
-            
-            double maxY = Math.max( start.getY( ) , end.getY( ) );
-            double minY = Math.min( start.getY( ) , end.getY( ) );
-            
-            double maxZ = Math.max( start.getZ( ) , end.getZ( ) );
-            double minZ = Math.min( start.getZ( ) , end.getZ( ) );
-            
+        for ( int i = 0; i < cubes + 1; i++ ){
+            List < Location > points = new ArrayList <>(8);
+            Location start = startOrigin.clone().subtract(i * sizeRate, i * sizeRate, i * sizeRate);
+            Location end = endOrigin.clone().add(i * sizeRate, i * sizeRate, i * sizeRate);
+        
+            display.withLocation(start);
+            double maxX = Math.max(start.getX(), end.getX());
+            double minX = Math.min(start.getX(), end.getX());
+        
+            double maxY = Math.max(start.getY(), end.getY());
+            double minY = Math.min(start.getY(), end.getY());
+        
+            double maxZ = Math.max(start.getZ(), end.getZ());
+            double minZ = Math.min(start.getZ(), end.getZ());
+        
             // We're going to hardcode the corner points.
             // M M M
-            points.add( new Location( start.getWorld( ) , maxX , maxY , maxZ ) );
+            points.add(new Location(start.getWorld(), maxX, maxY, maxZ));
             // m m m
-            points.add( new Location( start.getWorld( ) , minX , minY , minZ ) );
+            points.add(new Location(start.getWorld(), minX, minY, minZ));
             // M m M
-            points.add( new Location( start.getWorld( ) , maxX , minY , maxZ ) );
+            points.add(new Location(start.getWorld(), maxX, minY, maxZ));
             // m M m
-            points.add( new Location( start.getWorld( ) , minX , maxY , minZ ) );
+            points.add(new Location(start.getWorld(), minX, maxY, minZ));
             // m m M
-            points.add( new Location( start.getWorld( ) , minX , minY , maxZ ) );
+            points.add(new Location(start.getWorld(), minX, minY, maxZ));
             // M m m
-            points.add( new Location( start.getWorld( ) , maxX , minY , minZ ) );
+            points.add(new Location(start.getWorld(), maxX, minY, minZ));
             // M M m
-            points.add( new Location( start.getWorld( ) , maxX , maxY , minZ ) );
+            points.add(new Location(start.getWorld(), maxX, maxY, minZ));
             // m M M
-            points.add( new Location( start.getWorld( ) , minX , maxY , maxZ ) );
-            
-            if ( previousPoints != null ) {
-                for ( int p = 0; p < 8; p++ ) {
-                    Location current = points.get( p );
-                    Location previous = previousPoints.get( p );
-                    line( previous , current , rate , display );
+            points.add(new Location(start.getWorld(), minX, maxY, maxZ));
+        
+            if (previousPoints != null){
+                for ( int p = 0; p < 8; p++ ){
+                    Location current = points.get(p);
+                    Location previous = previousPoints.get(p);
+                    line(previous, current, rate, display);
                 }
             }
             previousPoints = points;
-            
+        
             // Same thing as a structured cube.
-            for ( double x = minX; x <= maxX; x += rate ) {
-                for ( double y = minY; y <= maxY; y += rate ) {
-                    for ( double z = minZ; z <= maxZ; z += rate ) {
+            for ( double x = minX; x <= maxX; x += rate ){
+                for ( double y = minY; y <= maxY; y += rate ){
+                    for ( double z = minZ; z <= maxZ; z += rate ){
                         int components = 0;
-                        if ( x == minX || x + rate > maxX ) components++;
-                        if ( y == minY || y + rate > maxY ) components++;
-                        if ( z == minZ || z + rate > maxZ ) components++;
-                        if ( components >= 2 ) display.spawn( x - minX , y - minY , z - minZ );
+                        if (x == minX || x + rate > maxX) components++;
+                        if (y == minY || y + rate > maxY) components++;
+                        if (z == minZ || z + rate > maxZ) components++;
+                        if (components >= 2) display.spawn(x - minX, y - minY, z - minZ);
                     }
                 }
             }
@@ -1827,22 +1827,22 @@ public final class XEffect {
      * @param speed  the speed of the tesseract matrix motion. Recommended is 0.01
      * @param ticks  the amount of ticks to keep the animation.
      *
-     * @see #hypercube(Location , Location , double , double , int , EffectDisplay)
+     * @see #hypercube(Location, Location, double, double, int, EffectDisplay)
      * @since 4.0.0
      */
-    public static BukkitTask tesseract( JavaPlugin plugin , double size , double rate , double speed , long ticks , EffectDisplay display ){
+    public static BukkitTask tesseract(JavaPlugin plugin, double size, double rate, double speed, long ticks, EffectDisplay display){
         // We can multiply these later to change the size.
         // This array doesn't really need to be a constant as it's initialized once.
         double[][] positions = {
-                {-1 , -1 , -1 , 1} , {1 , -1 , -1 , 1} ,
-                {1 , 1 , -1 , 1} , {-1 , 1 , -1 , 1} ,
-                {-1 , -1 , 1 , 1} , {1 , -1 , 1 , 1} ,
-                {1 , 1 , 1 , 1} , {-1 , 1 , 1 , 1} ,
-                
-                {-1 , -1 , -1 , -1} , {1 , -1 , -1 , -1} ,
-                {1 , 1 , -1 , -1} , {-1 , 1 , -1 , -1} ,
-                {-1 , -1 , 1 , -1} , {1 , -1 , 1 , -1} ,
-                {1 , 1 , 1 , -1} , {-1 , 1 , 1 , -1} ,
+                {-1, -1, -1, 1}, {1, -1, -1, 1},
+                {1, 1, -1, 1}, {-1, 1, -1, 1},
+                {-1, -1, 1, 1}, {1, -1, 1, 1},
+                {1, 1, 1, 1}, {-1, 1, 1, 1},
+            
+                {-1, -1, -1, -1}, {1, -1, -1, -1},
+                {1, 1, -1, -1}, {-1, 1, -1, -1},
+                {-1, -1, 1, -1}, {1, -1, 1, -1},
+                {1, 1, 1, -1}, {-1, 1, 1, -1},
         };
 
 //        BiFunction<Double, Double, Double> reverseMatrix = (a, b) -> {
@@ -1854,7 +1854,7 @@ public final class XEffect {
 //        List<double[]> original = new ArrayList<>(Arrays.asList(positions));
 //        List<double[]> points = new ArrayList<>(original);
 //        List<double[]> rev = new ArrayList<>(original);
-        List < int[] > connections = new ArrayList <>( );
+        List < int[] > connections = new ArrayList <>();
 //
 //        double dist = 0;
 //        Collections.reverse(rev);
@@ -1870,77 +1870,77 @@ public final class XEffect {
         // Connect the generated 4D points together.
         // This can later be modified to support multi-dimension hypercubes.
         int level = 1;
-        for ( int h = 0; h <= level; h++ ) {
+        for ( int h = 0; h <= level; h++ ){
             int start = 8 * h;
-            for ( int i = start; i < start + 4; i++ ) {
-                connections.add( new int[]{i , ((i + 1) % 4) + start} );
-                connections.add( new int[]{i + 4 , (((i + 1) % 4) + 4) + start} );
-                connections.add( new int[]{i , i + 4} );
+            for ( int i = start; i < start + 4; i++ ){
+                connections.add(new int[]{i, ((i + 1) % 4) + start});
+                connections.add(new int[]{i + 4, (((i + 1) % 4) + 4) + start});
+                connections.add(new int[]{i, i + 4});
             }
         }
-        for ( int i = 0; i < (level + 1) * 4; i++ ) connections.add( new int[]{i , i + 8} );
-        
-        return new BukkitRunnable( ) {
+        for ( int i = 0; i < (level + 1) * 4; i++ ) connections.add(new int[]{i, i + 8});
+    
+        return new BukkitRunnable() {
             double angle = 0;
             long repeat = 0;
-            
+        
             @Override
             public void run( ){
-                double cos = Math.cos( angle );
-                double sin = Math.sin( angle );
-                
+                double cos = Math.cos(angle);
+                double sin = Math.sin(angle);
+            
                 // https://en.wikipedia.org/wiki/Rotation_matrix
                 double[][] rotationXY = {
-                        {cos , -sin , 0 , 0} ,
-                        {sin , cos , 0 , 0} ,
-                        {0 , 0 , 1 , 0} ,
-                        {0 , 0 , 0 , 1}
+                        {cos, -sin, 0, 0},
+                        {sin, cos, 0, 0},
+                        {0, 0, 1, 0},
+                        {0, 0, 0, 1}
                 };
-                
+            
                 // What does it mean to rotate a shape in the w (4th) axis?
                 double[][] rotationZW = {
-                        {1 , 0 , 0 , 0} ,
-                        {0 , 1 , 0 , 0} ,
-                        {0 , 0 , cos , -sin} ,
-                        {0 , 0 , sin , cos}
+                        {1, 0, 0, 0},
+                        {0, 1, 0, 0},
+                        {0, 0, cos, -sin},
+                        {0, 0, sin, cos}
                 };
                 
                 double[][] projected3D = new double[positions.length][4];
-                for ( int i = 0; i < positions.length; i++ ) {
+                for ( int i = 0; i < positions.length; i++ ){
                     // To get the prototype version simply rotate the
                     // cube by using the display.rotate method in one of the axis.
                     double[] point = positions[i];
-                    double[] rotated = matrix( rotationXY , point );
-                    rotated = matrix( rotationZW , rotated );
-                    
+                    double[] rotated = matrix(rotationXY, point);
+                    rotated = matrix(rotationZW, rotated);
+                
                     int distance = 2;
                     double w = 1 / (distance - rotated[3]);
                     double[][] projection = {
-                            {w , 0 , 0 , 0} ,
-                            {0 , w , 0 , 0} ,
-                            {0 , 0 , w , 0}
+                            {w, 0, 0, 0},
+                            {0, w, 0, 0},
+                            {0, 0, w, 0}
                     };
-                    
-                    double[] projected = matrix( projection , rotated );
+                
+                    double[] projected = matrix(projection, rotated);
                     for ( int proj = 0; proj < projected.length; proj++ ) projected[proj] *= size;
                     projected3D[i] = projected;
-                    
-                    display.spawn( projected[0] , projected[1] , projected[2] );
-                }
                 
-                for ( int[] connection : connections ) {
+                    display.spawn(projected[0], projected[1], projected[2]);
+                }
+            
+                for ( int[] connection : connections ){
                     // Get the points of our tesseract and connect the two points using our line method.
                     double[] pointA = projected3D[connection[0]];
                     double[] pointB = projected3D[connection[1]];
-                    Location start = display.cloneLocation( pointA[0] , pointA[1] , pointA[2] );
-                    Location end = display.cloneLocation( pointB[0] , pointB[1] , pointB[2] );
-                    line( start , end , rate , display );
+                    Location start = display.cloneLocation(pointA[0], pointA[1], pointA[2]);
+                    Location end = display.cloneLocation(pointB[0], pointB[1], pointB[2]);
+                    line(start, end, rate, display);
                 }
-                
-                if ( ++repeat > ticks ) cancel( );
+            
+                if (++repeat > ticks) cancel();
                 else angle += speed;
             }
-        }.runTaskTimerAsynchronously( plugin , 0L , 1L );
+        }.runTaskTimerAsynchronously(plugin, 0L, 1L);
     }
     
     /**
@@ -1949,7 +1949,7 @@ public final class XEffect {
      *
      * @since 4.0.0
      */
-    private static double[] matrix( double[][] a , double[] m ){
+    private static double[] matrix(double[][] a, double[] m){
         double[][] b = new double[4][1];
         b[0][0] = m[0];
         b[1][0] = m[1];
@@ -1962,10 +1962,10 @@ public final class XEffect {
         int rowsB = b.length;
         
         double[][] result = new double[rowsA][rowsB];
-        for ( int i = 0; i < rowsA; i++ ) {
-            for ( int j = 0; j < colsB; j++ ) {
+        for ( int i = 0; i < rowsA; i++ ){
+            for ( int j = 0; j < colsB; j++ ){
                 float sum = 0;
-                for ( int k = 0; k < colsA; k++ ) {
+                for ( int k = 0; k < colsA; k++ ){
                     sum += a[i][k] * b[k][j];
                 }
                 result[i][j] = sum;
@@ -1976,7 +1976,7 @@ public final class XEffect {
         v[0] = result[0][0];
         v[1] = result[1][0];
         v[2] = result[2][0];
-        if ( result.length > 3 ) v[3] = result[3][0];
+        if (result.length > 3) v[3] = result[3][0];
         return v;
     }
     
@@ -1993,14 +1993,14 @@ public final class XEffect {
      *
      * @since 4.0.0
      */
-    public static void mandelbrot( double size , double zoom , double rate , double x0 , double y0 , int color , EffectDisplay display ){
-        for ( double y = -size; y < size; y += rate ) {
-            for ( double x = -size; x < size; x += rate ) {
+    public static void mandelbrot(double size, double zoom, double rate, double x0, double y0, int color, EffectDisplay display){
+        for ( double y = -size; y < size; y += rate ){
+            for ( double x = -size; x < size; x += rate ){
                 double zy = 0;
                 double zx = 0;
                 double cX = (x - x0) / zoom;
                 double cY = (y - y0) / zoom;
-                
+            
                 int iteration = color; // Max iterations
                 while (zx * zx + zy * zy <= 4 && iteration > 0) {
                     double xtemp = zx * zx - zy * zy + cX;
@@ -2008,10 +2008,10 @@ public final class XEffect {
                     zx = xtemp;
                     iteration--;
                 }
-                
-                if ( iteration != 0 ) continue;
+            
+                if (iteration != 0) continue;
                 //Color color = new Color(iteration | (iteration << 8));
-                display.spawn( x , y , 0 );
+                display.spawn(x, y, 0);
             }
         }
     }
@@ -2027,18 +2027,18 @@ public final class XEffect {
      * @param moveY       the amount to move in the y axis.
      * @param display     The particle should be {@link ParticleEffect#WATER_DROP}
      *
-     * @see #mandelbrot(double , double , double , double , double , int , EffectDisplay)
+     * @see #mandelbrot(double, double, double, double, double, int, EffectDisplay)
      * @since 4.0.0
      */
-    public static void julia( double size , double zoom , int colorScheme , double moveX , double moveY , EffectDisplay display ){
+    public static void julia(double size, double zoom, int colorScheme, double moveX, double moveY, EffectDisplay display){
         double cx = -0.7;
         double cy = 0.27015;
-        
-        for ( double x = -size; x < size; x += 0.1 ) {
-            for ( double y = -size; y < size; y += 0.1 ) {
+    
+        for ( double x = -size; x < size; x += 0.1 ){
+            for ( double y = -size; y < size; y += 0.1 ){
                 double zx = 1.5 * (size - size / 2) / (0.5 * zoom * size) + moveX;
                 double zy = (y - size / 2) / (0.5 * zoom * size) + moveY;
-                
+            
                 int i = colorScheme;
                 while (zx * zx + zy * zy < 4 && i > 0) {
                     double xtemp = zx * zx - zy * zy + cx;//Math.pow((zx * zx + zy * zy), (n / 2)) * (Math.cos(n * Math.atan2(zy, zx))) + cx;
@@ -2046,10 +2046,10 @@ public final class XEffect {
                     zx = xtemp;
                     i--;
                 }
-                java.awt.Color color = new java.awt.Color( (i << 21) + (i << 10) + i * 8 );
-                
-                display.withColor( color , 0.8f )
-                        .spawn( x , y , 0 );
+                java.awt.Color color = new java.awt.Color((i << 21) + (i << 10) + i * 8);
+            
+                display.withColor(color, 0.8f)
+                        .spawn(x, y, 0);
             }
         }
     }
@@ -2071,50 +2071,50 @@ public final class XEffect {
      * @param prototype   if the spikes of the star should use helix instead of a random generator.
      * @param speed       the speed of animation. Smoothest/slowest is 1
      *
-     * @see #spikeSphere(double , double , int , double , double , EffectDisplay)
+     * @see #spikeSphere(double, double, int, double, double, EffectDisplay)
      * @since 3.0.0
      */
-    public static void star( JavaPlugin plugin , int points , int spikes , double rate , double spikeLength , double coreRadius ,
-                             double neuron , boolean prototype , int speed , EffectDisplay display ){
+    public static void star(JavaPlugin plugin, int points, int spikes, double rate, double spikeLength, double coreRadius,
+                            double neuron, boolean prototype, int speed, EffectDisplay display){
         double pointsRate = PII / points;
         double rateDiv = Math.PI / rate;
-        ThreadLocalRandom random = prototype ? null : ThreadLocalRandom.current( );
-        
-        for ( int i = 0; i < spikes * 2; i++ ) {
+        ThreadLocalRandom random = prototype ? null : ThreadLocalRandom.current();
+    
+        for ( int i = 0; i < spikes * 2; i++ ){
             double spikeAngle = i * Math.PI / spikes;
-            
-            new BukkitRunnable( ) {
+        
+            new BukkitRunnable() {
                 double vein = 0;
                 double theta = 0;
-                
+            
                 @Override
                 public void run( ){
                     int repeat = speed;
                     while (repeat-- != 0) {
                         theta += rateDiv;
-                        
+                    
                         // We're going to spawn little circles to create our spikes.
                         // Spawning them with a random radius.
-                        double height = (prototype ? vein : random.nextDouble( 0 , neuron )) * spikeLength;
-                        if ( prototype ) vein += neuron;
-                        Vector vector = new Vector( Math.cos( theta ) , 0 , Math.sin( theta ) );
-                        
+                        double height = (prototype ? vein : random.nextDouble(0, neuron)) * spikeLength;
+                        if (prototype) vein += neuron;
+                        Vector vector = new Vector(Math.cos(theta), 0, Math.sin(theta));
+                    
                         // We don't want to fill the inside circle.
-                        vector.multiply( (spikeLength - height) * coreRadius / spikeLength );
-                        vector.setY( coreRadius + height );
-                        
+                        vector.multiply((spikeLength - height) * coreRadius / spikeLength);
+                        vector.setY(coreRadius + height);
+                    
                         // Rotate the vector for the next spike.
-                        EffectDisplay.rotateAround( vector , EffectDisplay.Axis.X , spikeAngle );
-                        for ( int j = 0; j < points; j++ ) {
+                        EffectDisplay.rotateAround(vector, EffectDisplay.Axis.X, spikeAngle);
+                        for ( int j = 0; j < points; j++ ){
                             // Rotate the spikes to copy them with equal angles.
-                            EffectDisplay.rotateAround( vector , EffectDisplay.Axis.Y , pointsRate );
-                            display.spawn( vector );
+                            EffectDisplay.rotateAround(vector, EffectDisplay.Axis.Y, pointsRate);
+                            display.spawn(vector);
                         }
-                        
-                        if ( theta >= PII ) cancel( );
+                    
+                        if (theta >= PII) cancel();
                     }
                 }
-            }.runTaskTimerAsynchronously( plugin , 0L , 1L );
+            }.runTaskTimerAsynchronously(plugin, 0L, 1L);
         }
     }
     
@@ -2128,16 +2128,16 @@ public final class XEffect {
      *
      * @since 4.0.0
      */
-    public static void eye( double radius , double radius2 , double rate , double extension , EffectDisplay display ){
+    public static void eye(double radius, double radius2, double rate, double extension, EffectDisplay display){
         double rateDiv = Math.PI / rate;
         double limit = Math.PI / extension;
         double x = 0;
         
-        for ( double i = 0; i < limit; i += rateDiv ) {
-            double y = radius * Math.sin( extension * i );
-            double y2 = radius2 * Math.sin( extension * -i );
-            display.spawn( x , y , 0 );
-            display.spawn( x , y2 , 0 );
+        for ( double i = 0; i < limit; i += rateDiv ){
+            double y = radius * Math.sin(extension * i);
+            double y2 = radius2 * Math.sin(extension * -i);
+            display.spawn(x, y, 0);
+            display.spawn(x, y2, 0);
             x += 0.1;
         }
     }
@@ -2150,11 +2150,11 @@ public final class XEffect {
      *
      * @since 4.0.0
      */
-    public static void illuminati( double size , double extension , EffectDisplay display ){
-        polygon( 3 , 1 , size , 1 / (size * 30) , 0 , display );
+    public static void illuminati(double size, double extension, EffectDisplay display){
+        polygon(3, 1, size, 1 / (size * 30), 0, display);
         // It'd be really hard to automatically adjust the extension based on the size.
-        eye( size / 4 , size / 4 , 30 , extension , display.cloneWithLocation( 0.3 , 0 , size / 1.8 ).rotate( Math.PI / 2 , Math.PI / 2 , 0 ) );
-        circle( size / 5 , size * 5 , display.cloneWithLocation( 0.3 , 0 , 0 ) );
+        eye(size / 4, size / 4, 30, extension, display.cloneWithLocation(0.3, 0, size / 1.8).rotate(Math.PI / 2, Math.PI / 2, 0));
+        circle(size / 5, size * 5, display.cloneWithLocation(0.3, 0, 0));
     }
     
     
@@ -2170,31 +2170,31 @@ public final class XEffect {
      *
      * @since 1.0.0
      */
-    public static void polygon( int points , int connection , double size , double rate , double extend , EffectDisplay display ){
-        for ( int point = 0; point < points; point++ ) {
+    public static void polygon(int points, int connection, double size, double rate, double extend, EffectDisplay display){
+        for ( int point = 0; point < points; point++ ){
             // Generate our points in a circle shaped area.
-            double angle = Math.toRadians( 360D / points * point );
+            double angle = Math.toRadians(360D / points * point);
             // Our next point to connect to the previous one.
             // So if you don't want them to connect you can just skip the rest.
-            double nextAngle = Math.toRadians( 360D / points * (point + connection) );
-            
+            double nextAngle = Math.toRadians(360D / points * (point + connection));
+        
             // Size is basically the circle's radius.
             // Get our X and Z position based on the angle of the point.
-            double x = Math.cos( angle ) * size;
-            double z = Math.sin( angle ) * size;
-            
-            double x2 = Math.cos( nextAngle ) * size;
-            double z2 = Math.sin( nextAngle ) * size;
-            
+            double x = Math.cos(angle) * size;
+            double z = Math.sin(angle) * size;
+        
+            double x2 = Math.cos(nextAngle) * size;
+            double z2 = Math.sin(nextAngle) * size;
+        
             // The distance between one point to another.
             double deltaX = x2 - x;
             double deltaZ = z2 - z;
-            
+        
             // Connect the points.
             // Extend value is a little complicated Idk how to explain it.
             // Might be related: https://en.wikipedia.org/wiki/Hypercube
-            for ( double pos = 0; pos < 1 + extend; pos += rate ) {
-                display.spawn( x + (deltaX * pos) , 0 , z + (deltaZ * pos) );
+            for ( double pos = 0; pos < 1 + extend; pos += rate ){
+                display.spawn(x + (deltaX * pos), 0, z + (deltaZ * pos));
             }
         }
     }
@@ -2202,13 +2202,13 @@ public final class XEffect {
     /**
      * https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Pentagram_within_circle.svg/800px-Pentagram_within_circle.svg.png
      *
-     * @see #polygon(int , int , double , double , double , EffectDisplay)
-     * @see #circle(double , double , EffectDisplay)
+     * @see #polygon(int, int, double, double, double, EffectDisplay)
+     * @see #circle(double, double, EffectDisplay)
      * @since 1.0.0
      */
-    public static void neopaganPentagram( double size , double rate , double extend , EffectDisplay star , EffectDisplay circle ){
-        polygon( 5 , 2 , size , rate , extend , star );
-        circle( size + 0.5 , rate * 1000 , circle );
+    public static void neopaganPentagram(double size, double rate, double extend, EffectDisplay star, EffectDisplay circle){
+        polygon(5, 2, size, rate, extend, star);
+        circle(size + 0.5, rate * 1000, circle);
     }
     
     /**
@@ -2218,18 +2218,18 @@ public final class XEffect {
      * @param radius the radius of orbits.
      * @param rate   the rate of orbit and nucleus points.
      *
-     * @see #atomic(JavaPlugin , int , double , double , EffectDisplay)
+     * @see #atomic(JavaPlugin, int, double, double, EffectDisplay)
      * @since 1.0.0
      */
-    public static void atom( int orbits , double radius , double rate , EffectDisplay orbit , EffectDisplay nucleus ){
+    public static void atom(int orbits, double radius, double rate, EffectDisplay orbit, EffectDisplay nucleus){
         double dist = Math.PI / orbits;
-        for ( double angle = 0; orbits > 0; angle += dist ) {
-            orbit.setRotation( new Vector( 0 , 0 , angle ) );
-            circle( radius , rate , orbit );
+        for ( double angle = 0; orbits > 0; angle += dist ){
+            orbit.setRotation(new Vector(0, 0, angle));
+            circle(radius, rate, orbit);
             orbits--;
         }
         
-        sphere( radius / 3 , rate / 2 , nucleus );
+        sphere(radius / 3, rate / 2, nucleus);
     }
     
     /**
@@ -2239,15 +2239,15 @@ public final class XEffect {
      *
      * @param size the shape of the explosion circle. Recommended value is 6
      *
-     * @see #polygon(int , int , double , double , double , EffectDisplay)
-     * @see #circle(double , double , EffectDisplay)
+     * @see #polygon(int, int, double, double, double, EffectDisplay)
+     * @see #circle(double, double, EffectDisplay)
      * @since 1.0.0
      */
-    public static void meguminExplosion( JavaPlugin plugin , double size , EffectDisplay display ){
-        polygon( 10 , 4 , size , 0.02 , 0.3 , display );
-        polygon( 10 , 3 , size / (size - 1) , 0.5 , 0 , display );
-        circle( size , 40 , display );
-        spread( plugin , 30 , 2 , display.getLocation( ) , display.getLocation( ).clone( ).add( 0 , 10 , 0 ) , 5 , 5 , 5 , display );
+    public static void meguminExplosion(JavaPlugin plugin, double size, EffectDisplay display){
+        polygon(10, 4, size, 0.02, 0.3, display);
+        polygon(10, 3, size / (size - 1), 0.5, 0, display);
+        circle(size, 40, display);
+        spread(plugin, 30, 2, display.getLocation(), display.getLocation().clone().add(0, 10, 0), 5, 5, 5, display);
     }
     
     /**
@@ -2258,30 +2258,30 @@ public final class XEffect {
      *
      * @since 1.0.0
      */
-    public static BukkitTask explosionWave( JavaPlugin plugin , double rate , EffectDisplay display , EffectDisplay secDisplay ){
-        return new BukkitRunnable( ) {
+    public static BukkitTask explosionWave(JavaPlugin plugin, double rate, EffectDisplay display, EffectDisplay secDisplay){
+        return new BukkitRunnable() {
             final double addition = Math.PI * 0.1;
             final double rateDiv = Math.PI / rate;
             double times = Math.PI / 4;
             
             public void run( ){
                 times += addition;
-                for ( double theta = 0; theta <= PII; theta += rateDiv ) {
-                    double x = times * Math.cos( theta );
-                    double y = 2 * Math.exp( -0.1 * times ) * Math.sin( times ) + 1.5;
-                    double z = times * Math.sin( theta );
-                    display.spawn( x , y , z );
+                for ( double theta = 0; theta <= PII; theta += rateDiv ){
+                    double x = times * Math.cos(theta);
+                    double y = 2 * Math.exp(-0.1 * times) * Math.sin(times) + 1.5;
+                    double z = times * Math.sin(theta);
+                    display.spawn(x, y, z);
                     
                     theta = theta + Math.PI / 64;
-                    x = times * Math.cos( theta );
+                    x = times * Math.cos(theta);
                     //y = 2 * Math.exp(-0.1 * times) * Math.sin(times) + 1.5;
-                    z = times * Math.sin( theta );
-                    secDisplay.spawn( x , y , z );
+                    z = times * Math.sin(theta);
+                    secDisplay.spawn(x, y, z);
                 }
                 
-                if ( times > 20 ) cancel( );
+                if (times > 20) cancel();
             }
-        }.runTaskTimerAsynchronously( plugin , 0L , 1L );
+        }.runTaskTimerAsynchronously(plugin, 0L, 1L);
     }
     
     /**
@@ -2293,12 +2293,12 @@ public final class XEffect {
      *
      * @since 1.0.0
      */
-    private static BufferedImage getImage( Path path ){
-        if ( !Files.exists( path ) ) return null;
+    private static BufferedImage getImage(Path path){
+        if (!Files.exists(path)) return null;
         try {
-            return ImageIO.read( Files.newInputStream( path , StandardOpenOption.READ ) );
-        } catch ( IOException e ) {
-            e.printStackTrace( );
+            return ImageIO.read(Files.newInputStream(path, StandardOpenOption.READ));
+        } catch (IOException e) {
+            e.printStackTrace();
             return null;
         }
     }
@@ -2314,30 +2314,30 @@ public final class XEffect {
      *
      * @since 1.0.0
      */
-    private static CompletableFuture < BufferedImage > getScaledImage( Path path , int width , int height ){
-        return CompletableFuture.supplyAsync( ( ) -> {
-            BufferedImage image = getImage( path );
-            if ( image == null ) return null;
+    private static CompletableFuture < BufferedImage > getScaledImage(Path path, int width, int height){
+        return CompletableFuture.supplyAsync(( ) -> {
+            BufferedImage image = getImage(path);
+            if (image == null) return null;
             int finalHeight = height;
             int finalWidth = width;
-            
-            if ( image.getWidth( ) > image.getHeight( ) ) {
-                finalHeight = width * image.getHeight( ) / image.getWidth( );
+        
+            if (image.getWidth() > image.getHeight()){
+                finalHeight = width * image.getHeight() / image.getWidth();
             } else {
-                finalWidth = height * image.getWidth( ) / image.getHeight( );
+                finalWidth = height * image.getWidth() / image.getHeight();
             }
-            
-            BufferedImage resizedImg = new BufferedImage( width , height , BufferedImage.TYPE_INT_ARGB );
-            Graphics2D graphics = resizedImg.createGraphics( );
-            
-            graphics.setRenderingHint( RenderingHints.KEY_INTERPOLATION , RenderingHints.VALUE_INTERPOLATION_BILINEAR );
-            graphics.setRenderingHint( RenderingHints.KEY_RENDERING , RenderingHints.VALUE_RENDER_QUALITY );
-            graphics.setRenderingHint( RenderingHints.KEY_ANTIALIASING , RenderingHints.VALUE_ANTIALIAS_ON );
-            
-            graphics.drawImage( image , 0 , 0 , finalWidth , finalHeight , null );
-            graphics.dispose( );
+        
+            BufferedImage resizedImg = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+            Graphics2D graphics = resizedImg.createGraphics();
+        
+            graphics.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+            graphics.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+            graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        
+            graphics.drawImage(image, 0, 0, finalWidth, finalHeight, null);
+            graphics.dispose();
             return resizedImg;
-        } );
+        });
     }
     
     /**
@@ -2352,8 +2352,8 @@ public final class XEffect {
      *
      * @since 1.0.0
      */
-    public static CompletableFuture < Map < double[], Color > > renderImage( Path path , int resizedWidth , int resizedHeight , double compact ){
-        return getScaledImage( path , resizedWidth , resizedHeight ).thenCompose( ( image ) -> renderImage( image , resizedWidth , resizedHeight , compact ) );
+    public static CompletableFuture < Map < double[], Color > > renderImage(Path path, int resizedWidth, int resizedHeight, double compact){
+        return getScaledImage(path, resizedWidth, resizedHeight).thenCompose((image) -> renderImage(image, resizedWidth, resizedHeight, compact));
     }
     
     /**
@@ -2370,39 +2370,39 @@ public final class XEffect {
      * @since 1.0.0
      */
     @SuppressWarnings("unused")
-    public static CompletableFuture < Map < double[], Color > > renderImage( BufferedImage image , int resizedWidth , int resizedHeight , double compact ){
-        return CompletableFuture.supplyAsync( ( ) -> {
-            if ( image == null ) return null;
-            
-            int width = image.getWidth( );
-            int height = image.getHeight( );
+    public static CompletableFuture < Map < double[], Color > > renderImage(BufferedImage image, int resizedWidth, int resizedHeight, double compact){
+        return CompletableFuture.supplyAsync(( ) -> {
+            if (image == null) return null;
+        
+            int width = image.getWidth();
+            int height = image.getHeight();
             double centerX = width / 2D;
             double centerY = height / 2D;
-            
-            Map < double[], Color > rendered = new HashMap <>( );
-            for ( int y = 0; y < height; y++ ) {
-                for ( int x = 0; x < width; x++ ) {
-                    int pixel = image.getRGB( x , y );
-                    
+        
+            Map < double[], Color > rendered = new HashMap <>();
+            for ( int y = 0; y < height; y++ ){
+                for ( int x = 0; x < width; x++ ){
+                    int pixel = image.getRGB(x, y);
+                
                     // Transparency
-                    if ( (pixel >> 24) == 0x0 ) continue;
+                    if ((pixel >> 24) == 0x0) continue;
                     // 0 - 255
                     //if ((pixel & 0xff000000) >>> 24 == 0) continue;
                     // 0.0 - 1.0
                     //if (pixel == java.awt.Color.TRANSLUCENT) continue;
-                    
-                    java.awt.Color color = new java.awt.Color( pixel );
-                    int r = color.getRed( );
-                    int g = color.getGreen( );
-                    int b = color.getBlue( );
-                    
-                    double[] coords = {(x - centerX) * compact , (y - centerY) * compact};
-                    Color bukkitColor = Color.fromRGB( r , g , b );
-                    rendered.put( coords , bukkitColor );
+                
+                    java.awt.Color color = new java.awt.Color(pixel);
+                    int r = color.getRed();
+                    int g = color.getGreen();
+                    int b = color.getBlue();
+                
+                    double[] coords = {(x - centerX) * compact, (y - centerY) * compact};
+                    Color bukkitColor = Color.fromRGB(r, g, b);
+                    rendered.put(coords, bukkitColor);
                 }
             }
             return rendered;
-        } );
+        });
     }
     
     /**
@@ -2421,21 +2421,21 @@ public final class XEffect {
      *
      * @since 1.0.0
      */
-    public static BukkitTask displayRenderedImage( JavaPlugin plugin , Map < double[], Color > render , Callable < Location > location ,
-                                                   int repeat , long period , int quality , int speed , float size ){
-        return new BukkitRunnable( ) {
+    public static BukkitTask displayRenderedImage(JavaPlugin plugin, Map < double[], Color > render, Callable < Location > location,
+                                                  int repeat, long period, int quality, int speed, float size){
+        return new BukkitRunnable() {
             int times = repeat;
-            
+        
             @Override
             public void run( ){
                 try {
-                    displayRenderedImage( render , location.call( ) , quality , speed , size );
-                } catch ( Exception e ) {
-                    e.printStackTrace( );
+                    displayRenderedImage(render, location.call(), quality, speed, size);
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-                if ( times-- < 1 ) cancel( );
+                if (times-- < 1) cancel();
             }
-        }.runTaskTimerAsynchronously( plugin , 0L , period );
+        }.runTaskTimerAsynchronously(plugin, 0L, period);
     }
     
     /**
@@ -2449,23 +2449,23 @@ public final class XEffect {
      *
      * @since 1.0.0
      */
-    public static void displayRenderedImage( Map < double[], Color > render , Location location , int quality , int speed , float size ){
-        World world = location.getWorld( );
-        for ( Map.Entry < double[], Color > pixel : render.entrySet( ) ) {
-            
-            DustData data = new DustData( pixel.getValue( ).getRed( ) , pixel.getValue( ).getGreen( ) , pixel.getValue( ).getBlue( ) , size );
-            double[] pixelLoc = pixel.getKey( );
-            
-            Location loc = new Location( world , location.getX( ) - pixelLoc[0] , location.getY( ) - pixelLoc[1] , location.getZ( ) );
-            
-            new ParticleBuilder( ParticleEffect.REDSTONE , loc )
-                    .setAmount( quality )
-                    .setOffsetX( 0 )
-                    .setOffsetY( 0 )
-                    .setOffsetZ( 0 )
-                    .setSpeed( speed )
-                    .setParticleData( data )
-                    .display( );
+    public static void displayRenderedImage(Map < double[], Color > render, Location location, int quality, int speed, float size){
+        World world = location.getWorld();
+        for ( Map.Entry < double[], Color > pixel : render.entrySet() ){
+        
+            DustData data = new DustData(pixel.getValue().getRed(), pixel.getValue().getGreen(), pixel.getValue().getBlue(), size);
+            double[] pixelLoc = pixel.getKey();
+        
+            Location loc = new Location(world, location.getX() - pixelLoc[0], location.getY() - pixelLoc[1], location.getZ());
+        
+            new ParticleBuilder(ParticleEffect.REDSTONE, loc)
+                    .setAmount(quality)
+                    .setOffsetX(0)
+                    .setOffsetY(0)
+                    .setOffsetZ(0)
+                    .setSpeed(speed)
+                    .setParticleData(data)
+                    .display();
         }
     }
     
@@ -2475,14 +2475,14 @@ public final class XEffect {
      * @param image the buffered image to save.
      * @param path  the path to save the image to.
      *
-     * @see #stringToImage(Font , java.awt.Color , String)
+     * @see #stringToImage(Font, java.awt.Color, String)
      * @since 1.0.0
      */
-    public static void saveImage( BufferedImage image , Path path ){
+    public static void saveImage(BufferedImage image, Path path){
         try {
-            ImageIO.write( image , "png" , Files.newOutputStream( path , StandardOpenOption.CREATE_NEW , StandardOpenOption.WRITE ) );
-        } catch ( IOException e ) {
-            e.printStackTrace( );
+            ImageIO.write(image, "png", Files.newOutputStream(path, StandardOpenOption.CREATE_NEW, StandardOpenOption.WRITE));
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
     
@@ -2495,38 +2495,38 @@ public final class XEffect {
      *
      * @return the buffered image.
      *
-     * @see #saveImage(BufferedImage , Path)
+     * @see #saveImage(BufferedImage, Path)
      * @since 1.0.0
      */
-    public static CompletableFuture < BufferedImage > stringToImage( Font font , java.awt.Color color , String str ){
-        return CompletableFuture.supplyAsync( ( ) -> {
-            BufferedImage image = new BufferedImage( 1 , 1 , BufferedImage.TYPE_INT_ARGB );
-            Graphics2D graphics = image.createGraphics( );
-            graphics.setFont( font );
+    public static CompletableFuture < BufferedImage > stringToImage(Font font, java.awt.Color color, String str){
+        return CompletableFuture.supplyAsync(( ) -> {
+            BufferedImage image = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
+            Graphics2D graphics = image.createGraphics();
+            graphics.setFont(font);
             
-            FontRenderContext context = graphics.getFontMetrics( ).getFontRenderContext( );
-            Rectangle2D frame = font.getStringBounds( str , context );
-            graphics.dispose( );
+            FontRenderContext context = graphics.getFontMetrics().getFontRenderContext();
+            Rectangle2D frame = font.getStringBounds(str, context);
+            graphics.dispose();
             
-            image = new BufferedImage( ( int ) Math.ceil( frame.getWidth( ) ) , ( int ) Math.ceil( frame.getHeight( ) ) , BufferedImage.TYPE_INT_ARGB );
-            graphics = image.createGraphics( );
-            graphics.setColor( color );
-            graphics.setFont( font );
+            image = new BufferedImage((int) Math.ceil(frame.getWidth()), (int) Math.ceil(frame.getHeight()), BufferedImage.TYPE_INT_ARGB);
+            graphics = image.createGraphics();
+            graphics.setColor(color);
+            graphics.setFont(font);
             
-            graphics.setRenderingHint( RenderingHints.KEY_ALPHA_INTERPOLATION , RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY );
-            graphics.setRenderingHint( RenderingHints.KEY_ANTIALIASING , RenderingHints.VALUE_ANTIALIAS_ON );
-            graphics.setRenderingHint( RenderingHints.KEY_COLOR_RENDERING , RenderingHints.VALUE_COLOR_RENDER_QUALITY );
-            graphics.setRenderingHint( RenderingHints.KEY_DITHERING , RenderingHints.VALUE_DITHER_ENABLE );
-            graphics.setRenderingHint( RenderingHints.KEY_FRACTIONALMETRICS , RenderingHints.VALUE_FRACTIONALMETRICS_ON );
-            graphics.setRenderingHint( RenderingHints.KEY_INTERPOLATION , RenderingHints.VALUE_INTERPOLATION_BILINEAR );
-            graphics.setRenderingHint( RenderingHints.KEY_RENDERING , RenderingHints.VALUE_RENDER_QUALITY );
-            graphics.setRenderingHint( RenderingHints.KEY_STROKE_CONTROL , RenderingHints.VALUE_STROKE_PURE );
+            graphics.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY);
+            graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+            graphics.setRenderingHint(RenderingHints.KEY_COLOR_RENDERING, RenderingHints.VALUE_COLOR_RENDER_QUALITY);
+            graphics.setRenderingHint(RenderingHints.KEY_DITHERING, RenderingHints.VALUE_DITHER_ENABLE);
+            graphics.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_ON);
+            graphics.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+            graphics.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+            graphics.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);
             
-            FontMetrics metrics = graphics.getFontMetrics( );
-            graphics.drawString( str , 0 , metrics.getAscent( ) );
-            graphics.dispose( );
+            FontMetrics metrics = graphics.getFontMetrics();
+            graphics.drawString(str, 0, metrics.getAscent());
+            graphics.dispose();
             
             return image;
-        } );
+        });
     }
 }

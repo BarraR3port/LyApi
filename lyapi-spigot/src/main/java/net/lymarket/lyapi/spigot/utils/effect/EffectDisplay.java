@@ -57,8 +57,8 @@ import java.util.function.Predicate;
  */
 public class EffectDisplay implements Cloneable {
     
-    private static final boolean ISFLAT = XEffect.getParticle( "FOOTSTEP" ) == null;
-    private static final Axis[] DEFAULT_ROTATION_ORDER = {Axis.X , Axis.Y , Axis.Z};
+    private static final boolean ISFLAT = XEffect.getParticle("FOOTSTEP") == null;
+    private static final Axis[] DEFAULT_ROTATION_ORDER = {Axis.X, Axis.Y, Axis.Z};
     private static final ParticleEffect DEFAULT_EFFECT = ParticleEffect.CLOUD;
     
     public int count;
@@ -72,7 +72,7 @@ public class EffectDisplay implements Cloneable {
     
     private Callable < Location > locationCaller;
     
-    private Vector rotation, offset = new Vector( );
+    private Vector rotation, offset = new Vector();
     
     private Axis[] rotationOrder = DEFAULT_ROTATION_ORDER;
     
@@ -90,12 +90,12 @@ public class EffectDisplay implements Cloneable {
      *
      * @return a redstone colored dust.
      *
-     * @see #simple(Location , ParticleEffect)
+     * @see #simple(Location, ParticleEffect)
      * @since 1.0.0
      */
     
-    public static EffectDisplay colored( Location location , int r , int g , int b , float size ){
-        return EffectDisplay.simple( location , ParticleEffect.BLOCK_DUST ).withColor( r , g , b , size );
+    public static EffectDisplay colored(Location location, int r, int g, int b, float size){
+        return EffectDisplay.simple(location, ParticleEffect.BLOCK_DUST).withColor(r, g, b, size);
     }
     
     /**
@@ -109,12 +109,12 @@ public class EffectDisplay implements Cloneable {
      *
      * @return a redstone colored dust.
      *
-     * @see #colored(Location , int , int , int , float)
+     * @see #colored(Location, int, int, int, float)
      * @since 3.0.0
      */
-    
-    public static EffectDisplay colored( Location location , Color color , float size ){
-        return colored( location , color.getRed( ) , color.getGreen( ) , color.getBlue( ) , size );
+
+    public static EffectDisplay colored(Location location, Color color, float size){
+        return colored(location, color.getRed(), color.getGreen(), color.getBlue(), size);
     }
     
     /**
@@ -132,10 +132,10 @@ public class EffectDisplay implements Cloneable {
      *
      * @since 1.0.0
      */
-    
-    public static EffectDisplay simple( Location location , ParticleEffect particle ){
-        Objects.requireNonNull( particle , "Cannot build EffectDisplay with null particle" );
-        EffectDisplay display = new EffectDisplay( );
+
+    public static EffectDisplay simple(Location location, ParticleEffect particle){
+        Objects.requireNonNull(particle, "Cannot build EffectDisplay with null particle");
+        EffectDisplay display = new EffectDisplay();
         display.effect = particle;
         display.location = location;
         return display;
@@ -145,8 +145,8 @@ public class EffectDisplay implements Cloneable {
      * @since 6.0.0.1
      */
     
-    public static EffectDisplay of( ParticleEffect particle ){
-        return simple( null , particle );
+    public static EffectDisplay of(ParticleEffect particle){
+        return simple(null, particle);
     }
     
     /**
@@ -164,11 +164,11 @@ public class EffectDisplay implements Cloneable {
      *
      * @since 1.0.0
      */
-    
-    public static EffectDisplay display( Location location , ParticleEffect particle ){
-        Objects.requireNonNull( location , "Cannot display particle in null location" );
-        EffectDisplay display = simple( location , particle );
-        display.spawn( );
+
+    public static EffectDisplay display(Location location, ParticleEffect particle){
+        Objects.requireNonNull(location, "Cannot display particle in null location");
+        EffectDisplay display = simple(location, particle);
+        display.spawn();
         return display;
     }
     
@@ -181,8 +181,8 @@ public class EffectDisplay implements Cloneable {
      *
      * @since 1.0.0
      */
-    public static EffectDisplay fromConfig( ConfigurationSection config ){
-        return edit( new EffectDisplay( ) , config );
+    public static EffectDisplay fromConfig(ConfigurationSection config){
+        return edit(new EffectDisplay(), config);
     }
     
     /**
@@ -209,76 +209,76 @@ public class EffectDisplay implements Cloneable {
      *
      * @since 5.0.0
      */
+
+    public static EffectDisplay edit(EffectDisplay display, ConfigurationSection config){
+        Objects.requireNonNull(display, "Cannot edit a null particle display");
+        Objects.requireNonNull(config, "Cannot parse EffectDisplay from a null config section");
     
-    public static EffectDisplay edit( EffectDisplay display , ConfigurationSection config ){
-        Objects.requireNonNull( display , "Cannot edit a null particle display" );
-        Objects.requireNonNull( config , "Cannot parse EffectDisplay from a null config section" );
-        
-        String particleName = config.getString( "particle" );
-        ParticleEffect particle = particleName == null ? null : XEffect.getParticle( particleName );
-        
-        if ( particle != null ) display.effect = particle;
-        if ( config.isSet( "count" ) ) display.withCount( config.getInt( "count" ) );
-        if ( config.isSet( "extra" ) ) display.withExtra( config.getDouble( "extra" ) );
-        if ( config.isSet( "force" ) ) display.forceSpawn( config.getBoolean( "force" ) );
-        
-        String offset = config.getString( "offset" );
-        if ( offset != null ) {
-            String[] offsets = StringUtils.split( StringUtils.deleteWhitespace( offset ) , ',' );
-            if ( offsets.length >= 3 ) {
-                double offsetx = NumberUtils.toDouble( offsets[0] );
-                double offsety = NumberUtils.toDouble( offsets[1] );
-                double offsetz = NumberUtils.toDouble( offsets[2] );
-                display.offset( offsetx , offsety , offsetz );
+        String particleName = config.getString("particle");
+        ParticleEffect particle = particleName == null ? null : XEffect.getParticle(particleName);
+    
+        if (particle != null) display.effect = particle;
+        if (config.isSet("count")) display.withCount(config.getInt("count"));
+        if (config.isSet("extra")) display.withExtra(config.getDouble("extra"));
+        if (config.isSet("force")) display.forceSpawn(config.getBoolean("force"));
+    
+        String offset = config.getString("offset");
+        if (offset != null){
+            String[] offsets = StringUtils.split(StringUtils.deleteWhitespace(offset), ',');
+            if (offsets.length >= 3){
+                double offsetx = NumberUtils.toDouble(offsets[0]);
+                double offsety = NumberUtils.toDouble(offsets[1]);
+                double offsetz = NumberUtils.toDouble(offsets[2]);
+                display.offset(offsetx, offsety, offsetz);
             } else {
-                double masterOffset = NumberUtils.toDouble( offsets[0] );
-                display.offset( masterOffset );
+                double masterOffset = NumberUtils.toDouble(offsets[0]);
+                display.offset(masterOffset);
             }
         }
-        
-        String rotation = config.getString( "rotation" );
-        if ( rotation != null ) {
-            String[] rotations = StringUtils.split( StringUtils.deleteWhitespace( rotation ) , ',' );
-            if ( rotations.length >= 3 ) {
-                double x = Math.toRadians( NumberUtils.toDouble( rotations[0] ) );
-                double y = Math.toRadians( NumberUtils.toDouble( rotations[1] ) );
-                double z = Math.toRadians( NumberUtils.toDouble( rotations[2] ) );
-                display.rotation = new Vector( x , y , z );
+    
+        String rotation = config.getString("rotation");
+        if (rotation != null){
+            String[] rotations = StringUtils.split(StringUtils.deleteWhitespace(rotation), ',');
+            if (rotations.length >= 3){
+                double x = Math.toRadians(NumberUtils.toDouble(rotations[0]));
+                double y = Math.toRadians(NumberUtils.toDouble(rotations[1]));
+                double z = Math.toRadians(NumberUtils.toDouble(rotations[2]));
+                display.rotation = new Vector(x, y, z);
             }
         }
-        
-        String rotationOrder = config.getString( "rotation-order" );
-        if ( rotationOrder != null ) {
-            rotationOrder = StringUtils.deleteWhitespace( rotationOrder ).toUpperCase( Locale.ENGLISH );
+    
+        String rotationOrder = config.getString("rotation-order");
+        if (rotationOrder != null){
+            rotationOrder = StringUtils.deleteWhitespace(rotationOrder).toUpperCase(Locale.ENGLISH);
             display.rotationOrder(
-                    Axis.valueOf( String.valueOf( rotationOrder.charAt( 0 ) ) ) ,
-                    Axis.valueOf( String.valueOf( rotationOrder.charAt( 1 ) ) ) ,
-                    Axis.valueOf( String.valueOf( rotationOrder.charAt( 2 ) ) )
+                    Axis.valueOf(String.valueOf(rotationOrder.charAt(0))),
+                    Axis.valueOf(String.valueOf(rotationOrder.charAt(1))),
+                    Axis.valueOf(String.valueOf(rotationOrder.charAt(2)))
             );
         }
-        
-        String color = config.getString( "color" ); // array-like "R, G, B"
-        String blockdata = config.getString( "blockdata" );       // material name
-        String item = config.getString( "itemstack" );            // material name
-        String materialdata = config.getString( "materialdata" ); // material name
-        
+    
+        String color = config.getString("color"); // array-like "R, G, B"
+        String blockdata = config.getString("blockdata");       // material name
+        String item = config.getString("itemstack");            // material name
+        String materialdata = config.getString("materialdata"); // material name
+    
         float size = 1.0f;
-        if ( display.data instanceof float[] ) {
-            float[] datas = ( float[] ) display.data;
-            if ( datas.length >= 4 ) {
-                if ( config.isSet( "size" ) ) datas[3] = size = ( float ) config.getDouble( "size" );
+        if (display.data instanceof float[]){
+            float[] datas = (float[]) display.data;
+            if (datas.length >= 4){
+                if (config.isSet("size")) datas[3] = size = (float) config.getDouble("size");
                 else size = datas[3];
             }
         }
-        
-        if ( color != null ) {
-            String[] colors = StringUtils.split( StringUtils.deleteWhitespace( color ) , ',' );
-            if ( colors.length == 1 || colors.length == 3 ) {
+    
+        if (color != null){
+            String[] colors = StringUtils.split(StringUtils.deleteWhitespace(color), ',');
+            if (colors.length == 1 || colors.length == 3){
                 Color parsedColor = Color.white;
-                if ( colors.length == 1 ) {
+                if (colors.length == 1){
                     try {
-                        parsedColor = Color.decode( colors[0] );
-                    } catch ( NumberFormatException ex ) {
+                        parsedColor = Color.decode(colors[0]);
+                    } catch (NumberFormatException ex) {
                         /* I don't think it's worth it.
                         try {
                             parsedColor = (Color) Color.class.getField(colors[0].toUpperCase(Locale.ENGLISH)).get(null);
@@ -286,28 +286,28 @@ public class EffectDisplay implements Cloneable {
                          */
                     }
                 } else {
-                    parsedColor = new Color( NumberUtils.toInt( colors[0] ) , NumberUtils.toInt( colors[1] ) , NumberUtils.toInt( colors[2] ) );
+                    parsedColor = new Color(NumberUtils.toInt(colors[0]), NumberUtils.toInt(colors[1]), NumberUtils.toInt(colors[2]));
                 }
-                
+            
                 display.data = new float[]{
-                        parsedColor.getRed( ) , parsedColor.getGreen( ) , parsedColor.getBlue( ) ,
+                        parsedColor.getRed(), parsedColor.getGreen(), parsedColor.getBlue(),
                         size
                 };
             }
-        } else if ( blockdata != null ) {
-            Material material = Material.getMaterial( blockdata );
-            if ( material != null && material.isBlock( ) ) {
-                display.data = material.getData( );
+        } else if (blockdata != null){
+            Material material = Material.getMaterial(blockdata);
+            if (material != null && material.isBlock()){
+                display.data = material.getData();
             }
-        } else if ( item != null ) {
-            Material material = Material.getMaterial( item );
-            if ( material != null && display.isItem( material.getId( ) ) ) {
-                display.data = new ItemStack( material , 1 );
+        } else if (item != null){
+            Material material = Material.getMaterial(item);
+            if (material != null && display.isItem(material.getId())){
+                display.data = new ItemStack(material, 1);
             }
-        } else if ( materialdata != null ) {
-            Material material = Material.getMaterial( materialdata );
-            if ( material != null && material.isBlock( ) ) {
-                display.data = material.getData( );
+        } else if (materialdata != null){
+            Material material = Material.getMaterial(materialdata);
+            if (material != null && material.isBlock()){
+                display.data = material.getData();
             }
         }
         
@@ -321,8 +321,8 @@ public class EffectDisplay implements Cloneable {
      * @since 3.0.3
      */
     
-    private static Location cloneLocation( Location location ){
-        return new Location( location.getWorld( ) , location.getX( ) , location.getY( ) , location.getZ( ) , location.getYaw( ) , location.getPitch( ) );
+    private static Location cloneLocation(Location location){
+        return new Location(location.getWorld(), location.getX(), location.getY(), location.getZ(), location.getYaw(), location.getPitch());
     }
     
     /**
@@ -334,19 +334,19 @@ public class EffectDisplay implements Cloneable {
      *
      * @since 7.0.0
      */
-    public static Vector rotateAround( Vector location , EffectDisplay.Axis axis , Vector rotation ){
-        Objects.requireNonNull( axis , "Cannot rotate around null axis" );
-        Objects.requireNonNull( rotation , "Rotation vector cannot be null" );
+    public static Vector rotateAround(Vector location, EffectDisplay.Axis axis, Vector rotation){
+        Objects.requireNonNull(axis, "Cannot rotate around null axis");
+        Objects.requireNonNull(rotation, "Rotation vector cannot be null");
         
-        switch ( axis ) {
+        switch(axis){
             case X:
-                return rotateAround( location , axis , rotation.getX( ) );
+                return rotateAround(location, axis, rotation.getX());
             case Y:
-                return rotateAround( location , axis , rotation.getY( ) );
+                return rotateAround(location, axis, rotation.getY());
             case Z:
-                return rotateAround( location , axis , rotation.getZ( ) );
+                return rotateAround(location, axis, rotation.getZ());
             default:
-                throw new AssertionError( "Unknown rotation axis: " + axis );
+                throw new AssertionError("Unknown rotation axis: " + axis);
         }
     }
     
@@ -357,10 +357,10 @@ public class EffectDisplay implements Cloneable {
      *
      * @since 7.0.0
      */
-    public static Vector rotateAround( Vector location , double x , double y , double z ){
-        rotateAround( location , Axis.X , x );
-        rotateAround( location , Axis.Y , y );
-        rotateAround( location , Axis.Z , z );
+    public static Vector rotateAround(Vector location, double x, double y, double z){
+        rotateAround(location, Axis.X, x);
+        rotateAround(location, Axis.Y, y);
+        rotateAround(location, Axis.Z, z);
         return location;
     }
     
@@ -372,37 +372,37 @@ public class EffectDisplay implements Cloneable {
      *
      * @since 7.0.0
      */
-    public static Vector rotateAround( Vector location , EffectDisplay.Axis axis , double angle ){
-        Objects.requireNonNull( location , "Cannot rotate a null location" );
-        Objects.requireNonNull( axis , "Cannot rotate around null axis" );
-        if ( angle == 0 ) return location;
+    public static Vector rotateAround(Vector location, EffectDisplay.Axis axis, double angle){
+        Objects.requireNonNull(location, "Cannot rotate a null location");
+        Objects.requireNonNull(axis, "Cannot rotate around null axis");
+        if (angle == 0) return location;
         
-        double cos = Math.cos( angle );
-        double sin = Math.sin( angle );
+        double cos = Math.cos(angle);
+        double sin = Math.sin(angle);
         
-        switch ( axis ) {
-            case X: {
-                double y = location.getY( ) * cos - location.getZ( ) * sin;
-                double z = location.getY( ) * sin + location.getZ( ) * cos;
-                return location.setY( y ).setZ( z );
+        switch(axis){
+            case X:{
+                double y = location.getY() * cos - location.getZ() * sin;
+                double z = location.getY() * sin + location.getZ() * cos;
+                return location.setY(y).setZ(z);
             }
-            case Y: {
-                double x = location.getX( ) * cos + location.getZ( ) * sin;
-                double z = location.getX( ) * -sin + location.getZ( ) * cos;
-                return location.setX( x ).setZ( z );
+            case Y:{
+                double x = location.getX() * cos + location.getZ() * sin;
+                double z = location.getX() * -sin + location.getZ() * cos;
+                return location.setX(x).setZ(z);
             }
-            case Z: {
-                double x = location.getX( ) * cos - location.getY( ) * sin;
-                double y = location.getX( ) * sin + location.getY( ) * cos;
-                return location.setX( x ).setY( y );
+            case Z:{
+                double x = location.getX() * cos - location.getY() * sin;
+                double y = location.getX() * sin + location.getY() * cos;
+                return location.setX(x).setY(y);
             }
             default:
-                throw new AssertionError( "Unknown rotation axis: " + axis );
+                throw new AssertionError("Unknown rotation axis: " + axis);
         }
     }
     
-    public boolean isItem( int id ){
-        switch ( id ) {
+    public boolean isItem(int id){
+        switch(id){
             case 15:
             case 28:
             case 29:
@@ -562,7 +562,7 @@ public class EffectDisplay implements Cloneable {
      *
      * @since 7.0.0
      */
-    public EffectDisplay onSpawn( Predicate < Location > onSpawn ){
+    public EffectDisplay onSpawn(Predicate < Location > onSpawn){
         this.onSpawn = onSpawn;
         return this;
     }
@@ -570,8 +570,8 @@ public class EffectDisplay implements Cloneable {
     /**
      * @since 7.0.0
      */
-    public void withParticle( ParticleEffect particle ){
-        this.effect = Objects.requireNonNull( particle , "ParticleEffect cannot be null" );
+    public void withParticle(ParticleEffect particle){
+        this.effect = Objects.requireNonNull(particle, "ParticleEffect cannot be null");
     }
     
     /**
@@ -584,18 +584,18 @@ public class EffectDisplay implements Cloneable {
      *
      * @since 3.0.0
      */
+
+    public Location rotate(Location location, double x, double y, double z){
+        if (location == null)
+            throw new IllegalStateException("Attempting to spawn particle when no location is set");
+        if (rotation == null) return cloneLocation(location).add(x, y, z);
     
-    public Location rotate( Location location , double x , double y , double z ){
-        if ( location == null )
-            throw new IllegalStateException( "Attempting to spawn particle when no location is set" );
-        if ( rotation == null ) return cloneLocation( location ).add( x , y , z );
-        
-        Vector rotate = new Vector( x , y , z );
-        rotateAround( rotate , rotationOrder[0] , rotation );
-        rotateAround( rotate , rotationOrder[1] , rotation );
-        rotateAround( rotate , rotationOrder[2] , rotation );
-        
-        return cloneLocation( location ).add( rotate );
+        Vector rotate = new Vector(x, y, z);
+        rotateAround(rotate, rotationOrder[0], rotation);
+        rotateAround(rotate, rotationOrder[1], rotation);
+        rotateAround(rotate, rotationOrder[2], rotation);
+    
+        return cloneLocation(location).add(rotate);
     }
     
     /**
@@ -614,26 +614,26 @@ public class EffectDisplay implements Cloneable {
     
     @Override
     public String toString( ){
-        Location location = getLocation( );
+        Location location = getLocation();
         return "EffectDisplay:[" +
                 "ParticleEffect=" + effect + ", " +
                 "Count=" + count + ", " +
-                "Offset:{" + offset.getX( ) + ", " + offset.getY( ) + ", " + offset.getZ( ) + "}, " +
-                
+                "Offset:{" + offset.getX() + ", " + offset.getY() + ", " + offset.getZ() + "}, " +
+        
                 (location != null ? (
-                        "Location:{" + location.getWorld( ).getName( ) + location.getX( ) + ", " + location.getY( ) + ", " + location.getZ( ) + "} " +
+                        "Location:{" + location.getWorld().getName() + location.getX() + ", " + location.getY() + ", " + location.getZ() + "} " +
                                 '(' + (locationCaller == null ? "Static" : "Dynamic") + "), "
                 ) : "") +
-                
+        
                 (rotation != null ? (
-                        "Rotation:{" + Math.toDegrees( rotation.getX( ) ) + ", " + Math.toRadians( rotation.getY( ) ) + ", " + Math.toDegrees( rotation.getZ( ) ) + "}, "
+                        "Rotation:{" + Math.toDegrees(rotation.getX()) + ", " + Math.toRadians(rotation.getY()) + ", " + Math.toDegrees(rotation.getZ()) + "}, "
                 ) : "") +
-                
-                (rotationOrder != DEFAULT_ROTATION_ORDER ? ("RotationOrder:" + Arrays.toString( rotationOrder ) + ", ") : "") +
-                
+        
+                (rotationOrder != DEFAULT_ROTATION_ORDER ? ("RotationOrder:" + Arrays.toString(rotationOrder) + ", ") : "") +
+        
                 "Extra=" + extra + ", " +
                 "Force=" + force + ", " +
-                "Data=" + (data == null ? "null" : data instanceof float[] ? Arrays.toString( ( float[] ) data ) : data);
+                "Data=" + (data == null ? "null" : data instanceof float[] ? Arrays.toString((float[]) data) : data);
     }
     
     /**
@@ -646,7 +646,7 @@ public class EffectDisplay implements Cloneable {
      * @since 3.0.0
      */
     
-    public EffectDisplay withCount( int count ){
+    public EffectDisplay withCount(int count){
         this.count = count;
         return this;
     }
@@ -661,7 +661,7 @@ public class EffectDisplay implements Cloneable {
      * @since 3.0.1
      */
     
-    public EffectDisplay withExtra( double extra ){
+    public EffectDisplay withExtra(double extra){
         this.extra = extra;
         return this;
     }
@@ -670,7 +670,7 @@ public class EffectDisplay implements Cloneable {
      * A displayed particle with force can be seen further
      * away for all player regardless of their particle
      * settings. Force has no effect if specific players
-     * are added with {@link #spawn(Location , Player...)}.
+     * are added with {@link #spawn(Location, Player...)}.
      *
      * @param force the force argument.
      *
@@ -679,7 +679,7 @@ public class EffectDisplay implements Cloneable {
      * @since 5.0.1
      */
     
-    public EffectDisplay forceSpawn( boolean force ){
+    public EffectDisplay forceSpawn(boolean force){
         this.force = force;
         return this;
     }
@@ -694,20 +694,20 @@ public class EffectDisplay implements Cloneable {
      *
      * @return the same particle display, but modified.
      *
-     * @see #colored(Location , Color , float)
+     * @see #colored(Location, Color, float)
      * @since 3.0.0
      */
     
-    public EffectDisplay withColor( Color color , float size ){
-        return withColor( color.getRed( ) , color.getGreen( ) , color.getBlue( ) , size );
+    public EffectDisplay withColor(Color color, float size){
+        return withColor(color.getRed(), color.getGreen(), color.getBlue(), size);
     }
     
     /**
      * @since 7.1.0
      */
     
-    public EffectDisplay withColor( float red , float green , float blue , float size ){
-        this.data = new float[]{red , green , blue , size};
+    public EffectDisplay withColor(float red, float green, float blue, float size){
+        this.data = new float[]{red, green, blue, size};
         return this;
     }
     /*
@@ -744,8 +744,8 @@ public class EffectDisplay implements Cloneable {
      * @since 5.1.0
      */
     @SuppressWarnings("deprecation")
-    
-    public EffectDisplay withBlock( MaterialData materialData ){
+
+    public EffectDisplay withBlock(MaterialData materialData){
         this.data = materialData;
         return this;
     }
@@ -760,8 +760,8 @@ public class EffectDisplay implements Cloneable {
      *
      * @since 5.1.0
      */
-    
-    public EffectDisplay withItem( ItemStack item ){
+
+    public EffectDisplay withItem(ItemStack item){
         this.data = item;
         return this;
     }
@@ -781,8 +781,8 @@ public class EffectDisplay implements Cloneable {
      * @since 3.1.0
      */
     
-    public EffectDisplay withEntity( Entity entity ){
-        return withLocationCaller( entity::getLocation );
+    public EffectDisplay withEntity(Entity entity){
+        return withLocationCaller(entity::getLocation);
     }
     
     /**
@@ -795,7 +795,7 @@ public class EffectDisplay implements Cloneable {
      * @since 3.1.0
      */
     
-    public EffectDisplay withLocationCaller( Callable < Location > locationCaller ){
+    public EffectDisplay withLocationCaller(Callable < Location > locationCaller){
         this.locationCaller = locationCaller;
         return this;
     }
@@ -807,12 +807,12 @@ public class EffectDisplay implements Cloneable {
      *
      * @since 7.0.0
      */
-    public EffectDisplay rotationOrder( EffectDisplay.Axis first , EffectDisplay.Axis second , EffectDisplay.Axis third ){
-        Objects.requireNonNull( first , "First rotation order axis is null" );
-        Objects.requireNonNull( second , "Second rotation order axis is null" );
-        Objects.requireNonNull( third , "Third rotation order axis is null" );
+    public EffectDisplay rotationOrder(EffectDisplay.Axis first, EffectDisplay.Axis second, EffectDisplay.Axis third){
+        Objects.requireNonNull(first, "First rotation order axis is null");
+        Objects.requireNonNull(second, "Second rotation order axis is null");
+        Objects.requireNonNull(third, "Third rotation order axis is null");
         
-        this.rotationOrder = new Axis[]{first , second , third};
+        this.rotationOrder = new Axis[]{first, second, third};
         return this;
     }
     
@@ -826,9 +826,9 @@ public class EffectDisplay implements Cloneable {
     
     public Location getLocation( ){
         try {
-            return locationCaller == null ? location : locationCaller.call( );
-        } catch ( Exception e ) {
-            e.printStackTrace( );
+            return locationCaller == null ? location : locationCaller.call();
+        } catch (Exception e) {
+            e.printStackTrace();
             return location;
         }
     }
@@ -840,7 +840,7 @@ public class EffectDisplay implements Cloneable {
      *
      * @since 7.0.0
      */
-    public EffectDisplay withLocation( Location location ){
+    public EffectDisplay withLocation(Location location){
         this.location = location;
         return this;
     }
@@ -856,9 +856,9 @@ public class EffectDisplay implements Cloneable {
      * @see #rotate(Vector)
      * @since 3.0.0
      */
-    
-    public EffectDisplay face( Entity entity ){
-        return face( Objects.requireNonNull( entity , "Cannot face null entity" ).getLocation( ) );
+
+    public EffectDisplay face(Entity entity){
+        return face(Objects.requireNonNull(entity, "Cannot face null entity").getLocation());
     }
     
     /**
@@ -872,11 +872,11 @@ public class EffectDisplay implements Cloneable {
      * @see #rotate(Vector)
      * @since 6.1.0
      */
-    
-    public EffectDisplay face( Location location ){
-        Objects.requireNonNull( location , "Cannot face null location" );
+
+    public EffectDisplay face(Location location){
+        Objects.requireNonNull(location, "Cannot face null location");
         // We add 90 degrees to compensate for the non-standard use of pitch degrees in Minecraft.
-        this.rotation = new Vector( Math.toRadians( location.getPitch( ) + 90 ) , Math.toRadians( -location.getYaw( ) ) , 0 );
+        this.rotation = new Vector(Math.toRadians(location.getPitch() + 90), Math.toRadians(-location.getYaw()), 0);
         return this;
     }
     
@@ -892,9 +892,9 @@ public class EffectDisplay implements Cloneable {
      * @see #clone()
      * @since 1.0.0
      */
-    
-    public Location cloneLocation( double x , double y , double z ){
-        return location == null ? null : cloneLocation( location ).add( x , y , z );
+
+    public Location cloneLocation(double x, double y, double z){
+        return location == null ? null : cloneLocation(location).add(x, y, z);
     }
     
     /**
@@ -909,11 +909,11 @@ public class EffectDisplay implements Cloneable {
      * @see #clone()
      * @since 1.0.0
      */
-    
-    public EffectDisplay cloneWithLocation( double x , double y , double z ){
-        EffectDisplay display = clone( );
-        if ( location == null ) return display;
-        display.location.add( x , y , z );
+
+    public EffectDisplay cloneWithLocation(double x, double y, double z){
+        EffectDisplay display = clone();
+        if (location == null) return display;
+        display.location.add(x, y, z);
         return display;
     }
     
@@ -922,20 +922,20 @@ public class EffectDisplay implements Cloneable {
      *
      * @return the cloned EffectDisplay.
      *
-     * @see #cloneWithLocation(double , double , double)
-     * @see #cloneLocation(double , double , double)
+     * @see #cloneWithLocation(double, double, double)
+     * @see #cloneLocation(double, double, double)
      */
     @SuppressWarnings("MethodDoesntCallSuperMethod")
     @Override
     
     public EffectDisplay clone( ){
-        EffectDisplay display = EffectDisplay.of( effect )
-                .withLocationCaller( locationCaller )
-                .withCount( count ).offset( offset.clone( ) )
-                .forceSpawn( force ).onSpawn( onSpawn );
-        
-        if ( location != null ) display.location = cloneLocation( location );
-        if ( rotation != null ) display.rotation = this.rotation.clone( );
+        EffectDisplay display = EffectDisplay.of(effect)
+                .withLocationCaller(locationCaller)
+                .withCount(count).offset(offset.clone())
+                .forceSpawn(force).onSpawn(onSpawn);
+    
+        if (location != null) display.location = cloneLocation(location);
+        if (rotation != null) display.rotation = this.rotation.clone();
         display.rotationOrder = this.rotationOrder;
         display.data = data;
         return display;
@@ -946,14 +946,14 @@ public class EffectDisplay implements Cloneable {
      *
      * @param vector the vector to rotate from. The xyz values of this vector must be radians.
      *
-     * @see #rotate(double , double , double)
+     * @see #rotate(double, double, double)
      * @since 1.0.0
      */
     
-    public EffectDisplay rotate( Vector vector ){
-        Objects.requireNonNull( vector , "Cannot rotate EffectDisplay with null vector" );
-        if ( rotation == null ) rotation = vector;
-        else rotation.add( vector );
+    public EffectDisplay rotate(Vector vector){
+        Objects.requireNonNull(vector, "Cannot rotate EffectDisplay with null vector");
+        if (rotation == null) rotation = vector;
+        else rotation.add(vector);
         return this;
     }
     
@@ -966,8 +966,8 @@ public class EffectDisplay implements Cloneable {
      * @since 3.0.0
      */
     
-    public EffectDisplay rotate( double x , double y , double z ){
-        return rotate( new Vector( x , y , z ) );
+    public EffectDisplay rotate(double x, double y, double z){
+        return rotate(new Vector(x, y, z));
     }
     
     /**
@@ -976,8 +976,8 @@ public class EffectDisplay implements Cloneable {
      * @since 1.1.0
      */
     
-    public EffectDisplay offset( double x , double y , double z ){
-        return offset( new Vector( x , y , z ) );
+    public EffectDisplay offset(double x, double y, double z){
+        return offset(new Vector(x, y, z));
     }
     
     /**
@@ -986,8 +986,8 @@ public class EffectDisplay implements Cloneable {
      * @since 7.0.0
      */
     
-    public EffectDisplay offset( Vector offset ){
-        this.offset = Objects.requireNonNull( offset , "ParticleEffect offset cannot be null" );
+    public EffectDisplay offset(Vector offset){
+        this.offset = Objects.requireNonNull(offset, "ParticleEffect offset cannot be null");
         return this;
     }
     
@@ -1010,7 +1010,7 @@ public class EffectDisplay implements Cloneable {
      *
      * @since 7.0.0
      */
-    public void setRotation( Vector rotation ){
+    public void setRotation(Vector rotation){
         this.rotation = rotation;
     }
     
@@ -1020,8 +1020,8 @@ public class EffectDisplay implements Cloneable {
      * @since 6.0.0.1
      */
     
-    public EffectDisplay offset( double offset ){
-        return offset( offset , offset , offset );
+    public EffectDisplay offset(double offset){
+        return offset(offset, offset, offset);
     }
     
     /**
@@ -1060,7 +1060,7 @@ public class EffectDisplay implements Cloneable {
      * @since 2.0.1
      */
     public void spawn( ){
-        spawn( getLocation( ) );
+        spawn(getLocation());
     }
     
     /**
@@ -1072,9 +1072,9 @@ public class EffectDisplay implements Cloneable {
      * @since 1.0.0
      */
     
-    public Location spawn( Vector location ){
-        Objects.requireNonNull( location , "Cannot add xyz of null vector to EffectDisplay" );
-        return spawn( location.getX( ) , location.getY( ) , location.getZ( ) );
+    public Location spawn(Vector location){
+        Objects.requireNonNull(location, "Cannot add xyz of null vector to EffectDisplay");
+        return spawn(location.getX(), location.getY(), location.getZ());
     }
     
     /**
@@ -1083,8 +1083,8 @@ public class EffectDisplay implements Cloneable {
      * @since 1.0.0
      */
     
-    public Location spawn( double x , double y , double z ){
-        return spawn( rotate( getLocation( ) , x , y , z ) );
+    public Location spawn(double x, double y, double z){
+        return spawn(rotate(getLocation(), x, y, z));
     }
     
     /**
@@ -1093,12 +1093,12 @@ public class EffectDisplay implements Cloneable {
      *
      * @param loc the location to display the particle at.
      *
-     * @see #spawn(double , double , double)
+     * @see #spawn(double, double, double)
      * @since 2.1.0
      */
     
-    public Location spawn( Location loc ){
-        return spawn( loc , ( Player[] ) null );
+    public Location spawn(Location loc){
+        return spawn(loc, (Player[]) null);
     }
     
     /**
@@ -1108,104 +1108,104 @@ public class EffectDisplay implements Cloneable {
      * @param loc     the location to display the particle at.
      * @param players if this particle should only be sent to specific players. Shouldn't be empty.
      *
-     * @see #spawn(double , double , double)
+     * @see #spawn(double, double, double)
      * @since 5.0.0
      */
     
-    public Location spawn( Location loc , Player... players ){
-        if ( loc == null ) throw new IllegalStateException( "Attempting to spawn particle when no location is set" );
-        if ( onSpawn != null ) {
-            if ( !onSpawn.test( loc ) ) return loc;
+    public Location spawn(Location loc, Player... players){
+        if (loc == null) throw new IllegalStateException("Attempting to spawn particle when no location is set");
+        if (onSpawn != null){
+            if (!onSpawn.test(loc)) return loc;
         }
-        double offSetX = offset.getX( );
-        double offSetY = offset.getY( );
-        double offsetz = offset.getZ( );
+        double offSetX = offset.getX();
+        double offSetY = offset.getY();
+        double offsetz = offset.getZ();
         
-        if ( data != null && data instanceof float[] ) {
-            float[] datas = ( float[] ) data;
+        if (data != null && data instanceof float[]){
+            float[] datas = (float[]) data;
             
-            if ( ISFLAT && effect.equals( ParticleEffect.BLOCK_DUST ) ) {
-                DustData dust = new DustData( ( int ) datas[0] , ( int ) datas[1] , ( int ) datas[2] , datas[3] );
-                if ( players == null ) {
-                    new ParticleBuilder( effect , loc )
-                            .setAmount( count )
-                            .setOffsetX( ( float ) offSetX )
-                            .setOffsetY( ( float ) offSetY )
-                            .setOffsetZ( ( float ) offsetz )
-                            .setSpeed( ( float ) extra )
-                            .setParticleData( dust )
-                            .display( );
+            if (ISFLAT && effect.equals(ParticleEffect.BLOCK_DUST)){
+                DustData dust = new DustData((int) datas[0], (int) datas[1], (int) datas[2], datas[3]);
+                if (players == null){
+                    new ParticleBuilder(effect, loc)
+                            .setAmount(count)
+                            .setOffsetX((float) offSetX)
+                            .setOffsetY((float) offSetY)
+                            .setOffsetZ((float) offsetz)
+                            .setSpeed((float) extra)
+                            .setParticleData(dust)
+                            .display();
                 } else {
-                    new ParticleBuilder( effect , loc )
-                            .setAmount( count )
-                            .setOffsetX( ( float ) offSetX )
-                            .setOffsetY( ( float ) offSetY )
-                            .setOffsetZ( ( float ) offsetz )
-                            .setSpeed( ( float ) extra )
-                            .setParticleData( dust )
-                            .display( players );
+                    new ParticleBuilder(effect, loc)
+                            .setAmount(count)
+                            .setOffsetX((float) offSetX)
+                            .setOffsetY((float) offSetY)
+                            .setOffsetZ((float) offsetz)
+                            .setSpeed((float) extra)
+                            .setParticleData(dust)
+                            .display(players);
                 }
                 
                 //else for (Player player : players) player.spigot().playEffect( effect , loc, count, offsetx, offsety, offsetz, extra, dust);
                 
-            } else if ( isDirectional( ) ) {
+            } else if (isDirectional()){
                 // With count=0, color on offset e.g. for MOB_SPELL or 1.12 REDSTONE
-                float[] rgb = {datas[0] / 255f , datas[1] / 255f , datas[2] / 255f};
-                if ( players == null ) {
-                    new ParticleBuilder( effect , loc )
-                            .setAmount( count )
-                            .setOffsetX( rgb[0] )
-                            .setOffsetY( rgb[1] )
-                            .setOffsetZ( rgb[2] )
-                            .display( );
+                float[] rgb = {datas[0] / 255f, datas[1] / 255f, datas[2] / 255f};
+                if (players == null){
+                    new ParticleBuilder(effect, loc)
+                            .setAmount(count)
+                            .setOffsetX(rgb[0])
+                            .setOffsetY(rgb[1])
+                            .setOffsetZ(rgb[2])
+                            .display();
                 } else {
-                    new ParticleBuilder( effect , loc )
-                            .setAmount( count )
-                            .setOffsetX( rgb[0] )
-                            .setOffsetY( rgb[1] )
-                            .setOffsetZ( rgb[2] )
-                            .display( players );
+                    new ParticleBuilder(effect, loc)
+                            .setAmount(count)
+                            .setOffsetX(rgb[0])
+                            .setOffsetY(rgb[1])
+                            .setOffsetZ(rgb[2])
+                            .display(players);
                 }
                 
             } else {
                 // Else color can't have any effect, keep default param
-                if ( players == null ) {
-                    new ParticleBuilder( effect , loc )
-                            .setAmount( count )
-                            .setOffsetX( ( float ) offSetX )
-                            .setOffsetY( ( float ) offSetY )
-                            .setOffsetZ( ( float ) offsetz )
-                            .setSpeed( ( float ) extra )
-                            .display( );
+                if (players == null){
+                    new ParticleBuilder(effect, loc)
+                            .setAmount(count)
+                            .setOffsetX((float) offSetX)
+                            .setOffsetY((float) offSetY)
+                            .setOffsetZ((float) offsetz)
+                            .setSpeed((float) extra)
+                            .display();
                 } else {
-                    new ParticleBuilder( effect , loc )
-                            .setAmount( count )
-                            .setOffsetX( ( float ) offSetX )
-                            .setOffsetY( ( float ) offSetY )
-                            .setOffsetZ( ( float ) offsetz )
-                            .setSpeed( ( float ) extra )
-                            .display( players );
+                    new ParticleBuilder(effect, loc)
+                            .setAmount(count)
+                            .setOffsetX((float) offSetX)
+                            .setOffsetY((float) offSetY)
+                            .setOffsetZ((float) offsetz)
+                            .setSpeed((float) extra)
+                            .display(players);
                 }
             }
         } else {
             // Checks without data or block crack, block dust, falling dust, item crack or if data isn't right type
             
-            if ( players == null ) {
-                new ParticleBuilder( effect , loc )
-                        .setAmount( count )
-                        .setOffsetX( ( float ) offSetX )
-                        .setOffsetY( ( float ) offSetY )
-                        .setOffsetZ( ( float ) offsetz )
-                        .setSpeed( ( float ) extra )
-                        .display( );
+            if (players == null){
+                new ParticleBuilder(effect, loc)
+                        .setAmount(count)
+                        .setOffsetX((float) offSetX)
+                        .setOffsetY((float) offSetY)
+                        .setOffsetZ((float) offsetz)
+                        .setSpeed((float) extra)
+                        .display();
             } else
-                new ParticleBuilder( effect , loc )
-                        .setAmount( count )
-                        .setOffsetX( ( float ) offSetX )
-                        .setOffsetY( ( float ) offSetY )
-                        .setOffsetZ( ( float ) offsetz )
-                        .setSpeed( ( float ) extra )
-                        .display( players );
+                new ParticleBuilder(effect, loc)
+                        .setAmount(count)
+                        .setOffsetX((float) offSetX)
+                        .setOffsetY((float) offSetY)
+                        .setOffsetZ((float) offsetz)
+                        .setSpeed((float) extra)
+                        .display(players);
         }
         
         return loc;

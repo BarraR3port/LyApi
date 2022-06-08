@@ -15,8 +15,8 @@ package net.lymarket.lyapi.spigot.menu;
 
 public abstract class InventoryMenu extends Menu {
     
-    public InventoryMenu( IPlayerMenuUtility playerMenuUtility ){
-        super( playerMenuUtility );
+    public InventoryMenu(IPlayerMenuUtility playerMenuUtility){
+        super(playerMenuUtility);
     }
     
     

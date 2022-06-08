@@ -16,7 +16,7 @@ package net.lymarket.common.error;
 public class LyApiInitializationError extends Exception {
     
     
-    public LyApiInitializationError( String version ){
-        super( "There has being an error when loading the NMS for the version:" + version );
+    public LyApiInitializationError(String version){
+        super("There has being an error when loading the NMS for the version:" + version);
     }
 }

@@ -23,8 +23,8 @@ public final class LyApiBungee extends Api {
     
     private static Plugin plugin;
     
-    public LyApiBungee( Plugin plugin , String noPermissionError ){
-        super( noPermissionError );
+    public LyApiBungee(Plugin plugin, String noPermissionError){
+        super(noPermissionError);
         instance = this;
         LyApiBungee.plugin = plugin;
     }
@@ -38,7 +38,7 @@ public final class LyApiBungee extends Api {
     }
     
     @Override
-    public void setErrorMSG( String permissionError ){
-        NO_PERMISSION = ChatColor.translateAlternateColorCodes( '&' , permissionError );
+    public void setErrorMSG(String permissionError){
+        NO_PERMISSION = ChatColor.translateAlternateColorCodes('&', permissionError);
     }
 }

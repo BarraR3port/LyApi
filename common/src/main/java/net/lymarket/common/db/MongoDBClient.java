@@ -32,19 +32,19 @@ public class MongoDBClient {
     private final MongoClient client;
     private final MongoDatabase database;
     
-    public MongoDBClient( String host , String database ){
+    public MongoDBClient(String host, String database){
         CodecRegistry codec = CodecRegistries.fromRegistries(
-                MongoClientSettings.getDefaultCodecRegistry( ) ,
-                CodecRegistries.fromProviders( PojoCodecProvider.builder( ).automatic( true ).build( ) )
+                MongoClientSettings.getDefaultCodecRegistry(),
+                CodecRegistries.fromProviders(PojoCodecProvider.builder().automatic(true).build())
         );
-        
-        MongoClientSettings settings = MongoClientSettings.builder( )
-                .codecRegistry( codec )
-                .applyConnectionString( new ConnectionString( host ) )
-                .build( );
-        client = MongoClients.create( settings );
-        this.database = client.getDatabase( database );
-        
+    
+        MongoClientSettings settings = MongoClientSettings.builder()
+                .codecRegistry(codec)
+                .applyConnectionString(new ConnectionString(host))
+                .build();
+        client = MongoClients.create(settings);
+        this.database = client.getDatabase(database);
+    
     }
     
     public MongoClient getClient( ){
@@ -55,89 +55,89 @@ public class MongoDBClient {
         return database;
     }
     
-    public Document findOneFast( String name , Bson filter ){
-        MongoCollection < Document > collection = database.getCollection( name );
-        return collection.find( filter ).first( );
+    public Document findOneFast(String name, Bson filter){
+        MongoCollection < Document > collection = database.getCollection(name);
+        return collection.find(filter).first();
     }
     
-    public boolean updateOneFast( String name , Bson filter , Bson update ){
-        MongoCollection < Document > collection = database.getCollection( name );
-        return collection.updateOne( filter , update ).wasAcknowledged( );
+    public boolean updateOneFast(String name, Bson filter, Bson update){
+        MongoCollection < Document > collection = database.getCollection(name);
+        return collection.updateOne(filter, update).wasAcknowledged();
     }
     
-    public boolean replaceOneFast( String name , Bson filter , Object replace ){
-        String json = Api.getGson( ).toJson( replace );
-        Document document = Document.parse( json );
+    public boolean replaceOneFast(String name, Bson filter, Object replace){
+        String json = Api.getGson().toJson(replace);
+        Document document = Document.parse(json);
         
-        return replaceOneFast( name , filter , document );
+        return replaceOneFast(name, filter, document);
     }
     
-    public boolean replaceOneFast( String name , Bson filter , Document replace ){
-        MongoCollection < Document > collection = database.getCollection( name );
-        return collection.replaceOne( filter , replace ).wasAcknowledged( );
+    public boolean replaceOneFast(String name, Bson filter, Document replace){
+        MongoCollection < Document > collection = database.getCollection(name);
+        return collection.replaceOne(filter, replace).wasAcknowledged();
     }
     
-    public ArrayList < Document > findManyFast( String name , Bson filter ){
-        MongoCollection < Document > collection = database.getCollection( name );
-        ArrayList < Document > list = new ArrayList <>( );
-        collection.find( filter ).forEach( list::add );
+    public ArrayList < Document > findManyFast(String name, Bson filter){
+        MongoCollection < Document > collection = database.getCollection(name);
+        ArrayList < Document > list = new ArrayList <>();
+        collection.find(filter).forEach(list::add);
         return list;
     }
     
-    public < T > ArrayList < T > findMany( String name , Function < T, Boolean > filter , Class < T > klass ){
-        ArrayList < T > list = new ArrayList <>( );
+    public < T > ArrayList < T > findMany(String name, Function < T, Boolean > filter, Class < T > klass){
+        ArrayList < T > list = new ArrayList <>();
         try {
-            MongoCollection < Document > collection = database.getCollection( name );
-            FindIterable < Document > documents = collection.find( );
-            MongoCursor < Document > cursor = documents.cursor( );
-            while (cursor.hasNext( )) {
-                T current = Api.getGson( ).fromJson( cursor.next( ).toJson( ) , klass );
-                if ( filter.apply( current ) ) list.add( current );
+            MongoCollection < Document > collection = database.getCollection(name);
+            FindIterable < Document > documents = collection.find();
+            MongoCursor < Document > cursor = documents.cursor();
+            while (cursor.hasNext()) {
+                T current = Api.getGson().fromJson(cursor.next().toJson(), klass);
+                if (filter.apply(current)) list.add(current);
             }
-        } catch ( MongoTimeoutException TimeOut ) {
-            TimeOut.printStackTrace( );
+        } catch (MongoTimeoutException TimeOut) {
+            TimeOut.printStackTrace();
         }
         return list;
     }
     
-    public < T > ArrayList < T > findMany( String name , Class < T > klass ){
-        ArrayList < T > list = new ArrayList <>( );
+    public < T > ArrayList < T > findMany(String name, Class < T > klass){
+        ArrayList < T > list = new ArrayList <>();
         try {
-            MongoCollection < Document > collection = database.getCollection( name );
-            FindIterable < Document > documents = collection.find( );
-            MongoCursor < Document > cursor = documents.cursor( );
-            while (cursor.hasNext( )) {
-                T current = Api.getGson( ).fromJson( cursor.next( ).toJson( ) , klass );
-                list.add( current );
+            MongoCollection < Document > collection = database.getCollection(name);
+            FindIterable < Document > documents = collection.find();
+            MongoCursor < Document > cursor = documents.cursor();
+            while (cursor.hasNext()) {
+                T current = Api.getGson().fromJson(cursor.next().toJson(), klass);
+                list.add(current);
             }
-        } catch ( MongoTimeoutException TimeOut ) {
-            TimeOut.printStackTrace( );
+        } catch (MongoTimeoutException TimeOut) {
+            TimeOut.printStackTrace();
         }
         return list;
     }
     
-    public < T > T findOne( String name , Function < T, Boolean > filter , Class < T > klass ){
-        MongoCollection < Document > collection = database.getCollection( name );
-        FindIterable < Document > documents = collection.find( );
-        MongoCursor < Document > cursor = documents.cursor( );
-        while (cursor.hasNext( )) {
-            T current = Api.getGson( ).fromJson( cursor.next( ).toJson( ) , klass );
-            if ( filter.apply( current ) ) return current;
+    public < T > T findOne(String name, Function < T, Boolean > filter, Class < T > klass){
+        MongoCollection < Document > collection = database.getCollection(name);
+        FindIterable < Document > documents = collection.find();
+        MongoCursor < Document > cursor = documents.cursor();
+        while (cursor.hasNext()) {
+            T current = Api.getGson().fromJson(cursor.next().toJson(), klass);
+            if (filter.apply(current)) return current;
         }
         return null;
     }
     
-    public boolean insertOne( String name , Object data ){
-        MongoCollection < Document > collection = database.getCollection( name );
-        return collection.insertOne( Document.parse( Api.getGson( ).toJson( data ) ) ).wasAcknowledged( );
+    public boolean insertOne(String name, Object data){
+        MongoCollection < Document > collection = database.getCollection(name);
+        return collection.insertOne(Document.parse(Api.getGson().toJson(data))).wasAcknowledged();
     }
     
-    public boolean deleteOne( String name , Bson filter ){
-        MongoCollection < Document > collection = database.getCollection( name );
-        return collection.deleteOne( filter ).wasAcknowledged( );
+    public boolean deleteOne(String name, Bson filter){
+        MongoCollection < Document > collection = database.getCollection(name);
+        return collection.deleteOne(filter).wasAcknowledged();
     }
     
     public void Desconectar( ){
-        client.close( );
+        client.close();
     }
 }

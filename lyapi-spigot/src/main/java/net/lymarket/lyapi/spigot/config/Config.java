@@ -29,83 +29,83 @@ import java.util.List;
 public class Config extends ConfigGenerator {
     
     
-    public Config( JavaPlugin plugin , String name ){
-        super( plugin , name );
+    public Config(JavaPlugin plugin, String name){
+        super(plugin, name);
     }
     
-    public Config( JavaPlugin plugin , String name , String resourcePath , String filePath ){
-        super( plugin , name , resourcePath , filePath );
+    public Config(JavaPlugin plugin, String name, String resourcePath, String filePath){
+        super(plugin, name, resourcePath, filePath);
     }
     
-    public ItemStack getItem( String key , ItemStack orgItem ){
+    public ItemStack getItem(String key, ItemStack orgItem){
         
         
         String section = "items." + key + ".";
-        final String name = getString( section + "name" );
-        final Material material = Material.valueOf( getString( section + "material" ) );
-        final ItemStack midItem = orgItem.getType( ) == Material.AIR ? new ItemStack( material ) : orgItem;
-        final String skin = getString( section + "skin" );
-        ItemStack item = new ItemBuilder( midItem ).setDisplayName( name ).build( );
-        if ( material == XMaterial.PLAYER_HEAD.parseMaterial( ) ) {
-            if ( skin != null && !skin.isEmpty( ) ) {
-                item = new ItemBuilder( item ).setHeadSkin( skin ).setDisplayName( name ).build( );
+        final String name = getString(section + "name");
+        final Material material = Material.valueOf(getString(section + "material"));
+        final ItemStack midItem = orgItem.getType() == Material.AIR ? new ItemStack(material) : orgItem;
+        final String skin = getString(section + "skin");
+        ItemStack item = new ItemBuilder(midItem).setDisplayName(name).build();
+        if (material == XMaterial.PLAYER_HEAD.parseMaterial()){
+            if (skin != null && !skin.isEmpty()){
+                item = new ItemBuilder(item).setHeadSkin(skin).setDisplayName(name).build();
             }
         }
         try {
-            item = new ItemBuilder( item ).setLore( getStringList( section + "description" ) ).build( );
-        } catch ( NullPointerException ignored ) {
+            item = new ItemBuilder(item).setLore(getStringList(section + "description")).build();
+        } catch (NullPointerException ignored) {
         }
         try {
-            HashMap < Enchantment, Integer > enchantments = new HashMap <>( );
-            for ( String ench : getStringList( section + "enchantments" ) ) {
-                String[] enchantment = ench.split( ":" );
-                enchantments.put( Enchantment.getByName( enchantment[0] ) , Integer.parseInt( enchantment[1] ) );
+            HashMap < Enchantment, Integer > enchantments = new HashMap <>();
+            for ( String ench : getStringList(section + "enchantments") ){
+                String[] enchantment = ench.split(":");
+                enchantments.put(Enchantment.getByName(enchantment[0]), Integer.parseInt(enchantment[1]));
             }
             
-            item = new ItemBuilder( item ).addEnchantments( enchantments ).build( );
-        } catch ( NullPointerException ignored ) {
+            item = new ItemBuilder(item).addEnchantments(enchantments).build();
+        } catch (NullPointerException ignored) {
         }
         
         try {
-            final List < String > nbts = getStringList( section + "nbt" );
-            for ( String nbt : nbts ) {
-                String[] nbtData = nbt.split( ":" );
-                item = new ItemBuilder( item ).addTag( nbtData[0] , nbtData[1] ).build( );
+            final List < String > nbts = getStringList(section + "nbt");
+            for ( String nbt : nbts ){
+                String[] nbtData = nbt.split(":");
+                item = new ItemBuilder(item).addTag(nbtData[0], nbtData[1]).build();
             }
             
-        } catch ( NullPointerException ignored ) {
+        } catch (NullPointerException ignored) {
         }
         
         return item;
     }
     
-    public ItemStack getItem( String key ){
-        return getItem( key , new ItemStack( Material.AIR ) );
+    public ItemStack getItem(String key){
+        return getItem(key, new ItemStack(Material.AIR));
     }
     
-    public ItemStack getItem( String key , HashMap < String, String > replacements ){
-        final ItemStack item = getItem( key );
+    public ItemStack getItem(String key, HashMap < String, String > replacements){
+        final ItemStack item = getItem(key);
         
-        List < String > lore = new ArrayList <>( );
+        List < String > lore = new ArrayList <>();
         try {
-            for ( String s : item.getItemMeta( ).getLore( ) ) {
-                for ( String key2 : replacements.keySet( ) ) {
-                    s = s.replace( "%" + key2 + "%" , Utils.format( replacements.get( key2 ) ) );
+            for ( String s : item.getItemMeta().getLore() ){
+                for ( String key2 : replacements.keySet() ){
+                    s = s.replace("%" + key2 + "%", Utils.format(replacements.get(key2)));
                 }
-                lore.add( s );
+                lore.add(s);
             }
             
-        } catch ( NullPointerException ignored ) {
+        } catch (NullPointerException ignored) {
         }
         
         
-        String name = item.getItemMeta( ).getDisplayName( );
-        for ( String key2 : replacements.keySet( ) ) {
-            name = name.replace( "%" + key2 + "%" , Utils.format( replacements.get( key2 ) ) );
+        String name = item.getItemMeta().getDisplayName();
+        for ( String key2 : replacements.keySet() ){
+            name = name.replace("%" + key2 + "%", Utils.format(replacements.get(key2)));
         }
         
         
-        return new ItemBuilder( item ).setDisplayName( name ).setLore( lore ).build( );
+        return new ItemBuilder(item).setDisplayName(name).setLore(lore).build();
     }
     
 }

@@ -25,16 +25,16 @@ public abstract class MenuSelector extends Menu {
     
     protected ItemStack DENY;
     
-    public MenuSelector( IPlayerMenuUtility playerMenuUtility ){
-        super( playerMenuUtility );
-        ACCEPT = new ItemBuilder( XMaterial.LIME_STAINED_GLASS.parseMaterial( ) , 5 ).setDurability( ( short ) 5 )
-                .setDisplayName( "&aAccept" )
-                .addTag( "ly-menu-accept" , "ly-menu-accept" )
-                .build( );
-        DENY = new ItemBuilder( XMaterial.RED_STAINED_GLASS.parseMaterial( ) , 14 ).setDurability( ( short ) 14 )
-                .setDisplayName( "&cDeny" )
-                .addTag( "ly-menu-deny" , "ly-menu-deny" )
-                .build( );
+    public MenuSelector(IPlayerMenuUtility playerMenuUtility){
+        super(playerMenuUtility);
+        ACCEPT = new ItemBuilder(XMaterial.LIME_STAINED_GLASS.parseMaterial(), 5).setDurability((short) 5)
+                .setDisplayName("&aAccept")
+                .addTag("ly-menu-accept", "ly-menu-accept")
+                .build();
+        DENY = new ItemBuilder(XMaterial.RED_STAINED_GLASS.parseMaterial(), 14).setDurability((short) 14)
+                .setDisplayName("&cDeny")
+                .addTag("ly-menu-deny", "ly-menu-deny")
+                .build();
     }
     
     
@@ -50,41 +50,41 @@ public abstract class MenuSelector extends Menu {
     
     @Override
     public void setMenuItems( ){
-        inventory.setItem( 12 , ACCEPT );
-        
-        inventory.setItem( 14 , DENY );
-        
-        inventory.setItem( 18 , super.CLOSE_ITEM );
-        
-        setSubMenuItems( );
+        inventory.setItem(12, ACCEPT);
+    
+        inventory.setItem(14, DENY);
+    
+        inventory.setItem(18, super.CLOSE_ITEM);
+    
+        setSubMenuItems();
     }
     
     public abstract void setSubMenuItems( );
     
     @Override
-    public void handleMenu( InventoryClickEvent e ){
-        final ItemStack item = e.getCurrentItem( );
+    public void handleMenu(InventoryClickEvent e){
+        final ItemStack item = e.getCurrentItem();
         
-        if ( NBTItem.hasTag( item , "ly-menu-close" ) ) {
-            getPrevMenu( ).open( );
+        if (NBTItem.hasTag(item, "ly-menu-close")){
+            getPrevMenu().open();
             return;
-        } else if ( NBTItem.hasTag( item , "ly-menu-accept" ) ) {
-            if ( handleAccept( ) ) {
-                getAcceptManu( ).open( );
+        } else if (NBTItem.hasTag(item, "ly-menu-accept")){
+            if (handleAccept()){
+                getAcceptManu().open();
             }
             return;
-        } else if ( NBTItem.hasTag( item , "ly-menu-deny" ) ) {
-            if ( handleDeny( ) ) {
-                getDenyManu( ).open( );
+        } else if (NBTItem.hasTag(item, "ly-menu-deny")){
+            if (handleDeny()){
+                getDenyManu().open();
             }
             return;
         }
         
-        handleSubMenu( e );
+        handleSubMenu(e);
         
     }
     
-    public abstract void handleSubMenu( InventoryClickEvent e );
+    public abstract void handleSubMenu(InventoryClickEvent e);
     
     public abstract Menu getAcceptManu( );
     
@@ -96,11 +96,11 @@ public abstract class MenuSelector extends Menu {
     
     public abstract boolean handleDeny( );
     
-    public void setAcceptItem( ItemStack item ){
+    public void setAcceptItem(ItemStack item){
         ACCEPT = item;
     }
     
-    public void setDenyItem( ItemStack item ){
+    public void setDenyItem(ItemStack item){
         DENY = item;
     }
 }

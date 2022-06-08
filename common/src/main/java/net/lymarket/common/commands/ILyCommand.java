@@ -21,6 +21,6 @@ public interface ILyCommand {
     
     CommandResponse command(SCommandContext context);
     
-    ArrayList < String > tabComplete( STabContext tabContext );
+    ArrayList < String > tabComplete(STabContext tabContext);
     
 }

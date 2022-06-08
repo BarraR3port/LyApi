@@ -24,8 +24,8 @@ public class LyApiVelocity extends Api {
     
     private static ProxyServer plugin;
     
-    public LyApiVelocity( ProxyServer plugin , String noPermissionError ){
-        super( noPermissionError );
+    public LyApiVelocity(ProxyServer plugin, String noPermissionError){
+        super(noPermissionError);
         instance = this;
         LyApiVelocity.plugin = plugin;
     }
@@ -39,7 +39,7 @@ public class LyApiVelocity extends Api {
     }
     
     @Override
-    public void setErrorMSG( String permissionError ){
-        NO_PERMISSION = ChatColor.translateAlternateColorCodes( '&' , permissionError );
+    public void setErrorMSG(String permissionError){
+        NO_PERMISSION = ChatColor.translateAlternateColorCodes('&', permissionError);
     }
 }

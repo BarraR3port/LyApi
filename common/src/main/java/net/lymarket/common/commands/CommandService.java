@@ -27,34 +27,34 @@ public class CommandService {
     private CommandMap commandMap;
     
     public CommandService( ){
-        commands = new HashMap <>( );
+        commands = new HashMap <>();
         try {
             final Field bukkitCommandMap = Bukkit.getServer().getClass().getDeclaredField("commandMap");
             bukkitCommandMap.setAccessible(true);
             commandMap = (CommandMap) bukkitCommandMap.get(Bukkit.getServer());
         } catch (Exception ignored) {
-    
+        
         }
     }
     
-    public void registerCommands( ILyCommand command ){
-        Class < ? > klass = command.getClass( );
+    public void registerCommands(ILyCommand command){
+        Class < ? > klass = command.getClass();
         Command cmd = null;
         Tab subCmd = null;
         Method cmdMethod = null;
         Method subCmdMethod = null;
-        for ( Method method : klass.getMethods( ) ) {
-            if ( method.isAnnotationPresent( Command.class ) ) {
-                cmd = method.getAnnotation( Command.class );
+        for ( Method method : klass.getMethods() ){
+            if (method.isAnnotationPresent(Command.class)){
+                cmd = method.getAnnotation(Command.class);
                 cmdMethod = method;
             }
-            if ( method.isAnnotationPresent( Tab.class ) ) {
+            if (method.isAnnotationPresent(Tab.class)){
                 subCmd = method.getAnnotation(Tab.class);
                 subCmdMethod = method;
             }
         }
         if (cmd == null) return;
-    
+        
         CommandInfo commandInfo = new CommandInfo(command, cmdMethod, subCmdMethod, cmd, subCmd);
         commands.put(commandInfo.getName(), commandInfo);
         commandMap.register(commandInfo.getName(), commandInfo);

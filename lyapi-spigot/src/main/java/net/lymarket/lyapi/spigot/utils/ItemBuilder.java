@@ -39,171 +39,171 @@ public class ItemBuilder {
     
     private ItemStack is;
     
-    public ItemBuilder( String material ){
-        String[] args = material.split( ":" );
-        if ( args.length == 2 ) {
-            is = new ItemStack( Material.valueOf( args[0] ) , 1 , ( byte ) Integer.parseInt( args[1] ) );
-        } else is = new ItemStack( Material.valueOf( material ) );
+    public ItemBuilder(String material){
+        String[] args = material.split(":");
+        if (args.length == 2){
+            is = new ItemStack(Material.valueOf(args[0]), 1, (byte) Integer.parseInt(args[1]));
+        } else is = new ItemStack(Material.valueOf(material));
     }
     
-    public ItemBuilder( Material m ){
-        this( m , 1 );
+    public ItemBuilder(Material m){
+        this(m, 1);
     }
     
-    public ItemBuilder( ItemStack is ){
+    public ItemBuilder(ItemStack is){
         this.is = is;
     }
     
-    public ItemBuilder( Material m , int data ){
-        is = new ItemStack( m , 1 , ( byte ) data );
+    public ItemBuilder(Material m, int data){
+        is = new ItemStack(m, 1, (byte) data);
     }
     
-    public ItemBuilder setDurability( short dur ){
-        is.setDurability( dur );
+    public ItemBuilder setDurability(short dur){
+        is.setDurability(dur);
         return this;
     }
     
-    public ItemBuilder setDisplayName( String name ){
-        if ( name == null ) return this;
-        ItemMeta im = is.getItemMeta( );
-        im.setDisplayName( Utils.format( name ) );
-        is.setItemMeta( im );
+    public ItemBuilder setDisplayName(String name){
+        if (name == null) return this;
+        ItemMeta im = is.getItemMeta();
+        im.setDisplayName(Utils.format(name));
+        is.setItemMeta(im);
         return this;
     }
     
-    public ItemBuilder addUnsafeEnchantment( Enchantment ench , int level ){
-        if ( ench == null ) return this;
-        if ( level < 0 ) return this;
-        is.addUnsafeEnchantment( ench , level );
+    public ItemBuilder addUnsafeEnchantment(Enchantment ench, int level){
+        if (ench == null) return this;
+        if (level < 0) return this;
+        is.addUnsafeEnchantment(ench, level);
         return this;
     }
     
-    public ItemBuilder removeEnchantment( Enchantment ench ){
-        if ( ench == null ) return this;
-        is.removeEnchantment( ench );
+    public ItemBuilder removeEnchantment(Enchantment ench){
+        if (ench == null) return this;
+        is.removeEnchantment(ench);
         return this;
     }
     
-    public ItemBuilder setSkullOwner( String owner ){
-        if ( owner == null ) return this;
+    public ItemBuilder setSkullOwner(String owner){
+        if (owner == null) return this;
         try {
-            SkullMeta im = ( SkullMeta ) is.getItemMeta( );
-            im.setOwner( owner );
-            is.setItemMeta( im );
-        } catch ( ClassCastException ignored ) {
+            SkullMeta im = (SkullMeta) is.getItemMeta();
+            im.setOwner(owner);
+            is.setItemMeta(im);
+        } catch (ClassCastException ignored) {
         }
         return this;
     }
     
-    public ItemBuilder addEnchant( Enchantment ench , int level ){
-        ItemMeta im = is.getItemMeta( );
-        im.addEnchant( ench , level , true );
-        is.setItemMeta( im );
+    public ItemBuilder addEnchant(Enchantment ench, int level){
+        ItemMeta im = is.getItemMeta();
+        im.addEnchant(ench, level, true);
+        is.setItemMeta(im);
         return this;
     }
     
-    public ItemBuilder addEnchantments( Map < Enchantment, Integer > enchantments ){
-        is.addEnchantments( enchantments );
+    public ItemBuilder addEnchantments(Map < Enchantment, Integer > enchantments){
+        is.addEnchantments(enchantments);
         return this;
     }
     
     
-    public ItemBuilder addUnsafeEnchantment( Map < Enchantment, Integer > enchantments ){
-        is.addUnsafeEnchantments( enchantments );
+    public ItemBuilder addUnsafeEnchantment(Map < Enchantment, Integer > enchantments){
+        is.addUnsafeEnchantments(enchantments);
         return this;
     }
     
-    public ItemBuilder hideEnchants( boolean b ){
-        if ( !b ) return this;
-        ItemMeta meta = is.getItemMeta( );
-        meta.addItemFlags( ItemFlag.HIDE_ENCHANTS );
-        is.setItemMeta( meta );
+    public ItemBuilder hideEnchants(boolean b){
+        if (!b) return this;
+        ItemMeta meta = is.getItemMeta();
+        meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        is.setItemMeta(meta);
         return this;
     }
     
-    public ItemBuilder setEnchanted( boolean b ){
-        if ( !b ) return this;
-        ItemMeta meta = is.getItemMeta( );
-        meta.addEnchant( Enchantment.LUCK , 1 , false );
-        meta.addItemFlags( ItemFlag.HIDE_ENCHANTS );
-        is.setItemMeta( meta );
+    public ItemBuilder setEnchanted(boolean b){
+        if (!b) return this;
+        ItemMeta meta = is.getItemMeta();
+        meta.addEnchant(Enchantment.LUCK, 1, false);
+        meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        is.setItemMeta(meta);
         return this;
     }
     
     public ItemBuilder setInfinityDurability( ){
-        is.setDurability( Short.MAX_VALUE );
+        is.setDurability(Short.MAX_VALUE);
         return this;
     }
     
-    public ItemBuilder setLore( List < String > lore ){
-        if ( lore == null ) return this;
-        ItemMeta im = is.getItemMeta( );
-        im.setLore( lore.stream( ).map( Utils::format ).collect( Collectors.toList( ) ) );
-        is.setItemMeta( im );
+    public ItemBuilder setLore(List < String > lore){
+        if (lore == null) return this;
+        ItemMeta im = is.getItemMeta();
+        im.setLore(lore.stream().map(Utils::format).collect(Collectors.toList()));
+        is.setItemMeta(im);
         return this;
     }
     
-    public ItemBuilder removeLoreLine( String line ){
-        if ( line == null ) return this;
-        ItemMeta im = is.getItemMeta( );
-        List < String > lore = new ArrayList <>( im.getLore( ) );
-        if ( !lore.contains( line ) ) return this;
-        lore.remove( line );
-        im.setLore( lore );
-        is.setItemMeta( im );
+    public ItemBuilder removeLoreLine(String line){
+        if (line == null) return this;
+        ItemMeta im = is.getItemMeta();
+        List < String > lore = new ArrayList <>(im.getLore());
+        if (!lore.contains(line)) return this;
+        lore.remove(line);
+        im.setLore(lore);
+        is.setItemMeta(im);
         return this;
     }
     
-    public ItemBuilder removeLoreLine( int index ){
-        ItemMeta im = is.getItemMeta( );
-        List < String > lore = new ArrayList <>( im.getLore( ) );
-        if ( index < 0 || index > lore.size( ) ) return this;
-        lore.remove( index );
-        im.setLore( lore );
-        is.setItemMeta( im );
+    public ItemBuilder removeLoreLine(int index){
+        ItemMeta im = is.getItemMeta();
+        List < String > lore = new ArrayList <>(im.getLore());
+        if (index < 0 || index > lore.size()) return this;
+        lore.remove(index);
+        im.setLore(lore);
+        is.setItemMeta(im);
         return this;
     }
     
-    public ItemBuilder addLoreLine( String line ){
-        if ( line == null ) return this;
-        ItemMeta im = is.getItemMeta( );
-        List < String > lore = new ArrayList <>( );
-        if ( im.hasLore( ) ) lore = new ArrayList <>( im.getLore( ) );
-        lore.add( Utils.format( line ) );
-        im.setLore( lore );
-        is.setItemMeta( im );
+    public ItemBuilder addLoreLine(String line){
+        if (line == null) return this;
+        ItemMeta im = is.getItemMeta();
+        List < String > lore = new ArrayList <>();
+        if (im.hasLore()) lore = new ArrayList <>(im.getLore());
+        lore.add(Utils.format(line));
+        im.setLore(lore);
+        is.setItemMeta(im);
         return this;
     }
     
-    public ItemBuilder addLoreLine( String line , int pos ){
-        if ( line == null ) return this;
-        ItemMeta im = is.getItemMeta( );
-        List < String > lore = new ArrayList <>( im.getLore( ) );
-        lore.set( pos , Utils.format( line ) );
-        im.setLore( lore );
-        is.setItemMeta( im );
+    public ItemBuilder addLoreLine(String line, int pos){
+        if (line == null) return this;
+        ItemMeta im = is.getItemMeta();
+        List < String > lore = new ArrayList <>(im.getLore());
+        lore.set(pos, Utils.format(line));
+        im.setLore(lore);
+        is.setItemMeta(im);
         return this;
     }
     
-    public ItemBuilder setDyeColor( DyeColor color ){
-        this.is.setDurability( color.getData( ) );
+    public ItemBuilder setDyeColor(DyeColor color){
+        this.is.setDurability(color.getData());
         return this;
     }
     
     /** @deprecated  */
     @Deprecated
-    public ItemBuilder setWoolColor( DyeColor color ){
-        if ( !is.getType( ).equals( Material.WOOL ) ) return this;
-        this.is.setDurability( color.getData( ) );
+    public ItemBuilder setWoolColor(DyeColor color){
+        if (!is.getType().equals(Material.WOOL)) return this;
+        this.is.setDurability(color.getData());
         return this;
     }
     
-    public ItemBuilder setLeatherArmorColor( Color color ){
+    public ItemBuilder setLeatherArmorColor(Color color){
         try {
-            LeatherArmorMeta im = ( LeatherArmorMeta ) is.getItemMeta( );
-            im.setColor( color );
-            is.setItemMeta( im );
-        } catch ( ClassCastException ignored ) {
+            LeatherArmorMeta im = (LeatherArmorMeta) is.getItemMeta();
+            im.setColor(color);
+            is.setItemMeta(im);
+        } catch (ClassCastException ignored) {
         }
         return this;
     }
@@ -211,73 +211,73 @@ public class ItemBuilder {
     /**
      * Para ocupar esto solo es necesario agregar esto y ya estaría lista la cabeza.
      */
-    public ItemBuilder setHeadSkin( String skin ){
-        is = new ItemStack( XMaterial.PLAYER_HEAD.parseMaterial( ) , 1 , ( byte ) SkullType.PLAYER.ordinal( ) );
-        GameProfile profile = new GameProfile( UUID.randomUUID( ) , null );
-        profile.getProperties( ).put( "textures" , new Property( "textures" , skin ) );
-        SkullMeta itemmeta = ( SkullMeta ) is.getItemMeta( );
+    public ItemBuilder setHeadSkin(String skin){
+        is = new ItemStack(XMaterial.PLAYER_HEAD.parseMaterial(), 1, (byte) SkullType.PLAYER.ordinal());
+        GameProfile profile = new GameProfile(UUID.randomUUID(), null);
+        profile.getProperties().put("textures", new Property("textures", skin));
+        SkullMeta itemmeta = (SkullMeta) is.getItemMeta();
         Field field;
         try {
-            field = itemmeta.getClass( ).getDeclaredField( "profile" );
-            field.setAccessible( true );
-            field.set( itemmeta , profile );
-        } catch ( NoSuchFieldException | IllegalArgumentException | IllegalAccessException x ) {
-            x.printStackTrace( );
+            field = itemmeta.getClass().getDeclaredField("profile");
+            field.setAccessible(true);
+            field.set(itemmeta, profile);
+        } catch (NoSuchFieldException | IllegalArgumentException | IllegalAccessException x) {
+            x.printStackTrace();
         }
-        is.setItemMeta( itemmeta );
+        is.setItemMeta(itemmeta);
         return this;
     }
     
-    public ItemBuilder addTag( String key , String value ){
+    public ItemBuilder addTag(String key, String value){
         
-        NBTItem item = new NBTItem( is );
-        item.setString( key , value );
-        this.is = item.getItem( );
+        NBTItem item = new NBTItem(is);
+        item.setString(key, value);
+        this.is = item.getItem();
         return this;
     }
     
-    public ItemBuilder addTag( String key , Integer value ){
-        NBTItem item = new NBTItem( is );
-        item.setInteger( key , value );
-        this.is = item.getItem( );
+    public ItemBuilder addTag(String key, Integer value){
+        NBTItem item = new NBTItem(is);
+        item.setInteger(key, value);
+        this.is = item.getItem();
         return this;
     }
     
-    public ItemBuilder createBook( String title , String... pages ){
-        if ( title == null || pages == null ) return this;
-        if ( pages.length == 0 ) return this;
-        BookMeta bm = ( BookMeta ) is.getItemMeta( );
-        bm.setTitle( title );
-        bm.setPages( pages );
-        is.setItemMeta( bm );
+    public ItemBuilder createBook(String title, String... pages){
+        if (title == null || pages == null) return this;
+        if (pages.length == 0) return this;
+        BookMeta bm = (BookMeta) is.getItemMeta();
+        bm.setTitle(title);
+        bm.setPages(pages);
+        is.setItemMeta(bm);
         return this;
     }
     
-    public ItemBuilder setBookTitle( String title ){
-        BookMeta bm = ( BookMeta ) is.getItemMeta( );
-        bm.setTitle( title );
-        is.setItemMeta( bm );
+    public ItemBuilder setBookTitle(String title){
+        BookMeta bm = (BookMeta) is.getItemMeta();
+        bm.setTitle(title);
+        is.setItemMeta(bm);
         return this;
     }
     
-    public ItemBuilder setBookAuthor( String author ){
-        BookMeta bm = ( BookMeta ) is.getItemMeta( );
-        bm.setAuthor( author );
-        is.setItemMeta( bm );
+    public ItemBuilder setBookAuthor(String author){
+        BookMeta bm = (BookMeta) is.getItemMeta();
+        bm.setAuthor(author);
+        is.setItemMeta(bm);
         return this;
     }
     
-    public ItemBuilder setBookPages( String... pages ){
-        BookMeta bm = ( BookMeta ) is.getItemMeta( );
-        bm.setPages( pages );
-        is.setItemMeta( bm );
+    public ItemBuilder setBookPages(String... pages){
+        BookMeta bm = (BookMeta) is.getItemMeta();
+        bm.setPages(pages);
+        is.setItemMeta(bm);
         return this;
     }
     
-    public ItemBuilder setBookPage( int page , String text ){
-        BookMeta bm = ( BookMeta ) is.getItemMeta( );
-        bm.setPage( page , text );
-        is.setItemMeta( bm );
+    public ItemBuilder setBookPage(int page, String text){
+        BookMeta bm = (BookMeta) is.getItemMeta();
+        bm.setPage(page, text);
+        is.setItemMeta(bm);
         return this;
     }
     

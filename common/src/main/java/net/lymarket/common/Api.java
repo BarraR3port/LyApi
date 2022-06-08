@@ -22,13 +22,13 @@ public abstract class Api {
     
     private static Gson gson;
     
-    public Api( String permissionError ){
+    public Api(String permissionError){
         NO_PERMISSION = permissionError;
-        gson = new GsonBuilder( ).setDateFormat( "MMM dd, yyyy HH:mm:ss a" ).serializeNulls( ).create( );
+        gson = new GsonBuilder().setDateFormat("MMM dd, yyyy HH:mm:ss a").serializeNulls().create();
     }
     
     public Api( ){
-        this( "&cYou don't have permission to do that." );
+        this("&cYou don't have permission to do that.");
     }
     
     public static Gson getGson( ){
@@ -39,5 +39,5 @@ public abstract class Api {
         return this;
     }
     
-    public abstract void setErrorMSG( String permissionError );
+    public abstract void setErrorMSG(String permissionError);
 }

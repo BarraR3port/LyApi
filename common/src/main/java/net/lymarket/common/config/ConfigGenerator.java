@@ -33,22 +33,22 @@ public class ConfigGenerator extends CommentConfig {
      * @param plugin Instancia del plugin
      * @param name   Nombre del archivo
      */
-    public ConfigGenerator( JavaPlugin plugin , String name ){
+    public ConfigGenerator(JavaPlugin plugin, String name){
         this.plugin = plugin;
-        
-        this.fileName = name.endsWith( ".yml" ) ? name : name + ".yml";
+    
+        this.fileName = name.endsWith(".yml") ? name : name + ".yml";
         this.resourcePath = fileName;
-        
-        this.filePath = plugin.getDataFolder( );
-        
-        loadFile( );
-        createData( );
-        
+    
+        this.filePath = plugin.getDataFolder();
+    
+        loadFile();
+        createData();
+    
         try {
-            loadConfig( );
-            
-        } catch ( Exception e ) {
-            e.printStackTrace( );
+            loadConfig();
+        
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
     
@@ -57,122 +57,122 @@ public class ConfigGenerator extends CommentConfig {
      * @param name     Nombre del archivo
      * @param filePath Path del directorio
      */
-    public ConfigGenerator( JavaPlugin plugin , String name , String resourcePath , String filePath ){
+    public ConfigGenerator(JavaPlugin plugin, String name, String resourcePath, String filePath){
         this.plugin = plugin;
         
-        this.fileName = name.endsWith( ".yml" ) ? name : name + ".yml";
+        this.fileName = name.endsWith(".yml") ? name : name + ".yml";
         this.resourcePath = resourcePath;
         
-        this.filePath = new File( filePath );
+        this.filePath = new File(filePath);
         
-        loadFile( );
-        createData( );
+        loadFile();
+        createData();
         
         try {
-            loadConfig( );
+            loadConfig();
             
-        } catch ( Exception e ) {
-            e.printStackTrace( );
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
     
     public void loadConfig( ) throws Exception{
         try {
-            this.load( file );
-        } catch ( FileNotFoundException e ) {
-            loadFile( );
-            createData( );
-    
-            try {
-                loadConfig( );
+            this.load(file);
+        } catch (FileNotFoundException e) {
+            loadFile();
+            createData();
         
-            } catch ( Exception ex ) {
-                ex.printStackTrace( );
+            try {
+                loadConfig();
+            
+            } catch (Exception ex) {
+                ex.printStackTrace();
             }
         }
     }
     
     public void reloadConfig( ){
         try {
-            this.loadConfig( );
-        } catch ( Exception e ) {
-            e.printStackTrace( );
+            this.loadConfig();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
     
     public void loadFile( ){
-        this.file = new File( filePath , this.fileName );
+        this.file = new File(filePath, this.fileName);
     }
     
     public void saveData( ){
-        this.file = new File( filePath , this.fileName );
+        this.file = new File(filePath, this.fileName);
         try {
-            this.save( this.file );
-        } catch ( IOException e ) {
-            e.printStackTrace( );
-            createData( );
-            saveData( );
+            this.save(this.file);
+        } catch (IOException e) {
+            e.printStackTrace();
+            createData();
+            saveData();
         }
     }
     
     @Override
-    public void save( File file ) throws IOException{
-        super.save( file );
+    public void save(File file) throws IOException{
+        super.save(file);
     }
     
     public void createData( ){
-        if ( !file.exists( ) ) {
-            if ( !this.filePath.exists( ) ) {
-                final boolean result = this.filePath.mkdirs( );
-                if ( !result ) {
-                    throw new IllegalStateException( "Could not create directory for " + this.filePath.getAbsolutePath( ) );
+        if (!file.exists()){
+            if (!this.filePath.exists()){
+                final boolean result = this.filePath.mkdirs();
+                if (!result){
+                    throw new IllegalStateException("Could not create directory for " + this.filePath.getAbsolutePath());
                 }
             }
-            
+        
             //If file isn't a resource, create from scratch
             try {
-                final boolean result = this.file.createNewFile( );
-                if ( !result ) {
-                    throw new IllegalStateException( "Could not create directory for " + this.filePath.getAbsolutePath( ) );
+                final boolean result = this.file.createNewFile();
+                if (!result){
+                    throw new IllegalStateException("Could not create directory for " + this.filePath.getAbsolutePath());
                 }
-                writeToFile( this.plugin.getResource( this.resourcePath ) , this.file );
-            } catch ( IOException e ) {
-                e.printStackTrace( );
+                writeToFile(this.plugin.getResource(this.resourcePath), this.file);
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
     }
     
     public void delete( ){
-        if ( this.file.exists( ) ) {
-            final boolean result = this.file.delete( );
-            if ( !result ) {
-                throw new IllegalStateException( "Could not delete file " + this.file.getAbsolutePath( ) );
+        if (this.file.exists()){
+            final boolean result = this.file.delete();
+            if (!result){
+                throw new IllegalStateException("Could not delete file " + this.file.getAbsolutePath());
             }
         }
     }
     
     @Override
-    public void load( File file ) throws IOException, InvalidConfigurationException{
-        Validate.notNull( file , "File cannot be null" );
-        FileInputStream stream = new FileInputStream( file );
-        this.load( new InputStreamReader( stream , StandardCharsets.UTF_8 ) );
+    public void load(File file) throws IOException, InvalidConfigurationException{
+        Validate.notNull(file, "File cannot be null");
+        FileInputStream stream = new FileInputStream(file);
+        this.load(new InputStreamReader(stream, StandardCharsets.UTF_8));
     }
     
     //WRITE TO FILE FROM INPUT STREAM
-    private void writeToFile( final InputStream input , final File target ) throws IOException{
-        final OutputStream output = Files.newOutputStream( target.toPath( ) );
+    private void writeToFile(final InputStream input, final File target) throws IOException{
+        final OutputStream output = Files.newOutputStream(target.toPath());
         final byte[] buffer = new byte[8 * 1024];
-        int length = input.read( buffer );
+        int length = input.read(buffer);
         while (length > 0) {
-            output.write( buffer , 0 , length );
-            length = input.read( buffer );
+            output.write(buffer, 0, length);
+            length = input.read(buffer);
         }
-        input.close( );
-        output.close( );
+        input.close();
+        output.close();
     }
     
-    public String[] getStringArrayList( String path ){
-        return this.getStringList( path ).toArray( new String[0] );
+    public String[] getStringArrayList(String path){
+        return this.getStringList(path).toArray(new String[0]);
     }
     
 }
