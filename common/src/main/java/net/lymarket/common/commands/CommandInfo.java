@@ -15,6 +15,7 @@ package net.lymarket.common.commands;
 
 
 import net.lymarket.common.Api;
+import net.lymarket.common.commands.response.CommandResponse;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.defaults.BukkitCommand;
@@ -49,19 +50,22 @@ public class CommandInfo extends BukkitCommand {
     @Override
     public boolean execute( CommandSender sender , String commandLabel , String[] args ){
         try {
-            SCommandContext context = new SCommandContext( sender , args , this );
-            if ( getPermission( ) != null || !getPermission( ).equalsIgnoreCase( "" ) ) {
-                if ( !sender.hasPermission( this.getPermission( ) ) ) {
-                    sender.sendMessage( ChatColor.translateAlternateColorCodes( '&' , Api.NO_PERMISSION.replace( "permission" , this.getPermission( ) ) ) );
+            SCommandContext context = new SCommandContext(sender, args, this);
+            if (getPermission() != null || !getPermission().equalsIgnoreCase("")){
+                if (!sender.hasPermission(this.getPermission())){
+                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Api.NO_PERMISSION.replace("permission", this.getPermission())));
                     return false;
                 }
             }
     
     
-            boolean ret = ( boolean ) commandMethod.invoke( object , context );
-            if ( !ret )
-                sender.sendMessage( ChatColor.translateAlternateColorCodes( '&' , Api.NO_PERMISSION.replace( "permission" , this.getPermission( ) ) ) );
-            return ret;
+            CommandResponse ret = (CommandResponse) commandMethod.invoke(object, context);
+            if (ret.getResponse().equals(CommandResponse.ResponseType.NO_PERMISSION)){
+                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Api.NO_PERMISSION.replace("permission", ret.getPermission())));
+                return false;
+            } else {
+                return true;
+            }
     
         } catch ( IllegalAccessException | InvocationTargetException e ) {
             e.printStackTrace( );

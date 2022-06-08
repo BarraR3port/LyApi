@@ -29,11 +29,11 @@ public class CommandService {
     public CommandService( ){
         commands = new HashMap <>( );
         try {
-            final Field bukkitCommandMap = Bukkit.getServer( ).getClass( ).getDeclaredField( "commandMap" );
-            bukkitCommandMap.setAccessible( true );
-            commandMap = ( CommandMap ) bukkitCommandMap.get( Bukkit.getServer( ) );
-        } catch ( Exception e ) {
-        
+            final Field bukkitCommandMap = Bukkit.getServer().getClass().getDeclaredField("commandMap");
+            bukkitCommandMap.setAccessible(true);
+            commandMap = (CommandMap) bukkitCommandMap.get(Bukkit.getServer());
+        } catch (Exception ignored) {
+    
         }
     }
     
@@ -49,14 +49,29 @@ public class CommandService {
                 cmdMethod = method;
             }
             if ( method.isAnnotationPresent( Tab.class ) ) {
-                subCmd = method.getAnnotation( Tab.class );
+                subCmd = method.getAnnotation(Tab.class);
                 subCmdMethod = method;
             }
         }
-        if ( cmd == null ) return;
-        
-        CommandInfo commandInfo = new CommandInfo( command , cmdMethod , subCmdMethod , cmd , subCmd );
-        commands.put( commandInfo.getName( ) , commandInfo );
-        commandMap.register( commandInfo.getName( ) , commandInfo );
+        if (cmd == null) return;
+    
+        CommandInfo commandInfo = new CommandInfo(command, cmdMethod, subCmdMethod, cmd, subCmd);
+        commands.put(commandInfo.getName(), commandInfo);
+        commandMap.register(commandInfo.getName(), commandInfo);
     }
+    
+    public void unRegisterCustomCommands( ){
+        for ( CommandInfo commandInfo : commands.values() ){
+            commandInfo.unregister(commandMap);
+        }
+        commands.clear();
+    }
+    
+    public void unRegisterCustomCommand(String commandName){
+        if (commands.containsKey(commandName)){
+            commands.get(commandName).unregister(commandMap);
+            commands.remove(commandName);
+        }
+    }
+    
 }
