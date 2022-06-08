@@ -288,7 +288,7 @@ public class EffectDisplay implements Cloneable {
                 } else {
                     parsedColor = new Color(NumberUtils.toInt(colors[0]), NumberUtils.toInt(colors[1]), NumberUtils.toInt(colors[2]));
                 }
-            
+    
                 display.data = new float[]{
                         parsedColor.getRed(), parsedColor.getGreen(), parsedColor.getBlue(),
                         size

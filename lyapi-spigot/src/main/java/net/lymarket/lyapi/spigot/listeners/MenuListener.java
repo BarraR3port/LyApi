@@ -32,7 +32,7 @@ public class MenuListener implements Listener {
         if (holder instanceof Menu){
             if (e.getCurrentItem() == null || e.getCurrentItem().getType() == Material.AIR)
                 return;
-        
+    
             Menu menu = (Menu) holder;
             if (!menu.canMoveTopItems() && !menu.canMoveBottomItems()){
                 e.setCancelled(true);
@@ -41,9 +41,9 @@ public class MenuListener implements Listener {
                 e.setCancelled(true);
             if (e.getClickedInventory().getHolder() instanceof Menu && !menu.canMoveTopItems())
                 e.setCancelled(true);
-        
+    
             menu.handleMenu(e);
-        
+    
         }
     }
     

@@ -44,21 +44,21 @@ public class CommentConfig extends YamlConfiguration {
             String line = iterator.next();
             sb.append(line);
             sb.append("\n");
-        
+    
             if (!line.isEmpty()){
                 if (line.contains(":")){
-                
+    
                     int layerFromLine = getLayerFromLine(line, lineNumber);
-                
+    
                     if (layerFromLine < currentLayer){
                         new StringBuilder(regressPathBy(currentLayer - layerFromLine, currentPath.toString()));
                     }
-                
+    
                     String key = getKeyFromLine(line);
-                
+    
                     assert key != null;
                     currentPath = new StringBuilder(key);
-                
+    
                     String path = currentPath.toString();
                     if (comments.containsKey(path)){
                         comments.get(path).forEach(string -> {

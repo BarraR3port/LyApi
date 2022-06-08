@@ -82,10 +82,10 @@ public class ConfigGenerator extends CommentConfig {
         } catch (FileNotFoundException e) {
             loadFile();
             createData();
-        
+    
             try {
                 loadConfig();
-            
+        
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
@@ -128,7 +128,7 @@ public class ConfigGenerator extends CommentConfig {
                     throw new IllegalStateException("Could not create directory for " + this.filePath.getAbsolutePath());
                 }
             }
-        
+    
             //If file isn't a resource, create from scratch
             try {
                 final boolean result = this.file.createNewFile();

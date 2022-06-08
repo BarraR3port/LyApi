@@ -128,7 +128,7 @@ public final class YourSexyPluginMainClass extends JavaPlugin {
          * The fastest way to use the api is this:
          * Some stuff will be added and defined by default.
          * */
-        api = new LyApi( this , "YourSexyPluginName" );
+        api = new LyApi(this, "YourSexyPluginName");
         
         /**
          * You can modify some default stuff like the error message.
@@ -138,7 +138,7 @@ public final class YourSexyPluginMainClass extends JavaPlugin {
          * If you want to have a custom Error when the player executes a command,
          * and he doesn't have permission, you can do it by doing this:
          **/
-        api = new LyApi( this , "YourSexyPluginName" , "§Your Custom No Permission Msg" );
+        api = new LyApi(this, "YourSexyPluginName", "§Your Custom No Permission Msg");
         
         /**
          * Register your Language:
@@ -147,16 +147,16 @@ public final class YourSexyPluginMainClass extends JavaPlugin {
          * Example:
          * */
         
-        api = new LyApi( this , "YourSexyPluginName" , "§Your Custom No Permission Msg" , new ESLang( new ConfigGenerator( this , "es.yml" ) , "&cYourPluginPrefix" , "YourPluginError" ) );
+        api = new LyApi(this, "YourSexyPluginName", "§Your Custom No Permission Msg", new ESLang(new ConfigGenerator(this, "es.yml"), "&cYourPluginPrefix", "YourPluginError"));
         
         /**
          * Little disclaimer:
          * If you want multiple Language support you can just add the ILang class you decide to use.
          * One example:
          * */
-        ILang lang = LangType.valueOf( configManager.getConfig( ).getString( "global.lang" ) ) == LangType.ES ? new ESLang( this , new ConfigGenerator( this , "es.yml" ) , "&cYourPluginPrefix" , "YourPluginError" ) : new ENLang( this , new ConfigGenerator( this , "en.yml" ) , "&cYourPluginPrefix" , "YourPluginError" );
+        ILang lang = LangType.valueOf(configManager.getConfig().getString("global.lang")) == LangType.ES ? new ESLang(this, new ConfigGenerator(this, "es.yml"), "&cYourPluginPrefix", "YourPluginError") : new ENLang(this, new ConfigGenerator(this, "en.yml"), "&cYourPluginPrefix", "YourPluginError");
         
-        api = new LyApi( this , "YourSexyPluginName" , "§Your Custom No Permission Msg" , lang );
+        api = new LyApi(this, "YourSexyPluginName", "§Your Custom No Permission Msg", lang);
         
         
         /**
@@ -165,8 +165,8 @@ public final class YourSexyPluginMainClass extends JavaPlugin {
          * In order to do that, it has to be registered after you initiate and register the API.
          * Example:
          * */
-        CommandService commandService = new CommandService( );
-        commandService.registerCommands( new ExampleCommand( ) );
+        CommandService commandService = new CommandService();
+        commandService.registerCommands(new ExampleCommand());
     
     }
     
