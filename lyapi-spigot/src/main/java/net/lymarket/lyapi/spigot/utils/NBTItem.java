@@ -34,6 +34,14 @@ public class NBTItem {
         return LyApi.getInstance().getNMS().hasTag(itemStack, key);
     }
     
+    public static boolean hasCustomModelData(ItemStack itemStack){
+        return LyApi.getInstance().getNMS().hasCustomModelData(itemStack);
+    }
+    
+    public static int getCustomModelData(ItemStack itemStack){
+        return LyApi.getInstance().getNMS().getCustomModelData(itemStack);
+    }
+    
     public static Integer getInteger(ItemStack item, String key){
         return Integer.valueOf(Objects.requireNonNull(getTag(item, key)));
     }
@@ -71,8 +79,20 @@ public class NBTItem {
         return hasTag(is, key);
     }
     
+    public boolean hasCustomModelData( ){
+        return hasCustomModelData(is);
+    }
+    
+    public int getCustomModelData( ){
+        return getCustomModelData(is);
+    }
+    
+    public ItemStack setCustomModelData(int customModelData){
+        return LyApi.getInstance().getNMS().setCustomModelData(is, customModelData);
+    }
+    
     public boolean isCustomItem( ){
-        return hasTag(is, "LyDarkItem");
+        return hasTag(is, "LyApi");
     }
     
     

@@ -63,6 +63,11 @@ public class ItemBuilder {
         return this;
     }
     
+    public ItemBuilder setAmount(int amount){
+        is.setAmount(amount);
+        return this;
+    }
+    
     public ItemBuilder setDisplayName(String name){
         if (name == null) return this;
         ItemMeta im = is.getItemMeta();
@@ -278,6 +283,13 @@ public class ItemBuilder {
         BookMeta bm = (BookMeta) is.getItemMeta();
         bm.setPage(page, text);
         is.setItemMeta(bm);
+        return this;
+    }
+    
+    public ItemBuilder setCustomModelData(int customModelData){
+        NBTItem item = new NBTItem(is);
+        item.setCustomModelData(customModelData);
+        this.is = item.getItem();
         return this;
     }
     

@@ -15,57 +15,62 @@ package net.lymarket.common.config;
 
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.*;
 
 public class CommentConfig extends YamlConfiguration {
     
     private final Map < String, List < String > > comments;
+    protected JavaPlugin plugin;
     
-    public CommentConfig( ){
+    public CommentConfig(JavaPlugin plugin){
         comments = new HashMap <>();
+        this.plugin = plugin;
     }
     
     @Override
     public String saveToString( ){
-    
+        
         String contents = super.saveToString();
-    
-        List < String > list = new ArrayList <>();
-        Collections.addAll(list, contents.split("\n"));
-    
+        
+        List < String > list = new ArrayList <>(Arrays.asList(contents.split("\n")));
+        
         int currentLayer = 0;
         StringBuilder currentPath = new StringBuilder();
-    
+        
         StringBuilder sb = new StringBuilder();
-    
+        
         int lineNumber = 0;
         for ( Iterator < String > iterator = list.iterator(); iterator.hasNext(); lineNumber++ ){
             String line = iterator.next();
-            sb.append(line);
-            sb.append("\n");
-    
-            if (!line.isEmpty()){
-                if (line.contains(":")){
-    
-                    int layerFromLine = getLayerFromLine(line, lineNumber);
-    
-                    if (layerFromLine < currentLayer){
-                        new StringBuilder(regressPathBy(currentLayer - layerFromLine, currentPath.toString()));
-                    }
-    
-                    String key = getKeyFromLine(line);
-    
-                    assert key != null;
-                    currentPath = new StringBuilder(key);
-    
-                    String path = currentPath.toString();
-                    if (comments.containsKey(path)){
-                        comments.get(path).forEach(string -> {
-                            sb.append(string);
-                            sb.append("\n");
-                        });
-                    }
+            if (line.isEmpty()){
+                continue;
+            }
+            
+            sb.append(line).append("\n");
+            
+            
+            if (line.contains(":")){
+                
+                int layerFromLine = getLayerFromLine(line, lineNumber);
+                
+                if (layerFromLine < currentLayer){
+                    new StringBuilder(regressPathBy(currentLayer - layerFromLine, currentPath.toString()));
+                }
+                
+                String key = getKeyFromLine(line);
+                
+                assert key != null;
+                currentPath = new StringBuilder(key);
+                
+                String path = currentPath.toString();
+                if (comments.containsKey(path)){
+                    comments.get(path).forEach(string -> {
+                        if (!string.isEmpty()){
+                            sb.append(string).append("\n");
+                        }
+                    });
                 }
             }
         }

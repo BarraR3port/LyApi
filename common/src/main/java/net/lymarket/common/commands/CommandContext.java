@@ -14,15 +14,15 @@
 package net.lymarket.common.commands;
 
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
-public class SCommandContext {
+public class CommandContext {
     
     private final CommandSender sender;
     private final CommandInfo command;
-    
     private final String[] args;
     
-    public SCommandContext(CommandSender sender, String[] args, CommandInfo command){
+    public CommandContext(CommandSender sender, String[] args, CommandInfo command){
         this.sender = sender;
         this.args = args;
         this.command = command;
@@ -39,6 +39,14 @@ public class SCommandContext {
     public String getArg(int index){
         if (index > args.length - 1) return null;
         return args[index];
+    }
+    
+    public int getArgLength( ){
+        return args.length;
+    }
+    
+    public boolean isPlayer( ){
+        return sender instanceof Player;
     }
     
     public double getDouble(int index){

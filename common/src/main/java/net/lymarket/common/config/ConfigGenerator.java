@@ -25,7 +25,6 @@ public class ConfigGenerator extends CommentConfig {
     
     private final String fileName;
     private final String resourcePath;
-    private final JavaPlugin plugin;
     private final File filePath;
     private File file;
     
@@ -34,7 +33,7 @@ public class ConfigGenerator extends CommentConfig {
      * @param name   Nombre del archivo
      */
     public ConfigGenerator(JavaPlugin plugin, String name){
-        this.plugin = plugin;
+        super(plugin);
     
         this.fileName = name.endsWith(".yml") ? name : name + ".yml";
         this.resourcePath = fileName;
@@ -58,7 +57,7 @@ public class ConfigGenerator extends CommentConfig {
      * @param filePath Path del directorio
      */
     public ConfigGenerator(JavaPlugin plugin, String name, String resourcePath, String filePath){
-        this.plugin = plugin;
+        super(plugin);
         
         this.fileName = name.endsWith(".yml") ? name : name + ".yml";
         this.resourcePath = resourcePath;
@@ -135,7 +134,7 @@ public class ConfigGenerator extends CommentConfig {
                 if (!result){
                     throw new IllegalStateException("Could not create directory for " + this.filePath.getAbsolutePath());
                 }
-                writeToFile(this.plugin.getResource(this.resourcePath), this.file);
+                writeToFile(super.plugin.getResource(this.resourcePath), this.file);
             } catch (IOException e) {
                 e.printStackTrace();
             }

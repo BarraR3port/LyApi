@@ -14,16 +14,17 @@
 package net.lymarket.common.commands;
 
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 
-public class STabContext {
+public class TabContext {
     
     private final CommandSender sender;
     private final CommandInfo command;
     private final String alias;
     private final String[] args;
     
-    public STabContext(CommandSender sender, String alias, String[] args, CommandInfo command){
+    public TabContext(CommandSender sender, String alias, String[] args, CommandInfo command){
         this.sender = sender;
         this.args = args;
         this.command = command;
@@ -41,6 +42,14 @@ public class STabContext {
     public String getArg(int index){
         if (index > args.length - 1) return null;
         return args[index];
+    }
+    
+    public int getArgLength( ){
+        return args.length;
+    }
+    
+    public boolean isPlayer( ){
+        return sender instanceof Player;
     }
     
     public double getDouble(int index){

@@ -18,7 +18,7 @@
     <parent>
         <artifactId>LyApi</artifactId>
         <groupId>net.lymarket.lyapi</groupId>
-        <version>1.2.6</version>
+        <version>1.2.9</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -28,7 +28,7 @@
         <dependency>
             <groupId>net.lymarket.lyapi</groupId>
             <artifactId>common</artifactId>
-            <version>1.2.6</version>
+            <version>1.2.9</version>
             <type>jar</type>
             <scope>provided</scope>
         </dependency>

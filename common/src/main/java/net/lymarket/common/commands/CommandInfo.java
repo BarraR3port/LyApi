@@ -50,7 +50,7 @@ public class CommandInfo extends BukkitCommand {
     @Override
     public boolean execute(CommandSender sender, String commandLabel, String[] args){
         try {
-            SCommandContext context = new SCommandContext(sender, args, this);
+            CommandContext context = new CommandContext(sender, args, this);
             if (getPermission() != null || !getPermission().equalsIgnoreCase("")){
                 if (!sender.hasPermission(this.getPermission())){
                     sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Api.NO_PERMISSION.replace("permission", this.getPermission())));
@@ -76,7 +76,7 @@ public class CommandInfo extends BukkitCommand {
     @Override
     public ArrayList < String > tabComplete(CommandSender sender, String alias, String[] args){
         try {
-            STabContext context = new STabContext(sender, alias, args, this);
+            TabContext context = new TabContext(sender, alias, args, this);
             final ArrayList < String > ret = (ArrayList < String >) subCommandMethod.invoke(object, context);
             if (ret == null)
                 return new ArrayList <>();

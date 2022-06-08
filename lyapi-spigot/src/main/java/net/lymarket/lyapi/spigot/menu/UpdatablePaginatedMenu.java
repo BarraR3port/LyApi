@@ -15,13 +15,13 @@ package net.lymarket.lyapi.spigot.menu;
 
 import org.bukkit.Material;
 
-public abstract class UpPaginatedMenu extends PaginatedMenu implements IUpdatableMenu {
+public abstract class UpdatablePaginatedMenu extends PaginatedMenu implements IUpdatableMenu {
     
-    public UpPaginatedMenu(IPlayerMenuUtility playerMenuUtility){
+    public UpdatablePaginatedMenu(IPlayerMenuUtility playerMenuUtility){
         super(playerMenuUtility);
     }
     
-    public UpPaginatedMenu(IPlayerMenuUtility playerMenuUtility, Material fillerItem){
+    public UpdatablePaginatedMenu(IPlayerMenuUtility playerMenuUtility, Material fillerItem){
         super(playerMenuUtility, fillerItem);
     }
     

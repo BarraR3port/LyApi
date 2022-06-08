@@ -24,7 +24,7 @@ public abstract class Api {
     
     public Api(String permissionError){
         NO_PERMISSION = permissionError;
-        gson = new GsonBuilder().setDateFormat("MMM dd, yyyy HH:mm:ss a").serializeNulls().create();
+        gson = new GsonBuilder().disableHtmlEscaping().setDateFormat("MMM dd, yyyy HH:mm:ss a").serializeNulls().create();
     }
     
     public Api( ){

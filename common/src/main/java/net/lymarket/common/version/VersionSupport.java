@@ -70,10 +70,13 @@ public abstract class VersionSupport {
      */
     public abstract boolean hasTag(ItemStack itemStack, String key);
     
-    /**
-     * Check if an item has a LyBedWars NBTTag
-     */
-    public abstract boolean isCustomBedWarsItem(ItemStack i);
+    public abstract ItemStack setCustomModelData(ItemStack itemStack, int customModelData);
+    
+    public abstract int getCustomModelData(ItemStack itemStack);
+    
+    public abstract ItemStack removeCustomModelData(ItemStack itemStack);
+    
+    public abstract boolean hasCustomModelData(ItemStack i);
     
     /**
      * Get the NBTTag from a LyBedWars item

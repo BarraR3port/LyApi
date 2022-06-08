@@ -149,11 +149,27 @@ public class v1_11_R1 extends VersionSupport {
     }
     
     @Override
-    public boolean isCustomBedWarsItem(org.bukkit.inventory.ItemStack i){
-        ItemStack itemStack = CraftItemStack.asNMSCopy(i);
-        NBTTagCompound tag = itemStack.getTag();
-        if (tag == null) return false;
-        return tag.hasKey("LyApi");
+    public org.bukkit.inventory.ItemStack setCustomModelData(org.bukkit.inventory.ItemStack itemStack, int customModelData){
+        System.out.println("[LyApi Version Support] In this version CustomModelData is not supported!");
+        return itemStack;
+    }
+    
+    @Override
+    public int getCustomModelData(org.bukkit.inventory.ItemStack itemStack){
+        System.out.println("[LyApi Version Support] In this version CustomModelData is not supported!");
+        return 0;
+    }
+    
+    @Override
+    public org.bukkit.inventory.ItemStack removeCustomModelData(org.bukkit.inventory.ItemStack itemStack){
+        System.out.println("[LyApi Version Support] In this version CustomModelData is not supported!");
+        return itemStack;
+    }
+    
+    @Override
+    public boolean hasCustomModelData(org.bukkit.inventory.ItemStack itemStack){
+        System.out.println("[LyApi Version Support] In this version CustomModelData is not supported!");
+        return false;
     }
     
     @Override

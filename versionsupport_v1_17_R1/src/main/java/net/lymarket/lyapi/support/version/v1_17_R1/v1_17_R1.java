@@ -29,6 +29,7 @@ import org.bukkit.craftbukkit.v1_17_R1.entity.CraftPlayer;
 import org.bukkit.craftbukkit.v1_17_R1.inventory.CraftItemStack;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.plugin.Plugin;
 
@@ -141,17 +142,43 @@ public class v1_17_R1 extends VersionSupport {
             tag = new NBTTagCompound();
             is.setTag(tag);
         }
-        
+    
         tag.setString(key, value);
         return CraftItemStack.asBukkitCopy(is);
     }
     
     @Override
-    public boolean isCustomBedWarsItem(org.bukkit.inventory.ItemStack i){
-        ItemStack itemStack = CraftItemStack.asNMSCopy(i);
-        NBTTagCompound tag = itemStack.getTag();
-        if (tag == null) return false;
-        return tag.hasKey("LyApi");
+    public org.bukkit.inventory.ItemStack setCustomModelData(org.bukkit.inventory.ItemStack itemStack, int customModelData){
+        ItemMeta meta = itemStack.getItemMeta();
+        if (meta != null){
+            meta.setCustomModelData(customModelData);
+            itemStack.setItemMeta(meta);
+        }
+        return itemStack;
+    }
+    
+    @Override
+    public int getCustomModelData(org.bukkit.inventory.ItemStack itemStack){
+        ItemMeta meta = itemStack.getItemMeta();
+        if (meta != null){
+            return meta.getCustomModelData();
+        }
+        return 0;
+    }
+    
+    @Override
+    public org.bukkit.inventory.ItemStack removeCustomModelData(org.bukkit.inventory.ItemStack itemStack){
+        ItemMeta meta = itemStack.getItemMeta();
+        if (meta != null){
+            meta.setCustomModelData(null);
+            itemStack.setItemMeta(meta);
+        }
+        return itemStack;
+    }
+    
+    @Override
+    public boolean hasCustomModelData(org.bukkit.inventory.ItemStack itemStack){
+        return itemStack.getItemMeta() != null && itemStack.getItemMeta().hasCustomModelData();
     }
     
     @Override

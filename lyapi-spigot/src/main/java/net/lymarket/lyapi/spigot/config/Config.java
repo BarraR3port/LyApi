@@ -38,8 +38,6 @@ public class Config extends ConfigGenerator {
     }
     
     public ItemStack getItem(String key, ItemStack orgItem){
-        
-        
         String section = "items." + key + ".";
         final String name = getString(section + "name");
         final Material material = Material.valueOf(getString(section + "material"));
@@ -65,17 +63,21 @@ public class Config extends ConfigGenerator {
             item = new ItemBuilder(item).addEnchantments(enchantments).build();
         } catch (NullPointerException ignored) {
         }
-        
+    
         try {
             final List < String > nbts = getStringList(section + "nbt");
             for ( String nbt : nbts ){
                 String[] nbtData = nbt.split(":");
                 item = new ItemBuilder(item).addTag(nbtData[0], nbtData[1]).build();
             }
-            
+        
         } catch (NullPointerException ignored) {
         }
-        
+        try {
+            final int customModelData = getInt(section + "customModelData");
+            item = new ItemBuilder(item).setCustomModelData(customModelData).build();
+        } catch (NullPointerException ignored) {
+        }
         return item;
     }
     
@@ -85,7 +87,6 @@ public class Config extends ConfigGenerator {
     
     public ItemStack getItem(String key, HashMap < String, String > replacements){
         final ItemStack item = getItem(key);
-        
         List < String > lore = new ArrayList <>();
         try {
             for ( String s : item.getItemMeta().getLore() ){
@@ -97,15 +98,24 @@ public class Config extends ConfigGenerator {
             
         } catch (NullPointerException ignored) {
         }
-        
-        
+    
+    
         String name = item.getItemMeta().getDisplayName();
         for ( String key2 : replacements.keySet() ){
             name = name.replace("%" + key2 + "%", Utils.format(replacements.get(key2)));
         }
-        
-        
+    
+    
         return new ItemBuilder(item).setDisplayName(name).setLore(lore).build();
+    }
+    
+    public String getMenuTitle(String menu){
+        return getString("menus." + menu + ".title");
+    }
+    
+    
+    public String getMenuTitle(String menu, String word, String toReplace){
+        return getString("menus." + menu + ".title").replace("%" + word + "%", toReplace);
     }
     
 }

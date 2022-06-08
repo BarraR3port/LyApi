@@ -19,8 +19,8 @@ import java.util.ArrayList;
 
 public interface ILyCommand {
     
-    CommandResponse command(SCommandContext context);
+    CommandResponse command(CommandContext context);
     
-    ArrayList < String > tabComplete(STabContext tabContext);
+    ArrayList < String > tabComplete(TabContext tabContext);
     
 }
