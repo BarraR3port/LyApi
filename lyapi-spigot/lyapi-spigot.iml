@@ -23,20 +23,6 @@
     <orderEntry type="library" name="Maven: org.bstats:bstats-base:3.0.0" level="project" />
     <orderEntry type="module" module-name="common" />
     <orderEntry type="module" module-name="versionsupport_1_8_R3" />
-    <orderEntry type="module" module-name="versionsupport_1_9_R2" />
-    <orderEntry type="module" module-name="versionsupport_1_10_R1" />
-    <orderEntry type="module" module-name="versionsupport_1_11_R1" />
-    <orderEntry type="module" module-name="versionsupport_1_12_R1" />
-    <orderEntry type="module" module-name="versionsupport_1_13_R2" />
-    <orderEntry type="module" module-name="versionsupport_1_14_R1" />
-    <orderEntry type="module" module-name="versionsupport_1_15_R1" />
-    <orderEntry type="module" module-name="versionsupport_1_16_R1" />
-    <orderEntry type="module" module-name="versionsupport_1_16_R2" />
-    <orderEntry type="module" module-name="versionsupport_v1_16_R3" />
-    <orderEntry type="module" module-name="versionsupport_v1_17_R1" />
-    <orderEntry type="module" module-name="versionsupport_v1_18_R1" />
-    <orderEntry type="module" module-name="versionsupport_v1_18_R2" />
-    <orderEntry type="module" module-name="versionsupport_v1_19_R1" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.spigotmc:spigot:1.8.8-R0.1-SNAPSHOT" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: me.clip:placeholderapi:2.10.9" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.github.cryptomorin:XSeries:8.7.1" level="project" />
