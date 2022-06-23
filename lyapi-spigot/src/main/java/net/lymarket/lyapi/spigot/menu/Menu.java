@@ -114,15 +114,22 @@ public abstract class Menu implements InventoryHolder {
         inventory = Bukkit.createInventory(this, getSlots(), Utils.format(getMenuName()));
     
         this.setMenuItems();
+        if (!onOpen()){
+            return;
+        }
     
         OpenCustomMenuEvent e = new OpenCustomMenuEvent(this, playerMenuUtility.getOwner());
+        Bukkit.getPluginManager().callEvent(e);
         if (e.isCancelled()){
             return;
         }
-        Bukkit.getPluginManager().callEvent(e);
     
         playerMenuUtility.getOwner().openInventory(e.getMenu().inventory);
     
+    }
+    
+    public boolean onOpen( ){
+        return true;
     }
     
     @Override

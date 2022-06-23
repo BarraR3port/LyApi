@@ -19,6 +19,20 @@
     </content>
     <orderEntry type="jdk" jdkName="1.8" jdkType="JavaSDK" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module" module-name="versionsupport_1_9_R2" />
+    <orderEntry type="module" module-name="versionsupport_1_10_R1" />
+    <orderEntry type="module" module-name="versionsupport_1_11_R1" />
+    <orderEntry type="module" module-name="versionsupport_1_12_R1" />
+    <orderEntry type="module" module-name="versionsupport_1_13_R2" />
+    <orderEntry type="module" module-name="versionsupport_1_14_R1" />
+    <orderEntry type="module" module-name="versionsupport_1_15_R1" />
+    <orderEntry type="module" module-name="versionsupport_1_16_R1" />
+    <orderEntry type="module" module-name="versionsupport_1_16_R2" />
+    <orderEntry type="module" module-name="versionsupport_v1_16_R3" />
+    <orderEntry type="module" module-name="versionsupport_v1_17_R1" />
+    <orderEntry type="module" module-name="versionsupport_v1_18_R1" />
+    <orderEntry type="module" module-name="versionsupport_v1_18_R2" />
+    <orderEntry type="module" module-name="versionsupport_v1_19_R1" />
     <orderEntry type="library" name="Maven: org.bstats:bstats-bukkit:3.0.0" level="project" />
     <orderEntry type="library" name="Maven: org.bstats:bstats-base:3.0.0" level="project" />
     <orderEntry type="module" module-name="common" />
