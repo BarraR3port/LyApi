@@ -11,7 +11,7 @@
  * Contact: contact@lymarket.net
  */
 
-package net.lymarket.common.commands;
+package net.lymarket.lyapi.common.commands;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandMap;

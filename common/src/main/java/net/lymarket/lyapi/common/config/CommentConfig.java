@@ -11,7 +11,7 @@
  * Contact: contact@lymarket.net
  */
 
-package net.lymarket.common.config;
+package net.lymarket.lyapi.common.config;
 
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;

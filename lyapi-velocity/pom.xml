@@ -20,7 +20,7 @@
     <parent>
         <artifactId>LyApi</artifactId>
         <groupId>net.lymarket.lyapi</groupId>
-        <version>1.2.10</version>
+        <version>1.2.12</version>
     </parent>
 
     <artifactId>lyapi-velocity</artifactId>
@@ -71,6 +71,7 @@
         <dependency>
             <groupId>net.lymarket.lyapi</groupId>
             <artifactId>common</artifactId>
+            <scope>compile</scope>
             <version>${project.version}</version>
         </dependency>
 

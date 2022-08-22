@@ -14,7 +14,7 @@
 package net.lymarket.lyapi.velocity;
 
 import com.velocitypowered.api.proxy.ProxyServer;
-import net.lymarket.common.Api;
+import net.lymarket.lyapi.common.Api;
 import net.lymarket.lyapi.velocity.utils.ChatColor;
 
 public class LyApiVelocity extends Api {

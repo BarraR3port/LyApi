@@ -11,7 +11,7 @@
  * Contact: contact@lymarket.net
  */
 
-package net.lymarket.common;
+package net.lymarket.lyapi.common;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

@@ -11,16 +11,14 @@
  * Contact: contact@lymarket.net
  */
 
-package net.lymarket.common.db;
+package net.lymarket.lyapi.common.db;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 
-public abstract class MongoDB< K, V > {
+public abstract class MongoDB<K, V> {
     
     protected final String TABLE_NAME;
-    
-    protected final HashMap < K, V > list = new HashMap <>();
-    
+    protected final LinkedHashMap<K, V> list = new LinkedHashMap<>();
     protected final MongoDBClient database;
     
     public MongoDB(MongoDBClient database, String TABLE_NAME){
@@ -29,6 +27,8 @@ public abstract class MongoDB< K, V > {
         this.trashFinder();
     }
     
-    public abstract void trashFinder( );
+    public void trashFinder(){
+    
+    }
     
 }

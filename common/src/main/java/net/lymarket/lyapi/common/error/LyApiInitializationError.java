@@ -11,16 +11,12 @@
  * Contact: contact@lymarket.net
  */
 
-package net.lymarket.common.commands;
+package net.lymarket.lyapi.common.error;
 
-import net.lymarket.common.commands.response.CommandResponse;
-
-import java.util.ArrayList;
-
-public interface ILyCommand {
+public class LyApiInitializationError extends Exception {
     
-    CommandResponse command(CommandContext context);
     
-    ArrayList < String > tabComplete(TabContext tabContext);
-    
+    public LyApiInitializationError(String version){
+        super("There has being an error when loading the NMS for the version:" + version);
+    }
 }

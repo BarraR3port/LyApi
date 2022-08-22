@@ -28,12 +28,13 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitTask;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 
 public abstract class Menu implements InventoryHolder {
     
-    private final ArrayList < BukkitTask > scheduleTask = new ArrayList <>();
+    private final ArrayList<BukkitTask> scheduleTask = new ArrayList<>();
     protected ItemStack CLOSE_ITEM;
     protected ItemStack PREV_ITEM;
     protected ItemStack NEXT_ITEM;
@@ -43,27 +44,42 @@ public abstract class Menu implements InventoryHolder {
     protected boolean isOnSchedule = false;
     protected boolean moveTopItems = false;
     protected boolean moveBottomItems = false;
+    private final boolean linked;
     private UUID menu_uuid;
+    protected LinkedList<Integer> occupiedSlots = new LinkedList<>();
     
     public Menu(IPlayerMenuUtility playerMenuUtility){
-        this(playerMenuUtility, XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial());
+        this(playerMenuUtility, XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial(), false);
         menu_uuid = UUID.randomUUID();
     }
     
-    public Menu(IPlayerMenuUtility playerMenuUtility, Material fillerGlass){
+    public Menu(IPlayerMenuUtility playerMenuUtility, boolean linked){
+        this(playerMenuUtility, XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial(), linked);
+        menu_uuid = UUID.randomUUID();
+    }
+    
+    public Menu(IPlayerMenuUtility playerMenuUtility, Material fillerGlass, boolean linked){
         this.playerMenuUtility = playerMenuUtility;
-        CLOSE_ITEM = new ItemBuilder(XMaterial.BARRIER.parseMaterial()).setDisplayName("&cClose").addTag("ly-menu-close", "ly-menu-close").build();
-        FILLER_GLASS = new ItemBuilder(fillerGlass).setDurability((short) 15).setDisplayName(" ").build();
-        NEXT_ITEM = new ItemBuilder(XMaterial.PLAYER_HEAD.parseMaterial()).setHeadSkin("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmEzYjhmNjgxZGFhZDhiZjQzNmNhZThkYTNmZTgxMzFmNjJhMTYyYWI4MWFmNjM5YzNlMDY0NGFhNmFiYWMyZiJ9fX0=").setDisplayName("&aNext").addTag("ly-menu-next", "ly-menu-next").build();
-        PREV_ITEM = new ItemBuilder(XMaterial.PLAYER_HEAD.parseMaterial()).setHeadSkin("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODY1MmUyYjkzNmNhODAyNmJkMjg2NTFkN2M5ZjI4MTlkMmU5MjM2OTc3MzRkMThkZmRiMTM1NTBmOGZkYWQ1ZiJ9fX0=").setDisplayName("&aPrevious").addTag("ly-menu-previous", "ly-menu-previous").build();
+        this.linked = linked;
+        try {
+            CLOSE_ITEM = new ItemBuilder(XMaterial.BARRIER.parseMaterial()).setDisplayName(LyApi.getLanguage().getMSG(linked ? "menu.go-back" : "menu.close")).addTag("ly-menu-close", "ly-menu-close").build();
+            FILLER_GLASS = new ItemBuilder(fillerGlass).setDurability((short) Integer.parseInt(LyApi.getLanguage().getMSG("menu.filler-glass-color-id"))).setDisplayName(" ").build();
+            NEXT_ITEM = new ItemBuilder(XMaterial.PLAYER_HEAD.parseMaterial()).setHeadSkin("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmEzYjhmNjgxZGFhZDhiZjQzNmNhZThkYTNmZTgxMzFmNjJhMTYyYWI4MWFmNjM5YzNlMDY0NGFhNmFiYWMyZiJ9fX0=").setDisplayName(LyApi.getLanguage().getMSG("menu.next")).addTag("ly-menu-next", "ly-menu-next").build();
+            PREV_ITEM = new ItemBuilder(XMaterial.PLAYER_HEAD.parseMaterial()).setHeadSkin("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODY1MmUyYjkzNmNhODAyNmJkMjg2NTFkN2M5ZjI4MTlkMmU5MjM2OTc3MzRkMThkZmRiMTM1NTBmOGZkYWQ1ZiJ9fX0=").setDisplayName(LyApi.getLanguage().getMSG("menu.prev")).addTag("ly-menu-previous", "ly-menu-previous").build();
+        } catch (NullPointerException | NumberFormatException ignored) {
+            CLOSE_ITEM = new ItemBuilder(XMaterial.BARRIER.parseMaterial()).setDisplayName(linked ? "&cGo Back" : "&cClose").addTag("ly-menu-close", "ly-menu-close").build();
+            FILLER_GLASS = new ItemBuilder(fillerGlass).setDurability((short) 15).setDisplayName(" ").build();
+            NEXT_ITEM = new ItemBuilder(XMaterial.PLAYER_HEAD.parseMaterial()).setHeadSkin("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmEzYjhmNjgxZGFhZDhiZjQzNmNhZThkYTNmZTgxMzFmNjJhMTYyYWI4MWFmNjM5YzNlMDY0NGFhNmFiYWMyZiJ9fX0=").setDisplayName("&aNext").addTag("ly-menu-next", "ly-menu-next").build();
+            PREV_ITEM = new ItemBuilder(XMaterial.PLAYER_HEAD.parseMaterial()).setHeadSkin("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODY1MmUyYjkzNmNhODAyNmJkMjg2NTFkN2M5ZjI4MTlkMmU5MjM2OTc3MzRkMThkZmRiMTM1NTBmOGZkYWQ1ZiJ9fX0=").setDisplayName("&aPrevious").addTag("ly-menu-previous", "ly-menu-previous").build();
+        }
         menu_uuid = UUID.randomUUID();
     }
     
-    public abstract String getMenuName( );
+    public abstract String getMenuName();
     
-    public abstract int getSlots( );
+    public abstract int getSlots();
     
-    public abstract void setMenuItems( );
+    public abstract void setMenuItems();
     
     public abstract void handleMenu(InventoryClickEvent e);
     
@@ -75,6 +91,11 @@ public abstract class Menu implements InventoryHolder {
         for ( BukkitTask task : scheduleTask ){
             task.cancel();
         }
+        subHandleClose(e);
+    }
+    
+    public void subHandleClose(InventoryCloseEvent e){
+    
     }
     
     public void handleMove(InventoryMoveItemEvent e){
@@ -85,55 +106,60 @@ public abstract class Menu implements InventoryHolder {
     
     }
     
-    public boolean canMoveTopItems( ){
+    public boolean canMoveTopItems(){
         return moveTopItems;
     }
     
-    public void allowMoveTopItems( ){
+    public void allowMoveTopItems(){
         this.moveTopItems = true;
     }
     
-    public void disallowMoveTopItems( ){
+    public void disallowMoveTopItems(){
         this.moveTopItems = false;
     }
     
-    public boolean canMoveBottomItems( ){
+    public boolean canMoveBottomItems(){
         return moveBottomItems;
     }
     
-    public void allowMoveBottomItems( ){
+    public void allowMoveBottomItems(){
         this.moveBottomItems = true;
     }
     
-    public void disallowMoveBottomItems( ){
+    public void disallowMoveBottomItems(){
         this.moveBottomItems = false;
     }
     
-    public void open( ){
+    public void setMenuItem(int slot, ItemStack item){
+        this.inventory.setItem(slot, item);
+        occupiedSlots.add(slot);
+    }
     
+    public void open(){
+        
         inventory = Bukkit.createInventory(this, getSlots(), Utils.format(getMenuName()));
-    
+        
         this.setMenuItems();
         if (!onOpen()){
             return;
         }
-    
+        
         OpenCustomMenuEvent e = new OpenCustomMenuEvent(this, playerMenuUtility.getOwner());
         Bukkit.getPluginManager().callEvent(e);
         if (e.isCancelled()){
             return;
         }
-    
+        
         playerMenuUtility.getOwner().openInventory(e.getMenu().inventory);
-    
+        
     }
     
-    public boolean onOpen( ){
+    public boolean onOpen(){
         return true;
     }
     
     @Override
-    public Inventory getInventory( ){
+    public Inventory getInventory(){
         return inventory;
     }
     
@@ -144,7 +170,7 @@ public abstract class Menu implements InventoryHolder {
                 .build();
     }
     
-    public ItemStack createCustomSkull(String name, List < String > lore, String head){
+    public ItemStack createCustomSkull(String name, List<String> lore, String head){
         return new ItemBuilder(XMaterial.PLAYER_HEAD.parseItem())
                 .setHeadSkin(head)
                 .setLore(lore)
@@ -152,7 +178,7 @@ public abstract class Menu implements InventoryHolder {
                 .build();
     }
     
-    public void checkSomething(Player p, int slot, ItemStack item, String name, List < String > lore, UUID menu_uuid){
+    public void checkSomething(Player p, int slot, ItemStack item, String name, List<String> lore, UUID menu_uuid){
         
         if (isOnSchedule) return;
         
@@ -183,8 +209,8 @@ public abstract class Menu implements InventoryHolder {
     }
     
     public void setOnSchedule(Player p, int slot, ItemStack item, UUID menu_uuid){
-        scheduleTask.add(Bukkit.getServer().getScheduler().runTaskLaterAsynchronously(LyApi.getPlugin(), ( ) -> {
-            
+        scheduleTask.add(Bukkit.getServer().getScheduler().runTaskLaterAsynchronously(LyApi.getPlugin(), () -> {
+        
             if (getMenuUUID().equals(menu_uuid)){
                 if (p.getOpenInventory().getTopInventory().getHolder() instanceof Menu){
                     Menu menu = (Menu) p.getOpenInventory().getTopInventory().getHolder();
@@ -198,12 +224,15 @@ public abstract class Menu implements InventoryHolder {
         }, 30L));
     }
     
-    public Player getOwner( ){
+    public Player getOwner(){
         return playerMenuUtility.getOwner();
     }
     
-    public UUID getMenuUUID( ){
+    public UUID getMenuUUID(){
         return menu_uuid;
     }
     
+    public boolean isLinked(){
+        return linked;
+    }
 }

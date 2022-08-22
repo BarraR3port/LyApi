@@ -14,6 +14,7 @@
 package net.lymarket.lyapi.spigot.menu;
 
 import com.cryptomorin.xseries.XMaterial;
+import net.lymarket.lyapi.spigot.LyApi;
 import net.lymarket.lyapi.spigot.utils.ItemBuilder;
 import net.lymarket.lyapi.spigot.utils.NBTItem;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -26,40 +27,56 @@ public abstract class MenuSelector extends Menu {
     protected ItemStack DENY;
     
     public MenuSelector(IPlayerMenuUtility playerMenuUtility){
-        super(playerMenuUtility);
-        ACCEPT = new ItemBuilder(XMaterial.LIME_STAINED_GLASS.parseMaterial(), 5).setDurability((short) 5)
-                .setDisplayName("&aAccept")
-                .addTag("ly-menu-accept", "ly-menu-accept")
-                .build();
-        DENY = new ItemBuilder(XMaterial.RED_STAINED_GLASS.parseMaterial(), 14).setDurability((short) 14)
-                .setDisplayName("&cDeny")
-                .addTag("ly-menu-deny", "ly-menu-deny")
-                .build();
+        this(playerMenuUtility, false);
+    }
+    
+    public MenuSelector(IPlayerMenuUtility playerMenuUtility, boolean linked){
+        super(playerMenuUtility, linked);
+        try {
+            ACCEPT = new ItemBuilder(XMaterial.LIME_STAINED_GLASS.parseMaterial(), 5).setDurability((short) 5)
+                    .setDisplayName(LyApi.getLanguage().getMSG("menu.accept"))
+                    .addTag("ly-menu-accept", "ly-menu-accept")
+                    .build();
+            DENY = new ItemBuilder(XMaterial.RED_STAINED_GLASS.parseMaterial(), 14).setDurability((short) 14)
+                    .setDisplayName(LyApi.getLanguage().getMSG("menu.deny"))
+                    .addTag("ly-menu-deny", "ly-menu-deny")
+                    .build();
+            
+        } catch (NullPointerException ignored) {
+            ACCEPT = new ItemBuilder(XMaterial.LIME_STAINED_GLASS.parseMaterial(), 5).setDurability((short) 5)
+                    .setDisplayName("&aAccept")
+                    .addTag("ly-menu-accept", "ly-menu-accept")
+                    .build();
+            DENY = new ItemBuilder(XMaterial.RED_STAINED_GLASS.parseMaterial(), 14).setDurability((short) 14)
+                    .setDisplayName("&cDeny")
+                    .addTag("ly-menu-deny", "ly-menu-deny")
+                    .build();
+        }
     }
     
     
     @Override
-    public String getMenuName( ){
+    public String getMenuName(){
         return "Select";
     }
     
     @Override
-    public int getSlots( ){
+    public int getSlots(){
         return 27;
     }
     
     @Override
-    public void setMenuItems( ){
+    public void setMenuItems(){
         inventory.setItem(12, ACCEPT);
-    
+        
         inventory.setItem(14, DENY);
-    
+        
         inventory.setItem(18, super.CLOSE_ITEM);
-    
+        
         setSubMenuItems();
     }
     
-    public abstract void setSubMenuItems( );
+    public abstract void setSubMenuItems();
     
     @Override
     public void handleMenu(InventoryClickEvent e){
@@ -86,15 +103,15 @@ public abstract class MenuSelector extends Menu {
     
     public abstract void handleSubMenu(InventoryClickEvent e);
     
-    public abstract Menu getAcceptManu( );
+    public abstract Menu getAcceptManu();
     
-    public abstract Menu getDenyManu( );
+    public abstract Menu getDenyManu();
     
-    public abstract Menu getPrevMenu( );
+    public abstract Menu getPrevMenu();
     
-    public abstract boolean handleAccept( );
+    public abstract boolean handleAccept();
     
-    public abstract boolean handleDeny( );
+    public abstract boolean handleDeny();
     
     public void setAcceptItem(ItemStack item){
         ACCEPT = item;

@@ -11,24 +11,21 @@
  * Contact: contact@lymarket.net
  */
 
-package net.lymarket.common.commands;
+package net.lymarket.lyapi.common.commands;
 
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-
-public class TabContext {
+public class CommandContext {
     
     private final CommandSender sender;
     private final CommandInfo command;
-    private final String alias;
     private final String[] args;
     
-    public TabContext(CommandSender sender, String alias, String[] args, CommandInfo command){
+    public CommandContext(CommandSender sender, String[] args, CommandInfo command){
         this.sender = sender;
         this.args = args;
         this.command = command;
-        this.alias = alias;
     }
     
     public CommandSender getSender( ){
@@ -66,10 +63,6 @@ public class TabContext {
     
     public CommandInfo getCommand( ){
         return command;
-    }
-    
-    public String getAlias( ){
-        return alias;
     }
     
 }

@@ -11,14 +11,15 @@
  * Contact: contact@lymarket.net
  */
 
-package net.lymarket.common.db;
+package net.lymarket.lyapi.common.db;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.mongodb.ConnectionString;
 import com.mongodb.Function;
 import com.mongodb.MongoClientSettings;
 import com.mongodb.MongoTimeoutException;
 import com.mongodb.client.*;
-import net.lymarket.common.Api;
 import org.bson.Document;
 import org.bson.codecs.configuration.CodecRegistries;
 import org.bson.codecs.configuration.CodecRegistry;
@@ -31,27 +32,33 @@ public class MongoDBClient {
     
     private final MongoClient client;
     private final MongoDatabase database;
+    protected final Gson gson;
     
     public MongoDBClient(String host, String database){
         CodecRegistry codec = CodecRegistries.fromRegistries(
                 MongoClientSettings.getDefaultCodecRegistry(),
                 CodecRegistries.fromProviders(PojoCodecProvider.builder().automatic(true).build())
         );
-    
+        
         MongoClientSettings settings = MongoClientSettings.builder()
                 .codecRegistry(codec)
                 .applyConnectionString(new ConnectionString(host))
                 .build();
         client = MongoClients.create(settings);
         this.database = client.getDatabase(database);
-    
+        gson = new GsonBuilder().disableHtmlEscaping().setDateFormat("MMM dd, yyyy HH:mm:ss a").serializeNulls().create();
+        
     }
     
-    public MongoClient getClient( ){
+    public Gson getGson(){
+        return gson;
+    }
+    
+    public MongoClient getClient(){
         return client;
     }
     
-    public MongoDatabase getDatabase( ){
+    public MongoDatabase getDatabase(){
         return database;
     }
     
@@ -66,7 +73,7 @@ public class MongoDBClient {
     }
     
     public boolean replaceOneFast(String name, Bson filter, Object replace){
-        String json = Api.getGson().toJson(replace);
+        String json = gson.toJson(replace);
         Document document = Document.parse(json);
         
         return replaceOneFast(name, filter, document);
@@ -91,7 +98,7 @@ public class MongoDBClient {
             FindIterable < Document > documents = collection.find();
             MongoCursor < Document > cursor = documents.cursor();
             while (cursor.hasNext()) {
-                T current = Api.getGson().fromJson(cursor.next().toJson(), klass);
+                T current = gson.fromJson(cursor.next().toJson(), klass);
                 if (filter.apply(current)) list.add(current);
             }
         } catch (MongoTimeoutException TimeOut) {
@@ -107,7 +114,7 @@ public class MongoDBClient {
             FindIterable < Document > documents = collection.find();
             MongoCursor < Document > cursor = documents.cursor();
             while (cursor.hasNext()) {
-                T current = Api.getGson().fromJson(cursor.next().toJson(), klass);
+                T current = gson.fromJson(cursor.next().toJson(), klass);
                 list.add(current);
             }
         } catch (MongoTimeoutException TimeOut) {
@@ -121,7 +128,7 @@ public class MongoDBClient {
         FindIterable < Document > documents = collection.find();
         MongoCursor < Document > cursor = documents.cursor();
         while (cursor.hasNext()) {
-            T current = Api.getGson().fromJson(cursor.next().toJson(), klass);
+            T current = gson.fromJson(cursor.next().toJson(), klass);
             if (filter.apply(current)) return current;
         }
         return null;
@@ -129,7 +136,7 @@ public class MongoDBClient {
     
     public boolean insertOne(String name, Object data){
         MongoCollection < Document > collection = database.getCollection(name);
-        return collection.insertOne(Document.parse(Api.getGson().toJson(data))).wasAcknowledged();
+        return collection.insertOne(Document.parse(gson.toJson(data))).wasAcknowledged();
     }
     
     public boolean deleteOne(String name, Bson filter){

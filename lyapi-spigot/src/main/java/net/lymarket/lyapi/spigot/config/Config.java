@@ -14,12 +14,16 @@
 package net.lymarket.lyapi.spigot.config;
 
 import com.cryptomorin.xseries.XMaterial;
-import net.lymarket.common.config.ConfigGenerator;
+import net.lymarket.lyapi.common.config.ConfigGenerator;
 import net.lymarket.lyapi.spigot.utils.ItemBuilder;
 import net.lymarket.lyapi.spigot.utils.Utils;
+import org.bukkit.Color;
+import org.bukkit.FireworkEffect;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.FireworkEffectMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;
@@ -53,19 +57,65 @@ public class Config extends ConfigGenerator {
             item = new ItemBuilder(item).setLore(getStringList(section + "description")).build();
         } catch (NullPointerException ignored) {
         }
+    
         try {
-            HashMap < Enchantment, Integer > enchantments = new HashMap <>();
-            for ( String ench : getStringList(section + "enchantments") ){
-                String[] enchantment = ench.split(":");
-                enchantments.put(Enchantment.getByName(enchantment[0]), Integer.parseInt(enchantment[1]));
-            }
-            
-            item = new ItemBuilder(item).addEnchantments(enchantments).build();
+            item = new ItemBuilder(item).setDyeColor(getInt(section + "dyeColor")).build();
         } catch (NullPointerException ignored) {
         }
     
         try {
-            final List < String > nbts = getStringList(section + "nbt");
+            String fireWorkSection = section + "firework.";
+            if (material.equals(Material.FIREWORK_CHARGE)){
+                FireworkEffectMeta fm = (FireworkEffectMeta) item.getItemMeta();
+                FireworkEffect.Builder fe = FireworkEffect.builder();
+                try {
+                    fe.withColor(getStringList(fireWorkSection + "colors").stream().map(Utils::colorConverter).toArray(Color[]::new));
+                } catch (NullPointerException ignored) {
+                }
+            
+                try {
+                    fe.withFade(getStringList(fireWorkSection + "fadeColors").stream().map(Utils::colorConverter).toArray(Color[]::new));
+                } catch (NullPointerException ignored) {
+                }
+            
+                try {
+                    fe.flicker(getBoolean(fireWorkSection + "flicker"));
+                } catch (NullPointerException ignored) {
+                }
+            
+                try {
+                    fe.trail(getBoolean(fireWorkSection + "trail"));
+                } catch (NullPointerException ignored) {
+                }
+            
+                try {
+                    fe.trail(getBoolean(fireWorkSection + "trail"));
+                } catch (NullPointerException ignored) {
+                }
+                fm.setEffect(fe.build());
+                fm.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_UNBREAKABLE, ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_POTION_EFFECTS);
+                item.setItemMeta(fm);
+            
+            }
+        } catch (NullPointerException ignored) {
+        }
+    
+        try {
+            HashMap<Enchantment, Integer> enchantments = new HashMap<>();
+            for ( String ench : getStringList(section + "enchantments") ){
+                String[] enchantment = ench.split(":");
+                enchantments.put(Enchantment.getByName(enchantment[0]), Integer.parseInt(enchantment[1]));
+            }
+            item = new ItemBuilder(item).addEnchantments(enchantments).build();
+        } catch (NullPointerException ignored) {
+        }
+    
+        if (getBoolean("glow")){
+            item = new ItemBuilder(item).setEnchanted(true).build();
+        }
+    
+        try {
+            final List<String> nbts = getStringList(section + "nbt");
             for ( String nbt : nbts ){
                 String[] nbtData = nbt.split(":");
                 item = new ItemBuilder(item).addTag(nbtData[0], nbtData[1]).build();
@@ -73,6 +123,7 @@ public class Config extends ConfigGenerator {
         
         } catch (NullPointerException ignored) {
         }
+    
         try {
             final int customModelData = getInt(section + "customModelData");
             item = new ItemBuilder(item).setCustomModelData(customModelData).build();
@@ -85,9 +136,9 @@ public class Config extends ConfigGenerator {
         return getItem(key, new ItemStack(Material.AIR));
     }
     
-    public ItemStack getItem(String key, HashMap < String, String > replacements){
+    public ItemStack getItem(String key, HashMap<String, String> replacements){
         final ItemStack item = getItem(key);
-        List < String > lore = new ArrayList <>();
+        List<String> lore = new ArrayList<>();
         try {
             for ( String s : item.getItemMeta().getLore() ){
                 for ( String key2 : replacements.keySet() ){
@@ -98,14 +149,14 @@ public class Config extends ConfigGenerator {
             
         } catch (NullPointerException ignored) {
         }
-    
-    
+        
+        
         String name = item.getItemMeta().getDisplayName();
         for ( String key2 : replacements.keySet() ){
             name = name.replace("%" + key2 + "%", Utils.format(replacements.get(key2)));
         }
-    
-    
+        
+        
         return new ItemBuilder(item).setDisplayName(name).setLore(lore).build();
     }
     

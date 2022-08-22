@@ -11,7 +11,7 @@
  * Contact: contact@lymarket.net
  */
 
-package net.lymarket.common.commands.response;
+package net.lymarket.lyapi.common.commands.response;
 
 public class CommandResponse {
     

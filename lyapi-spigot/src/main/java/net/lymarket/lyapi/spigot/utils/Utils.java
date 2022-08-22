@@ -20,6 +20,7 @@ import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.ChatColor;
+import org.bukkit.Color;
 import org.bukkit.Sound;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -31,10 +32,11 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.regex.PatternSyntaxException;
 
 public class Utils {
     
-    private static final HashMap < String, String > inventory = new HashMap <>();
+    private static final HashMap<String, String> inventory = new HashMap<>();
     
     public static void sendMessage(CommandSender player, String message){
         player.sendMessage(format(message));
@@ -61,7 +63,7 @@ public class Utils {
     }
     
     
-    public static String getServer( ){
+    public static String getServer(){
         return LyApi.getPlugin().getConfig().getString("server.name");
     }
     
@@ -88,10 +90,10 @@ public class Utils {
         return new TextComponent(format(msg));
     }
     
-    public static TextComponent hoverOverMessage(String msg, List < String > hover){
+    public static TextComponent hoverOverMessage(String msg, List<String> hover){
         final TextComponent text = new TextComponent(format(msg));
         final StringBuilder hovermsg = new StringBuilder();
-        final Iterator < String > iterator = hover.iterator();
+        final Iterator<String> iterator = hover.iterator();
         while (iterator.hasNext()) {
             String s = iterator.next();
             hovermsg.append(s).append((iterator.hasNext() ? "\n" : ""));
@@ -100,10 +102,10 @@ public class Utils {
         return text;
     }
     
-    public static TextComponent hoverOverMessageURL(String msg, List < String > hover, String url){
+    public static TextComponent hoverOverMessageURL(String msg, List<String> hover, String url){
         final TextComponent text = new TextComponent(format(msg));
         final StringBuilder hovermsg = new StringBuilder();
-        final Iterator < String > iterator = hover.iterator();
+        final Iterator<String> iterator = hover.iterator();
         while (iterator.hasNext()) {
             String s = iterator.next();
             hovermsg.append(s).append((iterator.hasNext() ? "\n" : ""));
@@ -113,10 +115,10 @@ public class Utils {
         return text;
     }
     
-    public static TextComponent hoverOverMessageRunCommand(String msg, List < String > hover, String command){
+    public static TextComponent hoverOverMessageRunCommand(String msg, List<String> hover, String command){
         final TextComponent text = new TextComponent(format(msg));
         final StringBuilder hovermsg = new StringBuilder();
-        final Iterator < String > iterator = hover.iterator();
+        final Iterator<String> iterator = hover.iterator();
         while (iterator.hasNext()) {
             String s = iterator.next();
             hovermsg.append(s).append((iterator.hasNext() ? "\n" : ""));
@@ -126,10 +128,10 @@ public class Utils {
         return text;
     }
     
-    public static TextComponent hoverOverMessageSuggestCommand(String msg, List < String > hover, String command){
+    public static TextComponent hoverOverMessageSuggestCommand(String msg, List<String> hover, String command){
         final TextComponent text = new TextComponent(format(msg));
         final StringBuilder hovermsg = new StringBuilder();
-        final Iterator < String > iterator = hover.iterator();
+        final Iterator<String> iterator = hover.iterator();
         while (iterator.hasNext()) {
             String s = iterator.next();
             hovermsg.append(s).append((iterator.hasNext() ? "\n" : ""));
@@ -141,9 +143,13 @@ public class Utils {
     
     public static void savePlayerInventory(String name, PlayerInventory inv){
         final String[] serialized = Serializer.playerInventoryToBase64(inv);
-        final List < String > serialized2 = Arrays.asList(serialized);
+        final List<String> serialized2 = Arrays.asList(serialized);
         final String serialized3 = serialized2.get(0);
         inventory.put(name, serialized3);
+    }
+    
+    public static void playActionBar(Player p, String text){
+        LyApi.getInstance().getNMS().playAction(p, format(text));
     }
     
     public static void removePlayerInventory(String name){
@@ -158,6 +164,57 @@ public class Utils {
             e.printStackTrace();
         }
         return null;
+    }
+    
+    public static Color colorConverter(String color){
+        if ("RED".equalsIgnoreCase(color)){
+            return Color.RED;
+        } else if ("BLUE".equalsIgnoreCase(color)){
+            return Color.BLUE;
+        } else if ("GREEN".equalsIgnoreCase(color)){
+            return Color.GREEN;
+        } else if ("YELLOW".equalsIgnoreCase(color)){
+            return Color.YELLOW;
+        } else if ("WHITE".equalsIgnoreCase(color)){
+            return Color.WHITE;
+        } else if ("GRAY".equalsIgnoreCase(color)){
+            return Color.GRAY;
+        } else if ("PURPLE".equalsIgnoreCase(color)){
+            return Color.PURPLE;
+        } else if ("AQUA".equalsIgnoreCase(color)){
+            return Color.AQUA;
+        } else if ("LIME".equalsIgnoreCase(color)){
+            return Color.LIME;
+        } else if ("SILVER".equalsIgnoreCase(color)){
+            return Color.SILVER;
+        } else if ("MAROON".equalsIgnoreCase(color)){
+            return Color.MAROON;
+        } else if ("OLIVE".equalsIgnoreCase(color)){
+            return Color.OLIVE;
+        } else if ("TEAL".equalsIgnoreCase(color)){
+            return Color.TEAL;
+        } else if ("FUCHSIA".equalsIgnoreCase(color)){
+            return Color.FUCHSIA;
+        } else if ("NAVY".equalsIgnoreCase(color)){
+            return Color.NAVY;
+        } else if ("ORANGE".equalsIgnoreCase(color)){
+            return Color.ORANGE;
+        } else if ("BLACK".equalsIgnoreCase(color)){
+            return Color.BLACK;
+        }
+        try {
+            return Color.fromRGB(Integer.parseInt(color));
+        } catch (NumberFormatException ignored) {
+        }
+        try {
+            String[] rgb = color.split(",");
+            int RED = Integer.parseInt(rgb[0]);
+            int GREEN = Integer.parseInt(rgb[1]);
+            int BLUE = Integer.parseInt(rgb[2]);
+            return Color.fromRGB(RED, GREEN, BLUE);
+        } catch (IndexOutOfBoundsException | PatternSyntaxException | NumberFormatException ignored) {
+        }
+        return Color.WHITE;
     }
     
 }

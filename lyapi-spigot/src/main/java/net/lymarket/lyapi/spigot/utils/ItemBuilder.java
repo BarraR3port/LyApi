@@ -16,17 +16,11 @@ package net.lymarket.lyapi.spigot.utils;
 import com.cryptomorin.xseries.XMaterial;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
-import org.bukkit.Color;
-import org.bukkit.DyeColor;
-import org.bukkit.Material;
-import org.bukkit.SkullType;
+import org.bukkit.*;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.BookMeta;
-import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.inventory.meta.LeatherArmorMeta;
-import org.bukkit.inventory.meta.SkullMeta;
+import org.bukkit.inventory.meta.*;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -35,7 +29,7 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-public class ItemBuilder {
+public class ItemBuilder implements Cloneable {
     
     private ItemStack is;
     
@@ -107,13 +101,13 @@ public class ItemBuilder {
         return this;
     }
     
-    public ItemBuilder addEnchantments(Map < Enchantment, Integer > enchantments){
+    public ItemBuilder addEnchantments(Map<Enchantment, Integer> enchantments){
         is.addEnchantments(enchantments);
         return this;
     }
     
     
-    public ItemBuilder addUnsafeEnchantment(Map < Enchantment, Integer > enchantments){
+    public ItemBuilder addUnsafeEnchantment(Map<Enchantment, Integer> enchantments){
         is.addUnsafeEnchantments(enchantments);
         return this;
     }
@@ -140,7 +134,7 @@ public class ItemBuilder {
         return this;
     }
     
-    public ItemBuilder setLore(List < String > lore){
+    public ItemBuilder setLore(List<String> lore){
         if (lore == null) return this;
         ItemMeta im = is.getItemMeta();
         im.setLore(lore.stream().map(Utils::format).collect(Collectors.toList()));
@@ -151,7 +145,7 @@ public class ItemBuilder {
     public ItemBuilder removeLoreLine(String line){
         if (line == null) return this;
         ItemMeta im = is.getItemMeta();
-        List < String > lore = new ArrayList <>(im.getLore());
+        List<String> lore = new ArrayList<>(im.getLore());
         if (!lore.contains(line)) return this;
         lore.remove(line);
         im.setLore(lore);
@@ -161,7 +155,7 @@ public class ItemBuilder {
     
     public ItemBuilder removeLoreLine(int index){
         ItemMeta im = is.getItemMeta();
-        List < String > lore = new ArrayList <>(im.getLore());
+        List<String> lore = new ArrayList<>(im.getLore());
         if (index < 0 || index > lore.size()) return this;
         lore.remove(index);
         im.setLore(lore);
@@ -169,11 +163,18 @@ public class ItemBuilder {
         return this;
     }
     
+    public ItemBuilder clearLore(){
+        ItemMeta im = is.getItemMeta();
+        im.setLore(null);
+        is.setItemMeta(im);
+        return this;
+    }
+    
     public ItemBuilder addLoreLine(String line){
         if (line == null) return this;
         ItemMeta im = is.getItemMeta();
-        List < String > lore = new ArrayList <>();
-        if (im.hasLore()) lore = new ArrayList <>(im.getLore());
+        List<String> lore = new ArrayList<>();
+        if (im.hasLore()) lore = new ArrayList<>(im.getLore());
         lore.add(Utils.format(line));
         im.setLore(lore);
         is.setItemMeta(im);
@@ -183,7 +184,7 @@ public class ItemBuilder {
     public ItemBuilder addLoreLine(String line, int pos){
         if (line == null) return this;
         ItemMeta im = is.getItemMeta();
-        List < String > lore = new ArrayList <>(im.getLore());
+        List<String> lore = new ArrayList<>(im.getLore());
         lore.set(pos, Utils.format(line));
         im.setLore(lore);
         is.setItemMeta(im);
@@ -265,6 +266,52 @@ public class ItemBuilder {
         return this;
     }
     
+    public ItemBuilder setDyeColor(int color){
+        this.is.setDurability((byte) color);
+        return this;
+    }
+    
+    public ItemBuilder setFireWorkColor(Color color){
+        if (!is.getType().equals(Material.FIREWORK_CHARGE)) return this;
+        FireworkEffectMeta fm = (FireworkEffectMeta) is.getItemMeta();
+        FireworkEffect.Builder fe = FireworkEffect.builder();
+        fe.withColor(color);
+        fm.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_UNBREAKABLE, ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_POTION_EFFECTS);
+        //Add more things...
+        fm.setEffect(fe.build());
+        is.setItemMeta(fm);
+        return this;
+    }
+    
+    public ItemBuilder setFireWorkColors(Color... color){
+        if (!is.getType().equals(Material.FIREWORK_CHARGE)) return this;
+        FireworkEffectMeta fm = (FireworkEffectMeta) is.getItemMeta();
+        FireworkEffect.Builder fe = FireworkEffect.builder();
+        fe.withColor(color);
+        fm.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_UNBREAKABLE, ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_POTION_EFFECTS);
+        fm.setEffect(fe.build());
+        is.setItemMeta(fm);
+        return this;
+    }
+    
+    public ItemBuilder setFireWorkBuild(FireworkEffect.Builder builder){
+        if (!is.getType().equals(Material.FIREWORK_CHARGE)) return this;
+        FireworkEffectMeta fm = (FireworkEffectMeta) is.getItemMeta();
+        fm.setEffect(builder.build());
+        fm.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_UNBREAKABLE, ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_POTION_EFFECTS);
+        is.setItemMeta(fm);
+        return this;
+    }
+    
+    public ItemBuilder setFireWorkBuild(FireworkEffect effects){
+        if (!is.getType().equals(Material.FIREWORK_CHARGE)) return this;
+        FireworkEffectMeta fm = (FireworkEffectMeta) is.getItemMeta();
+        fm.setEffect(effects);
+        fm.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_UNBREAKABLE, ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_POTION_EFFECTS);
+        is.setItemMeta(fm);
+        return this;
+    }
+    
     public ItemBuilder setBookAuthor(String author){
         BookMeta bm = (BookMeta) is.getItemMeta();
         bm.setAuthor(author);
@@ -294,8 +341,16 @@ public class ItemBuilder {
     }
     
     
-    public ItemStack build( ){
+    public ItemStack build(){
         return is;
     }
     
+    @Override
+    public ItemBuilder clone(){
+        try {
+            return (ItemBuilder) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
+    }
 }

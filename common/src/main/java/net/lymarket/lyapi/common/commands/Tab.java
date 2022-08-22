@@ -11,21 +11,13 @@
  * Contact: contact@lymarket.net
  */
 
-package net.lymarket.common.commands;
+package net.lymarket.lyapi.common.commands;
 
 import java.lang.annotation.*;
 
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.METHOD)
 @Inherited
-public @interface Command {
-    String name( );
-    
-    String description( ) default "";
-    
-    String usage( ) default "";
-    
-    String[] aliases( ) default {};
-    
-    String permission( ) default "";
+@Target(ElementType.METHOD)
+public @interface Tab {
+
 }

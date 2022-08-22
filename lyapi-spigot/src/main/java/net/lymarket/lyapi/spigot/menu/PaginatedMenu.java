@@ -27,30 +27,30 @@ import java.util.UUID;
 public abstract class PaginatedMenu extends Menu {
     
     protected int page = 0;
-    
-    //28 empty slots per page
     protected int maxItemsPerPage = 28;
-    
     protected int index = 0;
-    
     protected int size = 0;
     
     public PaginatedMenu(IPlayerMenuUtility playerMenuUtility){
-        super(playerMenuUtility);
+        this(playerMenuUtility, false);
     }
     
-    public PaginatedMenu(IPlayerMenuUtility playerMenuUtility, Material fillerItem){
-        super(playerMenuUtility, fillerItem);
+    public PaginatedMenu(IPlayerMenuUtility playerMenuUtility, boolean linked){
+        super(playerMenuUtility, linked);
+    }
+    
+    public PaginatedMenu(IPlayerMenuUtility playerMenuUtility, Material fillerItem, boolean linked){
+        super(playerMenuUtility, fillerItem, linked);
     }
     
     @Override
-    public int getSlots( ){
+    public int getSlots(){
         return 54;
     }
     
-    public abstract void setSize( );
+    public abstract void setSize();
     
-    public void nextPage( ){
+    public void nextPage(){
         setSize();
         if (index + 1 <= size){
             page++;
@@ -60,7 +60,7 @@ public abstract class PaginatedMenu extends Menu {
         }
     }
     
-    public void prevPage( ){
+    public void prevPage(){
         setSize();
         page = Math.max(page - 1, 0);
         inventory.clear();
@@ -69,32 +69,32 @@ public abstract class PaginatedMenu extends Menu {
     }
     
     
-    public void addMenuBorder( ){
+    public void addMenuBorder(){
         inventory.setItem(48, page == 0 ? FILLER_GLASS : PREV_ITEM);
-    
+        
         inventory.setItem(50, CLOSE_ITEM);
-    
+        
         inventory.setItem(49, index + 1 >= size ? FILLER_GLASS : NEXT_ITEM);
-    
+        
         for ( int i = 0; i < 10; i++ ){
             if (inventory.getItem(i) == null){
                 inventory.setItem(i, FILLER_GLASS);
             }
         }
-    
+        
         inventory.setItem(17, FILLER_GLASS);
         inventory.setItem(18, FILLER_GLASS);
         inventory.setItem(26, FILLER_GLASS);
         inventory.setItem(27, FILLER_GLASS);
         inventory.setItem(35, FILLER_GLASS);
         inventory.setItem(36, FILLER_GLASS);
-    
+        
         for ( int i = 44; i < 54; i++ ){
             if (inventory.getItem(i) == null){
                 inventory.setItem(i, FILLER_GLASS);
             }
         }
-    
+        
     }
     
     private ItemStack createItem(String name, String head){

@@ -14,11 +14,11 @@
 package net.lymarket.lyapi.spigot;
 
 
-import net.lymarket.common.Api;
-import net.lymarket.common.commands.CommandService;
-import net.lymarket.common.error.LyApiInitializationError;
-import net.lymarket.common.lang.ILang;
-import net.lymarket.common.version.VersionSupport;
+import net.lymarket.lyapi.common.Api;
+import net.lymarket.lyapi.common.commands.CommandService;
+import net.lymarket.lyapi.common.error.LyApiInitializationError;
+import net.lymarket.lyapi.common.lang.ILang;
+import net.lymarket.lyapi.common.version.VersionSupport;
 import net.lymarket.lyapi.spigot.listeners.MenuListener;
 import net.lymarket.lyapi.spigot.menu.IPlayerMenuUtility;
 import net.lymarket.lyapi.spigot.menu.PlayerMenuUtility;
@@ -35,19 +35,12 @@ import java.util.logging.Level;
 public final class LyApi extends Api {
     
     private static final HashMap < Player, IPlayerMenuUtility > playerMenuUtilityMap = new HashMap <>();
-    
     private static LyApi instance;
-    
     private static Plugin plugin;
-    
     private static ILang lang;
-    
     private final String pluginName;
-    
     private final String version;
-    
     private final CommandService commandService;
-    
     private VersionSupport nms;
     
     public LyApi(JavaPlugin plugin, String pluginName) throws LyApiInitializationError{

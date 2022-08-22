@@ -14,26 +14,49 @@
 package net.lymarket.lyapi.spigot.menu;
 
 import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
 
 public abstract class UpdatablePaginatedMenu extends PaginatedMenu implements IUpdatableMenu {
+    private boolean updating = false;
     
     public UpdatablePaginatedMenu(IPlayerMenuUtility playerMenuUtility){
-        super(playerMenuUtility);
+        super(playerMenuUtility, false);
     }
     
-    public UpdatablePaginatedMenu(IPlayerMenuUtility playerMenuUtility, Material fillerItem){
-        super(playerMenuUtility, fillerItem);
+    public UpdatablePaginatedMenu(IPlayerMenuUtility playerMenuUtility, boolean linked){
+        super(playerMenuUtility, linked);
+    }
+    
+    public UpdatablePaginatedMenu(IPlayerMenuUtility playerMenuUtility, Material fillerItem, boolean linked){
+        super(playerMenuUtility, fillerItem, linked);
     }
     
     
-    public void reOpen( ){
-        this.inventory.clear();
+    public void reOpen(){
         this.onReOpen();
+        updating = true;
         this.setMenuItems();
+        for ( Integer slots : occupiedSlots ){
+            this.inventory.setItem(slots, null);
+        }
+        this.occupiedSlots.clear();
+        this.occupiedSlots.addAll(newOccupiedSlots);
+        newOccupiedSlots.clear();
+        updating = false;
     }
     
-    public void onReOpen( ){
+    public void onReOpen(){
     
+    }
+    
+    @Override
+    public void setMenuItem(int slot, ItemStack item){
+        this.inventory.setItem(slot, item);
+        if (updating){
+            newOccupiedSlots.add(slot);
+        } else {
+            occupiedSlots.add(slot);
+        }
     }
     
     

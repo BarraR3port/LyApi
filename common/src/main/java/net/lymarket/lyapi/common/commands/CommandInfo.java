@@ -11,11 +11,11 @@
  * Contact: contact@lymarket.net
  */
 
-package net.lymarket.common.commands;
+package net.lymarket.lyapi.common.commands;
 
 
-import net.lymarket.common.Api;
-import net.lymarket.common.commands.response.CommandResponse;
+import net.lymarket.lyapi.common.Api;
+import net.lymarket.lyapi.common.commands.response.CommandResponse;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.defaults.BukkitCommand;
@@ -51,7 +51,7 @@ public class CommandInfo extends BukkitCommand {
     public boolean execute(CommandSender sender, String commandLabel, String[] args){
         try {
             CommandContext context = new CommandContext(sender, args, this);
-            if (getPermission() != null || !getPermission().equalsIgnoreCase("")){
+            if (getPermission() != null && !(getPermission().length() == 0)){
                 if (!sender.hasPermission(this.getPermission())){
                     sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Api.NO_PERMISSION.replace("permission", this.getPermission())));
                     return false;

@@ -11,7 +11,7 @@
  * Contact: contact@lymarket.net
  */
 
-package net.lymarket.common.version;
+package net.lymarket.lyapi.common.version;
 
 import org.bukkit.Material;
 import org.bukkit.entity.Entity;

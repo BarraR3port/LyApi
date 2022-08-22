@@ -13,7 +13,7 @@
 
 package net.lymarket.lyapi.bungee;
 
-import net.lymarket.common.Api;
+import net.lymarket.lyapi.common.Api;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.plugin.Plugin;
 

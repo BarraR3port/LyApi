@@ -13,8 +13,13 @@
 
 package net.lymarket.lyapi.spigot.menu;
 
+import java.util.LinkedList;
+
 public interface IUpdatableMenu {
-    void reOpen( );
+    LinkedList<Integer> newOccupiedSlots = new LinkedList<>();
     
-    void onReOpen( );
+    void reOpen();
+    
+    void onReOpen();
+    
 }

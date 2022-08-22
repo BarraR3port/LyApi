@@ -11,9 +11,9 @@
  * Contact: contact@lymarket.net
  */
 
-package net.lymarket.common.lang;
+package net.lymarket.lyapi.common.lang;
 
-import net.lymarket.common.config.ConfigGenerator;
+import net.lymarket.lyapi.common.config.ConfigGenerator;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -24,9 +24,7 @@ import java.util.HashMap;
 public abstract class ILang {
     
     protected final ConfigGenerator lang;
-    
     protected String prefix;
-    
     protected String errorPrefix;
     
     public ILang(ConfigGenerator configGenerator, String prefix, String errorPrefix){
