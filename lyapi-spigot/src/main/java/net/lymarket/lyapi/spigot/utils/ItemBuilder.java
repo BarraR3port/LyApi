@@ -272,7 +272,7 @@ public class ItemBuilder implements Cloneable {
     }
     
     public ItemBuilder setFireWorkColor(Color color){
-        if (!is.getType().equals(Material.FIREWORK_CHARGE)) return this;
+        if (!is.getType().equals((XMaterial.FIREWORK_ROCKET.parseMaterial()))) return this;
         FireworkEffectMeta fm = (FireworkEffectMeta) is.getItemMeta();
         FireworkEffect.Builder fe = FireworkEffect.builder();
         fe.withColor(color);
@@ -284,7 +284,7 @@ public class ItemBuilder implements Cloneable {
     }
     
     public ItemBuilder setFireWorkColors(Color... color){
-        if (!is.getType().equals(Material.FIREWORK_CHARGE)) return this;
+        if (!is.getType().equals(XMaterial.FIREWORK_ROCKET.parseMaterial())) return this;
         FireworkEffectMeta fm = (FireworkEffectMeta) is.getItemMeta();
         FireworkEffect.Builder fe = FireworkEffect.builder();
         fe.withColor(color);
@@ -295,7 +295,7 @@ public class ItemBuilder implements Cloneable {
     }
     
     public ItemBuilder setFireWorkBuild(FireworkEffect.Builder builder){
-        if (!is.getType().equals(Material.FIREWORK_CHARGE)) return this;
+        if (!is.getType().equals(XMaterial.FIREWORK_ROCKET.parseMaterial())) return this;
         FireworkEffectMeta fm = (FireworkEffectMeta) is.getItemMeta();
         fm.setEffect(builder.build());
         fm.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_UNBREAKABLE, ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_POTION_EFFECTS);
@@ -304,7 +304,7 @@ public class ItemBuilder implements Cloneable {
     }
     
     public ItemBuilder setFireWorkBuild(FireworkEffect effects){
-        if (!is.getType().equals(Material.FIREWORK_CHARGE)) return this;
+        if (!is.getType().equals(XMaterial.FIREWORK_ROCKET.parseMaterial())) return this;
         FireworkEffectMeta fm = (FireworkEffectMeta) is.getItemMeta();
         fm.setEffect(effects);
         fm.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_UNBREAKABLE, ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_POTION_EFFECTS);

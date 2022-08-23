@@ -13,7 +13,7 @@
 
 package net.lymarket.lyapi.support.version.v1_14_R1;
 
-import net.lymarket.common.version.VersionSupport;
+import net.lymarket.lyapi.common.version.VersionSupport;
 import net.minecraft.server.v1_14_R1.*;
 import org.bukkit.craftbukkit.v1_14_R1.entity.CraftPlayer;
 import org.bukkit.craftbukkit.v1_14_R1.inventory.CraftItemStack;

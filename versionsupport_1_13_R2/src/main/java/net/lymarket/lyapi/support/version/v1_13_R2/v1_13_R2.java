@@ -13,7 +13,7 @@
 
 package net.lymarket.lyapi.support.version.v1_13_R2;
 
-import net.lymarket.common.version.VersionSupport;
+import net.lymarket.lyapi.common.version.VersionSupport;
 import net.minecraft.server.v1_13_R2.*;
 import org.bukkit.craftbukkit.v1_13_R2.entity.CraftPlayer;
 import org.bukkit.craftbukkit.v1_13_R2.inventory.CraftItemStack;
@@ -190,9 +190,8 @@ public class v1_13_R2 extends VersionSupport {
             i.setTag(CraftItemStack.asNMSCopy(copyTagFrom).getTag());
             head = CraftItemStack.asBukkitCopy(i);
         }
-        
-        if (head.hasItemMeta() && head.getItemMeta() instanceof SkullMeta){
-            SkullMeta headMeta = (SkullMeta) head.getItemMeta();
+    
+        if (head.hasItemMeta() && head.getItemMeta() instanceof SkullMeta headMeta){
             Field profileField;
             try {
                 profileField = headMeta.getClass().getDeclaredField("profile");

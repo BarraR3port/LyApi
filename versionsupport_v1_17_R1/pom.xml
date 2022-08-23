@@ -18,7 +18,7 @@
     <parent>
         <artifactId>LyApi</artifactId>
         <groupId>net.lymarket.lyapi</groupId>
-        <version>1.2.12</version>
+        <version>1.2.13</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -48,8 +48,8 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <source>17</source>
-                    <target>17</target>
+                    <source>16</source>
+                    <target>16</target>
                 </configuration>
             </plugin>
         </plugins>

@@ -14,7 +14,7 @@
 package net.lymarket.lyapi.support.version.v1_16_R3;
 
 import com.mojang.datafixers.util.Pair;
-import net.lymarket.common.version.VersionSupport;
+import net.lymarket.lyapi.common.version.VersionSupport;
 import net.minecraft.server.v1_16_R3.*;
 import org.bukkit.craftbukkit.v1_16_R3.entity.CraftPlayer;
 import org.bukkit.craftbukkit.v1_16_R3.inventory.CraftItemStack;

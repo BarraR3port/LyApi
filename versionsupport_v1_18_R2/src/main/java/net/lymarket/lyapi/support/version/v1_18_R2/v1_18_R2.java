@@ -14,7 +14,7 @@
 package net.lymarket.lyapi.support.version.v1_18_R2;
 
 import com.mojang.datafixers.util.Pair;
-import net.lymarket.common.version.VersionSupport;
+import net.lymarket.lyapi.common.version.VersionSupport;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.chat.ChatMessageType;
 import net.minecraft.network.chat.IChatBaseComponent;
