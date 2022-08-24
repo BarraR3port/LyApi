@@ -113,27 +113,12 @@
         </dependency>
         <dependency>
             <groupId>net.lymarket.lyapi</groupId>
-            <artifactId>versionsupport_1_16_R1</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>net.lymarket.lyapi</groupId>
-            <artifactId>versionsupport_1_16_R2</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>net.lymarket.lyapi</groupId>
             <artifactId>versionsupport_v1_16_R3</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>net.lymarket.lyapi</groupId>
             <artifactId>versionsupport_v1_17_R1</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>net.lymarket.lyapi</groupId>
-            <artifactId>versionsupport_v1_18_R1</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>

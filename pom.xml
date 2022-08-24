@@ -98,19 +98,6 @@
                     </execution>
                 </executions>
             </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <version>3.1.1</version>
-                <executions>
-                    <execution>
-                        <id>attach-javadocs</id>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -130,25 +117,6 @@
                 <version>2.8.2</version>
                 <configuration>
                     <skip>true</skip>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.sonatype.plugins</groupId>
-                <artifactId>nexus-staging-maven-plugin</artifactId>
-                <version>1.5.1</version>
-                <executions>
-                    <execution>
-                        <id>default-deploy</id>
-                        <phase>deploy</phase>
-                        <goals>
-                            <goal>deploy</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <serverId>lydark-central</serverId>
-                    <nexusUrl>https://repo.lydark.org/repository/lydark-central/</nexusUrl>
-                    <skipStaging>true</skipStaging>
                 </configuration>
             </plugin>
 
@@ -174,11 +142,8 @@
         <module>versionsupport_1_13_R2</module>
         <module>versionsupport_1_14_R1</module>
         <module>versionsupport_1_15_R1</module>
-        <module>versionsupport_1_16_R1</module>
-        <module>versionsupport_1_16_R2</module>
         <module>versionsupport_v1_16_R3</module>
         <module>versionsupport_v1_17_R1</module>
-        <module>versionsupport_v1_18_R1</module>
         <module>versionsupport_v1_18_R2</module>
         <module>versionsupport_v1_19_R1</module>
     </modules>
