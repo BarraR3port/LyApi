@@ -98,19 +98,6 @@
                     </execution>
                 </executions>
             </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <version>3.1.1</version>
-                <executions>
-                    <execution>
-                        <id>attach-javadocs</id>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -164,23 +151,7 @@
     <modules>
         <module>common</module>
         <module>lyapi-spigot</module>
-        <!--<module>lyapi-velocity</module>
-        <module>lyapi-bungee</module>-->
         <module>versionsupport_1_8_R3</module>
-        <!--<module>versionsupport_1_9_R2</module>
-        <module>versionsupport_1_10_R1</module>
-        <module>versionsupport_1_11_R1</module>
-        <module>versionsupport_1_12_R1</module>
-        <module>versionsupport_1_13_R2</module>
-        <module>versionsupport_1_14_R1</module>
-        <module>versionsupport_1_15_R1</module>
-        <module>versionsupport_1_16_R1</module>
-        <module>versionsupport_1_16_R2</module>
-        <module>versionsupport_v1_16_R3</module>
-        <module>versionsupport_v1_17_R1</module>
-        <module>versionsupport_v1_18_R1</module>
-        <module>versionsupport_v1_18_R2</module>
-        <module>versionsupport_v1_19_R1</module>-->
     </modules>
 
     <distributionManagement>
