@@ -17,11 +17,11 @@ import org.bukkit.entity.Player;
 
 public interface IPlayerMenuUtility {
     
-    Player getOwner( );
+    Player getOwner();
     
     void setOwner(Player owner);
     
-    Player getTarget( );
+    Player getTarget();
     
     void setTarget(Player target);
     

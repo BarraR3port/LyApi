@@ -34,7 +34,7 @@ import java.util.logging.Level;
 
 public final class LyApi extends Api {
     
-    private static final HashMap < Player, IPlayerMenuUtility > playerMenuUtilityMap = new HashMap <>();
+    private static final HashMap<Player, IPlayerMenuUtility> playerMenuUtilityMap = new HashMap<>();
     private static LyApi instance;
     private static Plugin plugin;
     private static ILang lang;
@@ -80,11 +80,11 @@ public final class LyApi extends Api {
         plugin.getServer().getPluginManager().registerEvents(new MenuListener(), plugin);
     }
     
-    public static Plugin getPlugin( ){
+    public static Plugin getPlugin(){
         return plugin;
     }
     
-    public static LyApi getInstance( ){
+    public static LyApi getInstance(){
         return instance;
     }
     
@@ -100,7 +100,7 @@ public final class LyApi extends Api {
         return playerMenuUtility;
     }
     
-    public static ILang getLanguage( ){
+    public static ILang getLanguage(){
         return lang;
     }
     
@@ -116,19 +116,19 @@ public final class LyApi extends Api {
         return this;
     }
     
-    public VersionSupport getNMS( ){
+    public VersionSupport getNMS(){
         return nms;
     }
     
-    public String getVersion( ){
+    public String getVersion(){
         return version;
     }
     
-    public CommandService getCommandService( ){
+    public CommandService getCommandService(){
         return this.commandService;
     }
     
-    public String getPluginName( ){
+    public String getPluginName(){
         return this.pluginName;
     }
     

@@ -30,11 +30,11 @@ public abstract class VersionSupport {
         this.plugin = plugin;
     }
     
-    public static String getName( ){
+    public static String getName(){
         return name;
     }
     
-    public Plugin getPlugin( ){
+    public Plugin getPlugin(){
         return plugin;
     }
     
@@ -94,7 +94,7 @@ public abstract class VersionSupport {
     /**
      * Player head material
      */
-    public abstract Material materialPlayerHead( );
+    public abstract Material materialPlayerHead();
     
     
     /**

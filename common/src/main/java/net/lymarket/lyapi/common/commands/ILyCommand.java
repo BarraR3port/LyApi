@@ -15,12 +15,12 @@ package net.lymarket.lyapi.common.commands;
 
 import net.lymarket.lyapi.common.commands.response.CommandResponse;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 
 public interface ILyCommand {
     
     CommandResponse command(CommandContext context);
     
-    ArrayList < String > tabComplete(TabContext tabContext);
+    LinkedList<String> tabComplete(TabContext tabContext);
     
 }

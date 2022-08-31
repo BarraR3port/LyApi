@@ -22,12 +22,12 @@ import java.util.HashMap;
 
 public class CommandService {
     
-    private final HashMap < String, CommandInfo > commands;
+    private final HashMap<String, CommandInfo> commands;
     
     private CommandMap commandMap;
     
-    public CommandService( ){
-        commands = new HashMap <>();
+    public CommandService(){
+        commands = new HashMap<>();
         try {
             final Field bukkitCommandMap = Bukkit.getServer().getClass().getDeclaredField("commandMap");
             bukkitCommandMap.setAccessible(true);
@@ -38,11 +38,11 @@ public class CommandService {
     }
     
     public void registerCommands(ILyCommand command){
-        Class < ? > klass = command.getClass();
+        Class<?> klass = command.getClass();
         Command cmd = null;
         Tab subCmd = null;
         Method cmdMethod = null;
-        Method subCmdMethod = null;
+        Method tabCompleteMethod = null;
         for ( Method method : klass.getMethods() ){
             if (method.isAnnotationPresent(Command.class)){
                 cmd = method.getAnnotation(Command.class);
@@ -50,17 +50,17 @@ public class CommandService {
             }
             if (method.isAnnotationPresent(Tab.class)){
                 subCmd = method.getAnnotation(Tab.class);
-                subCmdMethod = method;
+                tabCompleteMethod = method;
             }
         }
         if (cmd == null) return;
         
-        CommandInfo commandInfo = new CommandInfo(command, cmdMethod, subCmdMethod, cmd, subCmd);
+        CommandInfo commandInfo = new CommandInfo(command, cmdMethod, tabCompleteMethod, cmd, subCmd);
         commands.put(commandInfo.getName(), commandInfo);
         commandMap.register(commandInfo.getName(), commandInfo);
     }
     
-    public void unRegisterCustomCommands( ){
+    public void unRegisterCustomCommands(){
         for ( CommandInfo commandInfo : commands.values() ){
             commandInfo.unregister(commandMap);
         }

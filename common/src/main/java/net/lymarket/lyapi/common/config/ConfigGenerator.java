@@ -75,23 +75,23 @@ public class ConfigGenerator extends CommentConfig {
         }
     }
     
-    public void loadConfig( ) throws Exception{
+    public void loadConfig() throws Exception{
         try {
             this.load(file);
         } catch (FileNotFoundException e) {
             loadFile();
             createData();
-    
+        
             try {
                 loadConfig();
-        
+            
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
         }
     }
     
-    public void reloadConfig( ){
+    public void reloadConfig(){
         try {
             this.loadConfig();
         } catch (Exception e) {
@@ -99,11 +99,11 @@ public class ConfigGenerator extends CommentConfig {
         }
     }
     
-    public void loadFile( ){
+    public void loadFile(){
         this.file = new File(filePath, this.fileName);
     }
     
-    public void saveData( ){
+    public void saveData(){
         this.file = new File(filePath, this.fileName);
         try {
             this.save(this.file);
@@ -119,7 +119,7 @@ public class ConfigGenerator extends CommentConfig {
         super.save(file);
     }
     
-    public void createData( ){
+    public void createData(){
         if (!file.exists()){
             if (!this.filePath.exists()){
                 final boolean result = this.filePath.mkdirs();
@@ -127,7 +127,7 @@ public class ConfigGenerator extends CommentConfig {
                     throw new IllegalStateException("Could not create directory for " + this.filePath.getAbsolutePath());
                 }
             }
-    
+            
             //If file isn't a resource, create from scratch
             try {
                 final boolean result = this.file.createNewFile();
@@ -141,7 +141,7 @@ public class ConfigGenerator extends CommentConfig {
         }
     }
     
-    public void delete( ){
+    public void delete(){
         if (this.file.exists()){
             final boolean result = this.file.delete();
             if (!result){

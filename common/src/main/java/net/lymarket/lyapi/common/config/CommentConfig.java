@@ -21,20 +21,20 @@ import java.util.*;
 
 public class CommentConfig extends YamlConfiguration {
     
-    private final Map < String, List < String > > comments;
+    private final Map<String, List<String>> comments;
     protected JavaPlugin plugin;
     
     public CommentConfig(JavaPlugin plugin){
-        comments = new HashMap <>();
+        comments = new HashMap<>();
         this.plugin = plugin;
     }
     
     @Override
-    public String saveToString( ){
+    public String saveToString(){
         
         String contents = super.saveToString();
         
-        List < String > list = new ArrayList <>(Arrays.asList(contents.split("\n")));
+        List<String> list = new ArrayList<>(Arrays.asList(contents.split("\n")));
         
         int currentLayer = 0;
         StringBuilder currentPath = new StringBuilder();
@@ -42,7 +42,7 @@ public class CommentConfig extends YamlConfiguration {
         StringBuilder sb = new StringBuilder();
         
         int lineNumber = 0;
-        for ( Iterator < String > iterator = list.iterator(); iterator.hasNext(); lineNumber++ ){
+        for ( Iterator<String> iterator = list.iterator(); iterator.hasNext(); lineNumber++ ){
             String line = iterator.next();
             if (line.isEmpty()){
                 continue;
@@ -74,30 +74,30 @@ public class CommentConfig extends YamlConfiguration {
                 }
             }
         }
-    
+        
         return sb.toString();
     }
     
     @Override
     public void loadFromString(String contents) throws InvalidConfigurationException{
         super.loadFromString(contents);
-        
-        List < String > list = new ArrayList <>();
+    
+        List<String> list = new ArrayList<>();
         Collections.addAll(list, contents.split("\n"));
-        
+    
         int currentLayer = 0;
         String currentPath = "";
-        
+    
         int lineNumber = 0;
-        for ( Iterator < String > iterator = list.iterator(); iterator.hasNext(); lineNumber++ ){
+        for ( Iterator<String> iterator = list.iterator(); iterator.hasNext(); lineNumber++ ){
             String line = iterator.next();
-            
+        
             String trimmed = line.trim();
             if (trimmed.startsWith("##") || trimmed.isEmpty()){
                 addCommentLine(currentPath, line);
                 continue;
             }
-            
+        
             if (!line.isEmpty()){
                 if (line.contains(":")){
                     
@@ -110,13 +110,13 @@ public class CommentConfig extends YamlConfiguration {
     }
     
     private void addCommentLine(String currentPath, String line){
-        
-        List < String > list = comments.get(currentPath);
+    
+        List<String> list = comments.get(currentPath);
         if (list == null){
-            list = new ArrayList <>();
+            list = new ArrayList<>();
         }
         list.add(line);
-        
+    
         comments.put(currentPath, list);
     }
     
