@@ -30,13 +30,15 @@ public class MenuListener implements Listener {
             return;
     
         InventoryHolder holder = e.getInventory().getHolder();
-        if (holder instanceof InventoryMenu menu){
+        if (holder instanceof InventoryMenu){
+            InventoryMenu menu = (InventoryMenu) holder;
             menu.canMoveBottomItems();
             menu.canMoveTopItems();
             menu.handleMenu(e);
-        } else if (holder instanceof Menu menu){
+        } else if (holder instanceof Menu){
             if (e.getCurrentItem() == null || e.getCurrentItem().getType() == Material.AIR)
                 return;
+            Menu menu = (Menu) holder;
             if (!menu.canMoveTopItems() && !menu.canMoveBottomItems())
                 e.setCancelled(true);
             if (e.getClickedInventory().getType() == InventoryType.PLAYER && !menu.canMoveBottomItems())
@@ -53,11 +55,13 @@ public class MenuListener implements Listener {
             return;
     
         InventoryHolder holder = e.getInventory().getHolder();
-        if (holder instanceof InventoryMenu menu){
+        if (holder instanceof InventoryMenu){
+            InventoryMenu menu = (InventoryMenu) holder;
             menu.canMoveBottomItems();
             menu.canMoveTopItems();
             menu.handleDragEvent(e);
-        } else if (holder instanceof Menu menu){
+        } else if (holder instanceof Menu){
+            Menu menu = (Menu) holder;
             if (!menu.canMoveTopItems() && !menu.canMoveBottomItems())
                 e.setCancelled(true);
             if (e.getInventory().getType() == InventoryType.PLAYER && !menu.canMoveBottomItems())
@@ -76,11 +80,13 @@ public class MenuListener implements Listener {
             return;
     
         InventoryHolder holder = e.getInventory().getHolder();
-        if (holder instanceof InventoryMenu menu){
+        if (holder instanceof InventoryMenu){
+            InventoryMenu menu = (InventoryMenu) holder;
             menu.canMoveBottomItems();
             menu.canMoveTopItems();
             menu.handleClose(e);
-        } else if (holder instanceof Menu menu){
+        } else if (holder instanceof Menu){
+            Menu menu = (Menu) holder;
             menu.handleClose(e);
         }
     }
@@ -92,19 +98,23 @@ public class MenuListener implements Listener {
     
         InventoryHolder firstHolder = e.getInitiator().getHolder();
         InventoryHolder destinationHolder = e.getDestination().getHolder();
-        if (firstHolder instanceof InventoryMenu menu){
+        if (firstHolder instanceof InventoryMenu){
+            InventoryMenu menu = (InventoryMenu) firstHolder;
             menu.canMoveBottomItems();
             menu.canMoveTopItems();
             menu.handleMove(e);
-        } else if (destinationHolder instanceof InventoryMenu menu){
+        } else if (destinationHolder instanceof InventoryMenu){
+            InventoryMenu menu = (InventoryMenu) destinationHolder;
             menu.canMoveBottomItems();
             menu.canMoveTopItems();
             menu.handleMove(e);
-        } else if (firstHolder instanceof Menu menu && destinationHolder instanceof Player){
+        } else if (firstHolder instanceof Menu && destinationHolder instanceof Player){
+            Menu menu = (Menu) firstHolder;
             if (!menu.canMoveTopItems())
                 e.setCancelled(true);
             menu.handleMove(e);
-        } else if (firstHolder instanceof Player && destinationHolder instanceof Menu menu){
+        } else if (firstHolder instanceof Player && destinationHolder instanceof Menu){
+            Menu menu = (Menu) destinationHolder;
             if (!menu.canMoveBottomItems())
                 e.setCancelled(true);
             menu.handleMove(e);
@@ -117,11 +127,13 @@ public class MenuListener implements Listener {
             return;
     
         InventoryHolder holder = e.getInventory().getHolder();
-        if (holder instanceof InventoryMenu menu){
+        if (holder instanceof InventoryMenu){
+            InventoryMenu menu = (InventoryMenu) holder;
             menu.canMoveBottomItems();
             menu.canMoveTopItems();
             menu.handlePickUp(e);
-        } else if (holder instanceof Menu menu){
+        } else if (holder instanceof Menu){
+            Menu menu = (Menu) holder;
             if (!menu.canMoveTopItems() && !menu.canMoveBottomItems())
                 e.setCancelled(true);
             if (e.getInventory().getType() == InventoryType.PLAYER && !menu.canMoveBottomItems())
