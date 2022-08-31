@@ -22,10 +22,10 @@ import java.util.concurrent.atomic.AtomicReference;
 public class CommentConfigTest extends TestCase {
     
     
-    private final Map < String, List < String > > comments = new HashMap <>();
+    private final Map<String, List<String>> comments = new HashMap<>();
     
     
-    public void testSaveToString( ){
+    public void testSaveToString(){
         String contents = "#    ██╗   ██╗██╗██████╗ ████████╗██╗   ██╗ █████╗ ██╗         ██████╗ ██╗███╗   ██╗ █████╗ ████████╗ █████╗\n" +
                 "#    ██║   ██║██║██╔══██╗╚══██╔══╝██║   ██║██╔══██╗██║         ██╔══██╗██║████╗  ██║██╔══██╗╚══██╔══╝██╔══██╗\n" +
                 "#    ██║   ██║██║██████╔╝   ██║   ██║   ██║███████║██║         ██████╔╝██║██╔██╗ ██║███████║   ██║   ███████║\n" +
@@ -234,10 +234,10 @@ public class CommentConfigTest extends TestCase {
                 "    the-word: ':vomito:'\n" +
                 "    to-replace: ⟘\n";
         
-        List < String > list = new ArrayList <>();
+        List<String> list = new ArrayList<>();
         Collections.addAll(list, contents.split("\n"));
         int currentLayer = 0;
-        AtomicReference < StringBuilder > currentPath = new AtomicReference <>(new StringBuilder());
+        AtomicReference<StringBuilder> currentPath = new AtomicReference<>(new StringBuilder());
         StringBuilder sb = new StringBuilder();
         AtomicInteger lineNumber = new AtomicInteger();
         System.out.println("Saving To String....");
@@ -267,10 +267,10 @@ public class CommentConfigTest extends TestCase {
     
     
     private void addCommentLine(String currentPath, String line){
-        
-        List < String > list = comments.get(currentPath);
+    
+        List<String> list = comments.get(currentPath);
         if (list == null){
-            list = new ArrayList <>();
+            list = new ArrayList<>();
         }
         list.add(line);
         

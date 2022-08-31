@@ -13,6 +13,7 @@
 
 package net.lymarket.lyapi.spigot.listeners;
 
+import net.lymarket.lyapi.spigot.menu.InventoryMenu;
 import net.lymarket.lyapi.spigot.menu.Menu;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -29,59 +30,62 @@ public class MenuListener implements Listener {
             return;
     
         InventoryHolder holder = e.getInventory().getHolder();
-        if (holder instanceof Menu){
+        if (holder instanceof InventoryMenu){
+            InventoryMenu menu = (InventoryMenu) holder;
+            menu.canMoveBottomItems();
+            menu.canMoveTopItems();
+            menu.handleMenu(e);
+        } else if (holder instanceof Menu){
             if (e.getCurrentItem() == null || e.getCurrentItem().getType() == Material.AIR)
                 return;
-    
             Menu menu = (Menu) holder;
-            if (!menu.canMoveTopItems() && !menu.canMoveBottomItems()){
+            if (!menu.canMoveTopItems() && !menu.canMoveBottomItems())
                 e.setCancelled(true);
-            }
             if (e.getClickedInventory().getType() == InventoryType.PLAYER && !menu.canMoveBottomItems())
                 e.setCancelled(true);
             if (e.getClickedInventory().getHolder() instanceof Menu && !menu.canMoveTopItems())
                 e.setCancelled(true);
-    
             menu.handleMenu(e);
-    
         }
     }
     
     @EventHandler
     public void onMenuDrag(InventoryDragEvent e){
-        
         if (e.getInventory() == null)
             return;
-        
+    
         InventoryHolder holder = e.getInventory().getHolder();
-        
-        if (holder instanceof Menu){
-            
+        if (holder instanceof InventoryMenu){
+            InventoryMenu menu = (InventoryMenu) holder;
+            menu.canMoveBottomItems();
+            menu.canMoveTopItems();
+            menu.handleDragEvent(e);
+        } else if (holder instanceof Menu){
             Menu menu = (Menu) holder;
-            
-            if (!menu.canMoveTopItems() && !menu.canMoveBottomItems()){
+            if (!menu.canMoveTopItems() && !menu.canMoveBottomItems())
                 e.setCancelled(true);
-            }
             if (e.getInventory().getType() == InventoryType.PLAYER && !menu.canMoveBottomItems())
                 e.setCancelled(true);
             if (menu.canMoveTopItems())
                 e.setCancelled(true);
             if (e.getOldCursor() == null)
                 return;
-            
             menu.handleDragEvent(e);
         }
     }
     
     @EventHandler
     public void handleClose(InventoryCloseEvent e){
-        
         if (e.getInventory() == null)
             return;
-        
+    
         InventoryHolder holder = e.getInventory().getHolder();
-        
-        if (holder instanceof Menu){
+        if (holder instanceof InventoryMenu){
+            InventoryMenu menu = (InventoryMenu) holder;
+            menu.canMoveBottomItems();
+            menu.canMoveTopItems();
+            menu.handleClose(e);
+        } else if (holder instanceof Menu){
             Menu menu = (Menu) holder;
             menu.handleClose(e);
         }
@@ -91,57 +95,53 @@ public class MenuListener implements Listener {
     public void handleMove(InventoryMoveItemEvent e){
         if (e.getItem() == null || e.getItem().getType() == Material.AIR)
             return;
-        
+    
         InventoryHolder firstHolder = e.getInitiator().getHolder();
-        
         InventoryHolder destinationHolder = e.getDestination().getHolder();
-        
-        if (firstHolder instanceof Menu && destinationHolder instanceof Player){
-            
-            Menu menu = (Menu) firstHolder;
-            
-            if (!menu.canMoveTopItems()){
-                e.setCancelled(true);
-            }
-            
+        if (firstHolder instanceof InventoryMenu){
+            InventoryMenu menu = (InventoryMenu) firstHolder;
+            menu.canMoveBottomItems();
+            menu.canMoveTopItems();
             menu.handleMove(e);
-            
-        } else if (firstHolder instanceof Player && destinationHolder instanceof Menu){
-            
-            Menu menu = (Menu) destinationHolder;
-            
-            if (!menu.canMoveBottomItems()){
+        } else if (destinationHolder instanceof InventoryMenu){
+            InventoryMenu menu = (InventoryMenu) destinationHolder;
+            menu.canMoveBottomItems();
+            menu.canMoveTopItems();
+            menu.handleMove(e);
+        } else if (firstHolder instanceof Menu && destinationHolder instanceof Player){
+            Menu menu = (Menu) firstHolder;
+            if (!menu.canMoveTopItems())
                 e.setCancelled(true);
-            }
-            
+            menu.handleMove(e);
+        } else if (firstHolder instanceof Player && destinationHolder instanceof Menu){
+            Menu menu = (Menu) destinationHolder;
+            if (!menu.canMoveBottomItems())
+                e.setCancelled(true);
             menu.handleMove(e);
         }
     }
     
     @EventHandler
     public void handlePickUp(InventoryPickupItemEvent e){
-        
         if (e.getItem() == null || e.getItem().getItemStack().getType() == Material.AIR)
             return;
-        InventoryHolder firstHolder = e.getInventory().getHolder();
-        
-        
-        if (firstHolder instanceof Menu){
-            
-            Menu menu = (Menu) firstHolder;
-            
-            if (!menu.canMoveTopItems() && !menu.canMoveBottomItems()){
+    
+        InventoryHolder holder = e.getInventory().getHolder();
+        if (holder instanceof InventoryMenu){
+            InventoryMenu menu = (InventoryMenu) holder;
+            menu.canMoveBottomItems();
+            menu.canMoveTopItems();
+            menu.handlePickUp(e);
+        } else if (holder instanceof Menu){
+            Menu menu = (Menu) holder;
+            if (!menu.canMoveTopItems() && !menu.canMoveBottomItems())
                 e.setCancelled(true);
-                
-            }
             if (e.getInventory().getType() == InventoryType.PLAYER && !menu.canMoveBottomItems())
                 e.setCancelled(true);
             if (!menu.canMoveTopItems())
                 e.setCancelled(true);
-            
             menu.handlePickUp(e);
         }
-        
     }
 }
 

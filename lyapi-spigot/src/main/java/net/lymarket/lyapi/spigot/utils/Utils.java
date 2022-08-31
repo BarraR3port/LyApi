@@ -28,10 +28,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.PlayerInventory;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 import java.util.regex.PatternSyntaxException;
 
 public class Utils {
@@ -81,7 +78,11 @@ public class Utils {
     public static String[] formatTC(TextComponent... msg){
         String[] finalMsg = new String[msg.length];
         for ( int i = 0; i < msg.length; i++ ){
-            finalMsg[i] = ChatColor.translateAlternateColorCodes('&', msg[i].toLegacyText());
+            if (msg[i].getHoverEvent() != null){
+                finalMsg[i] = ChatColor.translateAlternateColorCodes('&', msg[i].toLegacyText() + " &8[HOVER >] " + msg[i].getHoverEvent().getValue().toString());
+            } else {
+                finalMsg[i] = ChatColor.translateAlternateColorCodes('&', msg[i].toLegacyText());
+            }
         }
         return finalMsg;
     }
@@ -154,6 +155,23 @@ public class Utils {
     
     public static void removePlayerInventory(String name){
         inventory.remove(name);
+    }
+    
+    public static String stripColors(String text){
+        ArrayList<String> toRemove = new ArrayList<>();
+        for ( int i = 0; i < text.length(); i++ ){
+            if (text.charAt(i) == '&' && "0123456789AaBbCcDdEeFfKkLlMmNnOoRr".indexOf(text.charAt(i + 1)) > -1){
+                toRemove.add(String.valueOf(text.subSequence(i, i + 2)));
+            }
+        }
+        for ( String s : toRemove ){
+            text = text.replace(s, "");
+        }
+        return text;
+    }
+    
+    public static TextComponent stripColorsToTextComponent(String text){
+        return new TextComponent(stripColors(text));
     }
     
     public static Inventory getPlayerInventory(String name){

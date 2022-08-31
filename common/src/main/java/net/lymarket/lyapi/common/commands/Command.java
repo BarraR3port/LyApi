@@ -19,13 +19,13 @@ import java.lang.annotation.*;
 @Target(ElementType.METHOD)
 @Inherited
 public @interface Command {
-    String name( );
+    String name();
     
-    String description( ) default "";
+    String description() default "";
     
-    String usage( ) default "";
+    String usage() default "";
     
-    String[] aliases( ) default {};
+    String[] aliases() default {};
     
-    String permission( ) default "";
+    String permission() default "";
 }

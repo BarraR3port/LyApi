@@ -33,11 +33,11 @@ public abstract class ILang {
         this.errorPrefix = errorPrefix;
     }
     
-    public void saveLang( ){
+    public void saveLang(){
         lang.saveData();
     }
     
-    public void reloadLang( ){
+    public void reloadLang(){
         try {
             lang.loadConfig();
         } catch (Exception e) {
@@ -45,7 +45,7 @@ public abstract class ILang {
         }
     }
     
-    public ConfigGenerator getConfig( ){
+    public ConfigGenerator getConfig(){
         return lang;
     }
     
@@ -80,7 +80,7 @@ public abstract class ILang {
         
     }
     
-    public void sendMsg(CommandSender c, String key, HashMap < String, String > wordsToReplace){
+    public void sendMsg(CommandSender c, String key, HashMap<String, String> wordsToReplace){
         if (key.contains("error.")){
             sendErrorMsg(c, key, wordsToReplace);
             return;
@@ -102,7 +102,7 @@ public abstract class ILang {
         c.sendMessage(format("&c[&7ERROR&c] " + getConfig().getString(key.contains("error.") ? "" : "error." + key).replace("%" + wordToReplace + "%", replacement)));
     }
     
-    public void sendErrorMsg(CommandSender c, String key, HashMap < String, String > wordsToReplace){
+    public void sendErrorMsg(CommandSender c, String key, HashMap<String, String> wordsToReplace){
         String msg = getConfig().getString(key.contains("error.") ? "" : "error." + key);
         for ( String wordToReplace : wordsToReplace.keySet() ){
             msg = msg.replace("%" + wordToReplace + "%", wordsToReplace.get(wordToReplace));
@@ -128,7 +128,7 @@ public abstract class ILang {
         return format(getConfig().getString(key)).replace("%" + wordToReplace + "%", replacement);
     }
     
-    public String getMSG(String key, HashMap < String, String > wordsToReplace){
+    public String getMSG(String key, HashMap<String, String> wordsToReplace){
         String msg = getConfig().getString(key);
         for ( String wordToReplace : wordsToReplace.keySet() ){
             msg = msg.replace("%" + wordToReplace + "%", wordsToReplace.get(wordToReplace));
@@ -136,7 +136,7 @@ public abstract class ILang {
         return format(msg);
     }
     
-    public String getErrorMSG(String key, HashMap < String, String > wordsToReplace){
+    public String getErrorMSG(String key, HashMap<String, String> wordsToReplace){
         String msg = getConfig().getString(key.contains("error.") ? "" : "error." + key);
         for ( String wordToReplace : wordsToReplace.keySet() ){
             msg = msg.replace("%" + wordToReplace + "%", wordsToReplace.get(wordToReplace));

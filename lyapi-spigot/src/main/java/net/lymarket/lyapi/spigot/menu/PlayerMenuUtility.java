@@ -24,7 +24,7 @@ public class PlayerMenuUtility implements IPlayerMenuUtility {
         this.owner = owner;
     }
     
-    public Player getOwner( ){
+    public Player getOwner(){
         return this.owner;
     }
     
@@ -33,7 +33,7 @@ public class PlayerMenuUtility implements IPlayerMenuUtility {
     }
     
     
-    public Player getTarget( ){
+    public Player getTarget(){
         return target;
     }
     

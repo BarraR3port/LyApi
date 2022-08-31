@@ -14,9 +14,7 @@
 package net.lymarket.lyapi.common.commands.response;
 
 public class CommandResponse {
-    
     protected ResponseType response;
-    
     private String permission;
     
     public CommandResponse(String permission){
@@ -24,11 +22,11 @@ public class CommandResponse {
         this.response = ResponseType.NO_PERMISSION;
     }
     
-    public CommandResponse( ){
+    public CommandResponse(){
         this.response = ResponseType.SUCCESS;
     }
     
-    public ResponseType getResponse( ){
+    public ResponseType getResponse(){
         return response;
     }
     
@@ -36,7 +34,7 @@ public class CommandResponse {
         this.response = response;
     }
     
-    public String getPermission( ){
+    public String getPermission(){
         return this.response.equals(ResponseType.NO_PERMISSION) ? this.permission : "";
     }
     

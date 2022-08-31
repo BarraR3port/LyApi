@@ -33,11 +33,11 @@ public class OpenCustomMenuEvent extends Event implements Cancellable {
         this.player = player;
     }
     
-    public Player getPlayer( ){
+    public Player getPlayer(){
         return player;
     }
     
-    public Menu getMenu( ){
+    public Menu getMenu(){
         return menu;
     }
     
@@ -47,12 +47,12 @@ public class OpenCustomMenuEvent extends Event implements Cancellable {
     
     
     @Override
-    public HandlerList getHandlers( ){
+    public HandlerList getHandlers(){
         return HANDLERS;
     }
     
     @Override
-    public boolean isCancelled( ){
+    public boolean isCancelled(){
         return canceled;
     }
     

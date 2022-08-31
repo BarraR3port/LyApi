@@ -129,7 +129,7 @@ public class ItemBuilder implements Cloneable {
         return this;
     }
     
-    public ItemBuilder setInfinityDurability( ){
+    public ItemBuilder setInfinityDurability(){
         is.setDurability(Short.MAX_VALUE);
         return this;
     }

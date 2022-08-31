@@ -72,22 +72,22 @@ public class Config extends ConfigGenerator {
                     fe.withColor(getStringList(fireWorkSection + "colors").stream().map(Utils::colorConverter).toArray(Color[]::new));
                 } catch (NullPointerException ignored) {
                 }
-            
+    
                 try {
                     fe.withFade(getStringList(fireWorkSection + "fadeColors").stream().map(Utils::colorConverter).toArray(Color[]::new));
                 } catch (NullPointerException ignored) {
                 }
-            
+    
                 try {
                     fe.flicker(getBoolean(fireWorkSection + "flicker"));
                 } catch (NullPointerException ignored) {
                 }
-            
+    
                 try {
                     fe.trail(getBoolean(fireWorkSection + "trail"));
                 } catch (NullPointerException ignored) {
                 }
-            
+    
                 try {
                     fe.trail(getBoolean(fireWorkSection + "trail"));
                 } catch (NullPointerException ignored) {
@@ -95,7 +95,7 @@ public class Config extends ConfigGenerator {
                 fm.setEffect(fe.build());
                 fm.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_UNBREAKABLE, ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_POTION_EFFECTS);
                 item.setItemMeta(fm);
-            
+    
             }
         } catch (NullPointerException ignored) {
         }

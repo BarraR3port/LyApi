@@ -31,11 +31,11 @@ public class TabContext {
         this.alias = alias;
     }
     
-    public CommandSender getSender( ){
+    public CommandSender getSender(){
         return sender;
     }
     
-    public String[] getArgs( ){
+    public String[] getArgs(){
         return args;
     }
     
@@ -44,11 +44,11 @@ public class TabContext {
         return args[index];
     }
     
-    public int getArgLength( ){
+    public int getArgLength(){
         return args.length;
     }
     
-    public boolean isPlayer( ){
+    public boolean isPlayer(){
         return sender instanceof Player;
     }
     
@@ -64,11 +64,11 @@ public class TabContext {
         return Boolean.parseBoolean(getArg(index));
     }
     
-    public CommandInfo getCommand( ){
+    public CommandInfo getCommand(){
         return command;
     }
     
-    public String getAlias( ){
+    public String getAlias(){
         return alias;
     }
     

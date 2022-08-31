@@ -27,15 +27,15 @@ public abstract class Api {
         gson = new GsonBuilder().disableHtmlEscaping().setDateFormat("MMM dd, yyyy HH:mm:ss a").serializeNulls().create();
     }
     
-    public Api( ){
+    public Api(){
         this("&cYou don't have permission to do that.");
     }
     
-    public static Gson getGson( ){
+    public static Gson getGson(){
         return gson;
     }
     
-    public Api getApi( ){
+    public Api getApi(){
         return this;
     }
     

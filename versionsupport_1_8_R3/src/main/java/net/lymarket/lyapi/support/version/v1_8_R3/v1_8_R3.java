@@ -135,7 +135,7 @@ public class v1_8_R3 extends VersionSupport {
     }
     
     @Override
-    public org.bukkit.Material materialPlayerHead( ){
+    public org.bukkit.Material materialPlayerHead(){
         return org.bukkit.Material.SKULL_ITEM;
     }
     

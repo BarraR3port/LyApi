@@ -35,6 +35,7 @@ import java.util.UUID;
 public abstract class Menu implements InventoryHolder {
     
     private final ArrayList<BukkitTask> scheduleTask = new ArrayList<>();
+    private final boolean linked;
     protected ItemStack CLOSE_ITEM;
     protected ItemStack PREV_ITEM;
     protected ItemStack NEXT_ITEM;
@@ -44,9 +45,8 @@ public abstract class Menu implements InventoryHolder {
     protected boolean isOnSchedule = false;
     protected boolean moveTopItems = false;
     protected boolean moveBottomItems = false;
-    private final boolean linked;
-    private UUID menu_uuid;
     protected LinkedList<Integer> occupiedSlots = new LinkedList<>();
+    private UUID menu_uuid;
     
     public Menu(IPlayerMenuUtility playerMenuUtility){
         this(playerMenuUtility, XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial(), false);
@@ -210,7 +210,7 @@ public abstract class Menu implements InventoryHolder {
     
     public void setOnSchedule(Player p, int slot, ItemStack item, UUID menu_uuid){
         scheduleTask.add(Bukkit.getServer().getScheduler().runTaskLaterAsynchronously(LyApi.getPlugin(), () -> {
-        
+    
             if (getMenuUUID().equals(menu_uuid)){
                 if (p.getOpenInventory().getTopInventory().getHolder() instanceof Menu){
                     Menu menu = (Menu) p.getOpenInventory().getTopInventory().getHolder();
