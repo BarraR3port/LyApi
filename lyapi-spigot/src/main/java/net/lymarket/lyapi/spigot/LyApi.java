@@ -43,19 +43,19 @@ public final class LyApi extends Api {
     private final CommandService commandService;
     private VersionSupport nms;
     
-    public LyApi(JavaPlugin plugin, String pluginName) throws LyApiInitializationError{
-        this(plugin, pluginName, "§cYou don't have permission to do that!");
+    public LyApi(JavaPlugin plugin, String pluginName, boolean registerEvents) throws LyApiInitializationError{
+        this(plugin, pluginName, "§cYou don't have permission to do that!",registerEvents);
     }
     
-    public LyApi(JavaPlugin plugin, String pluginName, ILang language) throws LyApiInitializationError{
-        this(plugin, pluginName, "§cYou don't have permission to do that!", language);
+    public LyApi(JavaPlugin plugin, String pluginName, ILang language, boolean registerEvents) throws LyApiInitializationError{
+        this(plugin, pluginName, "§cYou don't have permission to do that!", language,registerEvents);
     }
     
-    public LyApi(JavaPlugin plugin, String pluginName, String noPermissionError) throws LyApiInitializationError{
-        this(plugin, pluginName, noPermissionError, null);
+    public LyApi(JavaPlugin plugin, String pluginName, String noPermissionError, boolean registerEvents) throws LyApiInitializationError{
+        this(plugin, pluginName, noPermissionError, null,registerEvents);
     }
     
-    public LyApi(JavaPlugin plugin, String pluginName, String noPermissionError, ILang language) throws LyApiInitializationError{
+    public LyApi(JavaPlugin plugin, String pluginName, String noPermissionError, ILang language, boolean registerEvents) throws LyApiInitializationError{
         super(noPermissionError);
         instance = this;
         this.pluginName = "[" + pluginName + "] ";
@@ -77,7 +77,9 @@ public final class LyApi extends Api {
             e.printStackTrace();
         }
         this.commandService = new CommandService();
-        plugin.getServer().getPluginManager().registerEvents(new MenuListener(), plugin);
+        if (registerEvents){
+            plugin.getServer().getPluginManager().registerEvents(new MenuListener(), plugin);
+        }
     }
     
     public static Plugin getPlugin(){
