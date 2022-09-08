@@ -91,13 +91,13 @@ public class CommentConfig extends YamlConfiguration {
         int lineNumber = 0;
         for ( Iterator<String> iterator = list.iterator(); iterator.hasNext(); lineNumber++ ){
             String line = iterator.next();
-        
+    
             String trimmed = line.trim();
             if (trimmed.startsWith("##") || trimmed.isEmpty()){
                 addCommentLine(currentPath, line);
                 continue;
             }
-        
+    
             if (!line.isEmpty()){
                 if (line.contains(":")){
                     
