@@ -31,7 +31,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class Config extends ConfigGenerator {
-    
+    private double config_version;
     
     public Config(JavaPlugin plugin, String name){
         super(plugin, name);
@@ -39,6 +39,13 @@ public class Config extends ConfigGenerator {
     
     public Config(JavaPlugin plugin, String name, String resourcePath, String filePath){
         super(plugin, name, resourcePath, filePath);
+        if (get("config-version") == null){
+            set("config-version", 1.0);
+            saveData();
+            config_version = 1.0;
+        } else {
+            config_version = getDouble("config-version");
+        }
     }
     
     public ItemStack getItem(String key, ItemStack orgItem){
@@ -168,5 +175,10 @@ public class Config extends ConfigGenerator {
     public String getMenuTitle(String menu, String word, String toReplace){
         return getString("menus." + menu + ".title").replace("%" + word + "%", toReplace);
     }
+    
+    public double getConfigVersion(){
+        return config_version;
+    }
+    
     
 }
