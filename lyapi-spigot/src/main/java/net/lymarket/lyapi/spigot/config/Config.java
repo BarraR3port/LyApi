@@ -180,5 +180,11 @@ public class Config extends ConfigGenerator {
         return config_version;
     }
     
+    public void setConfigVersion(double version){
+        config_version = version;
+        set("config-version", version);
+        saveData();
+    }
+    
     
 }
