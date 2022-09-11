@@ -21,6 +21,7 @@ import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
+import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -51,20 +52,34 @@ public class Utils {
         sender.spigot().sendMessage(message);
     }
     
-    public static void playSound(Player p, String sound){
-        XSound.play(p, sound);
+    public static void playSound(Player p, String sound) {
+        try {
+            XSound.play(p, sound);
+        } catch(NullPointerException ignored) {
+        }
     }
     
-    public static void playSound(Player p, Sound sound){
-        XSound.play(p, sound.name());
+    public static void playSound(Player p, Sound sound) {
+        playSound(p, sound.name());
+    }
+    
+    public static void playSound(Location loc, String sound) {
+        try {
+            XSound.play(loc, sound);
+        } catch(NullPointerException ignored) {
+        }
+    }
+    
+    public static void playSound(Location loc, Sound sound) {
+        playSound(loc, sound.name());
     }
     
     
-    public static String getServer(){
+    public static String getServer() {
         return LyApi.getPlugin().getConfig().getString("server.name");
     }
     
-    public static String format(String msg){
+    public static String format(String msg) {
         return ChatColor.translateAlternateColorCodes('&', msg);
     }
     
