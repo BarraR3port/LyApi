@@ -30,6 +30,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+@ReloadableConfig
 public class Config extends ConfigGenerator {
     private double config_version;
     
@@ -64,12 +65,12 @@ public class Config extends ConfigGenerator {
             item = new ItemBuilder(item).setLore(getStringList(section + "description")).build();
         } catch (NullPointerException ignored) {
         }
-    
+        
         try {
             item = new ItemBuilder(item).setDyeColor(getInt(section + "dyeColor")).build();
         } catch (NullPointerException ignored) {
         }
-    
+        
         try {
             String fireWorkSection = section + "firework.";
             if (material.equals(XMaterial.FIREWORK_ROCKET.parseMaterial())){
@@ -79,22 +80,22 @@ public class Config extends ConfigGenerator {
                     fe.withColor(getStringList(fireWorkSection + "colors").stream().map(Utils::colorConverter).toArray(Color[]::new));
                 } catch (NullPointerException ignored) {
                 }
-    
+                
                 try {
                     fe.withFade(getStringList(fireWorkSection + "fadeColors").stream().map(Utils::colorConverter).toArray(Color[]::new));
                 } catch (NullPointerException ignored) {
                 }
-    
+                
                 try {
                     fe.flicker(getBoolean(fireWorkSection + "flicker"));
                 } catch (NullPointerException ignored) {
                 }
-    
+                
                 try {
                     fe.trail(getBoolean(fireWorkSection + "trail"));
                 } catch (NullPointerException ignored) {
                 }
-    
+                
                 try {
                     fe.trail(getBoolean(fireWorkSection + "trail"));
                 } catch (NullPointerException ignored) {
@@ -102,11 +103,11 @@ public class Config extends ConfigGenerator {
                 fm.setEffect(fe.build());
                 fm.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_UNBREAKABLE, ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_POTION_EFFECTS);
                 item.setItemMeta(fm);
-    
+                
             }
         } catch (NullPointerException ignored) {
         }
-    
+        
         try {
             HashMap<Enchantment, Integer> enchantments = new HashMap<>();
             for ( String ench : getStringList(section + "enchantments") ){
@@ -116,21 +117,21 @@ public class Config extends ConfigGenerator {
             item = new ItemBuilder(item).addEnchantments(enchantments).build();
         } catch (NullPointerException ignored) {
         }
-    
+        
         if (getBoolean("glow")){
             item = new ItemBuilder(item).setEnchanted(true).build();
         }
-    
+        
         try {
             final List<String> nbts = getStringList(section + "nbt");
             for ( String nbt : nbts ){
                 String[] nbtData = nbt.split(":");
                 item = new ItemBuilder(item).addTag(nbtData[0], nbtData[1]).build();
             }
-        
+            
         } catch (NullPointerException ignored) {
         }
-    
+        
         try {
             final int customModelData = getInt(section + "customModelData");
             item = new ItemBuilder(item).setCustomModelData(customModelData).build();

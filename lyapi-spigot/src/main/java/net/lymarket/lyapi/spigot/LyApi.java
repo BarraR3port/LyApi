@@ -19,6 +19,7 @@ import net.lymarket.lyapi.common.commands.CommandService;
 import net.lymarket.lyapi.common.error.LyApiInitializationError;
 import net.lymarket.lyapi.common.lang.ILang;
 import net.lymarket.lyapi.common.version.VersionSupport;
+import net.lymarket.lyapi.spigot.config.ReloadableConfig;
 import net.lymarket.lyapi.spigot.listeners.MenuListener;
 import net.lymarket.lyapi.spigot.menu.IPlayerMenuUtility;
 import net.lymarket.lyapi.spigot.menu.PlayerMenuUtility;
@@ -27,9 +28,12 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.reflections.Reflections;
+import org.reflections.scanners.Scanners;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
+import java.util.Set;
 import java.util.logging.Level;
 
 public final class LyApi extends Api {
@@ -138,12 +142,35 @@ public final class LyApi extends Api {
         plugin.getLogger().log(logLevel, pluginName + " " + message);
     }
     
-    public void log(Level logLevel, String message, Error error){
+    public void log(Level logLevel, String message, Error error) {
         plugin.getLogger().log(logLevel, pluginName + " " + message, error);
     }
     
     @Override
-    public void setErrorMSG(String permissionError){
+    public void setErrorMSG(String permissionError) {
         NO_PERMISSION = ChatColor.translateAlternateColorCodes('&', permissionError);
+    }
+    
+    public static void reloadConfigs() {
+        Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
+            Reflections reflections = new Reflections("net.lymarket");
+            Set<Class<?>> annotated = reflections.get(Scanners.SubTypes.of(Scanners.TypesAnnotated.with(ReloadableConfig.class)).asClass());
+            annotated.forEach(aClass -> {
+                try {
+                    aClass.getMethod("reloadConfig").invoke(aClass);
+                } catch(NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+                    e.printStackTrace();
+                }
+            });
+            Reflections reflections2 = new Reflections("com.podcrash");
+            Set<Class<?>> annotated2 = reflections2.get(Scanners.SubTypes.of(Scanners.TypesAnnotated.with(ReloadableConfig.class)).asClass());
+            annotated2.forEach(aClass -> {
+                try {
+                    aClass.getMethod("reloadConfig").invoke(aClass);
+                } catch(NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+                    e.printStackTrace();
+                }
+            });
+        });
     }
 }
