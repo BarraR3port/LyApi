@@ -19,6 +19,7 @@ import net.lymarket.lyapi.common.commands.CommandService;
 import net.lymarket.lyapi.common.error.LyApiInitializationError;
 import net.lymarket.lyapi.common.lang.ILang;
 import net.lymarket.lyapi.common.version.VersionSupport;
+import net.lymarket.lyapi.spigot.config.Config;
 import net.lymarket.lyapi.spigot.config.ReloadableConfig;
 import net.lymarket.lyapi.spigot.listeners.MenuListener;
 import net.lymarket.lyapi.spigot.menu.IPlayerMenuUtility;
@@ -29,11 +30,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.reflections.Reflections;
-import org.reflections.scanners.Scanners;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
-import java.util.Set;
 import java.util.logging.Level;
 
 public final class LyApi extends Api {
@@ -47,19 +46,19 @@ public final class LyApi extends Api {
     private final CommandService commandService;
     private VersionSupport nms;
     
-    public LyApi(JavaPlugin plugin, String pluginName, boolean registerEvents) throws LyApiInitializationError{
+    public LyApi(JavaPlugin plugin, String pluginName, boolean registerEvents) throws LyApiInitializationError {
         this(plugin, pluginName, "§cYou don't have permission to do that!", registerEvents);
     }
     
-    public LyApi(JavaPlugin plugin, String pluginName, ILang language, boolean registerEvents) throws LyApiInitializationError{
+    public LyApi(JavaPlugin plugin, String pluginName, ILang language, boolean registerEvents) throws LyApiInitializationError {
         this(plugin, pluginName, "§cYou don't have permission to do that!", language, registerEvents);
     }
     
-    public LyApi(JavaPlugin plugin, String pluginName, String noPermissionError, boolean registerEvents) throws LyApiInitializationError{
+    public LyApi(JavaPlugin plugin, String pluginName, String noPermissionError, boolean registerEvents) throws LyApiInitializationError {
         this(plugin, pluginName, noPermissionError, null, registerEvents);
     }
     
-    public LyApi(JavaPlugin plugin, String pluginName, String noPermissionError, ILang language, boolean registerEvents) throws LyApiInitializationError{
+    public LyApi(JavaPlugin plugin, String pluginName, String noPermissionError, ILang language, boolean registerEvents) throws LyApiInitializationError {
         super(noPermissionError);
         instance = this;
         this.pluginName = "[" + pluginName + "] ";
@@ -69,35 +68,35 @@ public final class LyApi extends Api {
         Class supp;
         try {
             supp = Class.forName("net.lymarket.lyapi.support.version." + version + "." + version);
-        } catch (ClassNotFoundException e) {
+        } catch(ClassNotFoundException e) {
             throw new LyApiInitializationError(version);
         }
         
         try {
             //noinspection unchecked
             this.nms = (VersionSupport) supp.getConstructor(Class.forName("org.bukkit.plugin.Plugin"), String.class).newInstance(plugin, version);
-        } catch (InstantiationException | NoSuchMethodException | InvocationTargetException | IllegalAccessException |
-                 ClassNotFoundException e) {
+        } catch(InstantiationException | NoSuchMethodException | InvocationTargetException | IllegalAccessException |
+                ClassNotFoundException e) {
             e.printStackTrace();
         }
         this.commandService = new CommandService();
-        if (registerEvents){
+        if(registerEvents){
             plugin.getServer().getPluginManager().registerEvents(new MenuListener(), plugin);
         }
     }
     
-    public static Plugin getPlugin(){
+    public static Plugin getPlugin() {
         return plugin;
     }
     
-    public static LyApi getInstance(){
+    public static LyApi getInstance() {
         return instance;
     }
     
-    public static IPlayerMenuUtility getPlayerMenuUtility(Player p){
+    public static IPlayerMenuUtility getPlayerMenuUtility(Player p) {
         IPlayerMenuUtility playerMenuUtility;
         
-        if (playerMenuUtilityMap.containsKey(p)){
+        if(playerMenuUtilityMap.containsKey(p)){
             return playerMenuUtilityMap.get(p);
         }
         
@@ -106,7 +105,7 @@ public final class LyApi extends Api {
         return playerMenuUtility;
     }
     
-    public static ILang getLanguage(){
+    public static ILang getLanguage() {
         return lang;
     }
     
@@ -117,29 +116,70 @@ public final class LyApi extends Api {
      * <p>
      * This method allows you to set the language of the plugin.
      */
-    public LyApi setLanguage(ILang language){
+    public LyApi setLanguage(ILang language) {
         lang = language;
         return this;
     }
     
-    public VersionSupport getNMS(){
+    public static void reloadConfigs() {
+        Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
+            Reflections reflections = new Reflections("net.lymarket");
+            Reflections reflections2 = new Reflections("com.podcrash");
+            for ( Class<?> clazz : reflections.getTypesAnnotatedWith(ReloadableConfig.class) ){
+                try {
+                    System.out.println("1 - Reloading the config: " + clazz.getSimpleName());
+                    clazz.getMethod("reloadConfig").invoke(clazz);
+                } catch(IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+                    e.printStackTrace();
+                }
+            }
+            for ( Class<?> clazz : reflections2.getTypesAnnotatedWith(ReloadableConfig.class) ){
+                try {
+                    System.out.println("2 - Reloading the config: " + clazz.getSimpleName());
+                    clazz.getMethod("reloadConfig").invoke(clazz);
+                } catch(IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+                    e.printStackTrace();
+                }
+            }
+            for ( Class<? extends Config> config : reflections.getSubTypesOf(Config.class) ){
+                try {
+                    System.out.println("3 - Reloading the config: " + config.getSimpleName());
+                    Config conf = config.getDeclaredConstructor().newInstance();
+                    conf.reloadConfig();
+                } catch(InstantiationException | IllegalAccessException | InvocationTargetException |
+                        NoSuchMethodException e) {
+                    e.printStackTrace();
+                }
+            }
+            for ( Class<? extends Config> config : reflections2.getSubTypesOf(Config.class) ){
+                try {
+                    System.out.println("4 - Reloading the config: " + config.getSimpleName());
+                    Config conf = config.getDeclaredConstructor().newInstance();
+                    conf.reloadConfig();
+                } catch(InstantiationException | IllegalAccessException | InvocationTargetException |
+                        NoSuchMethodException e) {
+                    e.printStackTrace();
+                }
+            }
+            
+            
+        });
+    }
+    
+    public VersionSupport getNMS() {
         return nms;
     }
     
-    public String getVersion(){
+    public String getVersion() {
         return version;
     }
     
-    public CommandService getCommandService(){
+    public CommandService getCommandService() {
         return this.commandService;
     }
     
-    public String getPluginName(){
+    public String getPluginName() {
         return this.pluginName;
-    }
-    
-    public void log(Level logLevel, String message){
-        plugin.getLogger().log(logLevel, pluginName + " " + message);
     }
     
     public void log(Level logLevel, String message, Error error) {
@@ -151,26 +191,7 @@ public final class LyApi extends Api {
         NO_PERMISSION = ChatColor.translateAlternateColorCodes('&', permissionError);
     }
     
-    public static void reloadConfigs() {
-        Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
-            Reflections reflections = new Reflections("net.lymarket");
-            Set<Class<?>> annotated = reflections.get(Scanners.SubTypes.of(Scanners.TypesAnnotated.with(ReloadableConfig.class)).asClass());
-            annotated.forEach(aClass -> {
-                try {
-                    aClass.getMethod("reloadConfig").invoke(aClass);
-                } catch(NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-                    e.printStackTrace();
-                }
-            });
-            Reflections reflections2 = new Reflections("com.podcrash");
-            Set<Class<?>> annotated2 = reflections2.get(Scanners.SubTypes.of(Scanners.TypesAnnotated.with(ReloadableConfig.class)).asClass());
-            annotated2.forEach(aClass -> {
-                try {
-                    aClass.getMethod("reloadConfig").invoke(aClass);
-                } catch(NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-                    e.printStackTrace();
-                }
-            });
-        });
+    public void log(Level logLevel, String message) {
+        plugin.getLogger().log(logLevel, pluginName + " " + message);
     }
 }
