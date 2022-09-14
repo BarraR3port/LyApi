@@ -41,7 +41,7 @@ public class ItemBuilder implements Cloneable {
     }
     
     public ItemBuilder(Material m){
-        this(m, 1);
+        this(m, 0);
     }
     
     public ItemBuilder(ItemStack is){
