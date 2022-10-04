@@ -26,7 +26,7 @@ import org.bson.codecs.configuration.CodecRegistry;
 import org.bson.codecs.pojo.PojoCodecProvider;
 import org.bson.conversions.Bson;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class MongoDBClient {
     
@@ -84,15 +84,15 @@ public class MongoDBClient {
         return collection.replaceOne(filter, replace).wasAcknowledged();
     }
     
-    public ArrayList<Document> findManyFast(String name, Bson filter){
+    public LinkedList<Document> findManyFast(String name, Bson filter){
         MongoCollection<Document> collection = database.getCollection(name);
-        ArrayList<Document> list = new ArrayList<>();
+        LinkedList<Document> list = new LinkedList<>();
         collection.find(filter).forEach(list::add);
         return list;
     }
     
-    public <T> ArrayList<T> findMany(String name, Function<T, Boolean> filter, Class<T> klass){
-        ArrayList<T> list = new ArrayList<>();
+    public <T> LinkedList<T> findMany(String name, Function<T, Boolean> filter, Class<T> klass){
+        LinkedList<T> list = new LinkedList<>();
         try {
             MongoCollection<Document> collection = database.getCollection(name);
             FindIterable<Document> documents = collection.find();
@@ -107,11 +107,43 @@ public class MongoDBClient {
         return list;
     }
     
-    public <T> ArrayList<T> findMany(String name, Class<T> klass){
-        ArrayList<T> list = new ArrayList<>();
+    public <T> LinkedList<T> findMany(String name, Class<T> klass){
+        LinkedList<T> list = new LinkedList<>();
         try {
             MongoCollection<Document> collection = database.getCollection(name);
             FindIterable<Document> documents = collection.find();
+            MongoCursor<Document> cursor = documents.cursor();
+            while (cursor.hasNext()) {
+                T current = gson.fromJson(cursor.next().toJson(), klass);
+                list.add(current);
+            }
+        } catch (MongoTimeoutException TimeOut) {
+            TimeOut.printStackTrace();
+        }
+        return list;
+    }
+    
+    public <T> LinkedList<T> findManyPaginated(String name, int currentPage, int maxPerPage, Class<T> klass){
+        LinkedList<T> list = new LinkedList<>();
+        try {
+            MongoCollection<Document> collection = database.getCollection(name);
+            FindIterable<Document> documents = collection.find().skip(currentPage).limit(maxPerPage);
+            MongoCursor<Document> cursor = documents.cursor();
+            while (cursor.hasNext()) {
+                T current = gson.fromJson(cursor.next().toJson(), klass);
+                list.add(current);
+            }
+        } catch (MongoTimeoutException TimeOut) {
+            TimeOut.printStackTrace();
+        }
+        return list;
+    }
+    
+    public <T> LinkedList<T> findManyPaginatedAndFilter(String name, Bson filter, int currentPage, int maxPerPage, Class<T> klass){
+        LinkedList<T> list = new LinkedList<>();
+        try {
+            MongoCollection<Document> collection = database.getCollection(name);
+            FindIterable<Document> documents = collection.find(filter).skip(currentPage).limit(maxPerPage);
             MongoCursor<Document> cursor = documents.cursor();
             while (cursor.hasNext()) {
                 T current = gson.fromJson(cursor.next().toJson(), klass);
