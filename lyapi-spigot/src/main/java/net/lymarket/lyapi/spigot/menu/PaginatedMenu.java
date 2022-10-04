@@ -22,14 +22,25 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
 
 import java.lang.reflect.Field;
+import java.util.LinkedList;
 import java.util.UUID;
 
-public abstract class PaginatedMenu extends Menu {
+public abstract class PaginatedMenu<T> extends Menu {
     
     protected int page = 0;
     protected int maxItemsPerPage = 28;
     protected int index = 0;
     protected int size = 0;
+    protected LinkedList<T> list = new LinkedList<>();
+    
+    private int[] borderSlots = {
+            0, 1, 2, 3, 4, 5, 6, 7, 8,
+            9, 17,
+            18, 26,
+            27, 35,
+            36, 44,
+            45, 46, 47, 48, 49, 50, 51, 52, 53
+    };
     
     public PaginatedMenu(IPlayerMenuUtility playerMenuUtility){
         this(playerMenuUtility, false);
@@ -51,18 +62,19 @@ public abstract class PaginatedMenu extends Menu {
     public abstract void setSize();
     
     public void nextPage(){
+        page++;
+        if (list.size() < maxItemsPerPage) return;
+        index = index + 1;
         setSize();
-        if (index + 1 <= size){
-            page++;
-            inventory.clear();
-            addMenuBorder();
-            setMenuItems();
-        }
+        inventory.clear();
+        addMenuBorder();
+        setMenuItems();
     }
     
     public void prevPage(){
-        setSize();
         page = Math.max(page - 1, 0);
+        index = Math.max(page * maxItemsPerPage, 0);
+        setSize();
         inventory.clear();
         addMenuBorder();
         setMenuItems();
@@ -70,32 +82,18 @@ public abstract class PaginatedMenu extends Menu {
     
     
     public void addMenuBorder(){
-        inventory.setItem(48, page == 0 ? FILLER_GLASS : PREV_ITEM);
-        
-        inventory.setItem(50, CLOSE_ITEM);
-        
-        inventory.setItem(49, index + 1 >= size ? FILLER_GLASS : NEXT_ITEM);
-        
-        for ( int i = 0; i < 10; i++ ){
-            if (inventory.getItem(i) == null){
-                inventory.setItem(i, FILLER_GLASS);
-            }
+        for ( int slot : borderSlots ){
+            inventory.setItem(slot, FILLER_GLASS.clone());
         }
-        
-        inventory.setItem(17, FILLER_GLASS);
-        inventory.setItem(18, FILLER_GLASS);
-        inventory.setItem(26, FILLER_GLASS);
-        inventory.setItem(27, FILLER_GLASS);
-        inventory.setItem(35, FILLER_GLASS);
-        inventory.setItem(36, FILLER_GLASS);
-        
-        for ( int i = 44; i < 54; i++ ){
-            if (inventory.getItem(i) == null){
-                inventory.setItem(i, FILLER_GLASS);
-            }
-        }
-        
+        addInteractiveItems();
     }
+    
+    public void addInteractiveItems(){
+        inventory.setItem(getSlots() - 6, page == 0 ? FILLER_GLASS.clone() : PREV_ITEM.clone());
+        inventory.setItem(getSlots() - 5, CLOSE_ITEM.clone());
+        inventory.setItem(getSlots() - 4, list.size() > maxItemsPerPage ? NEXT_ITEM.clone() : FILLER_GLASS.clone());
+    }
+    
     
     private ItemStack createItem(String name, String head){
         assert XMaterial.PLAYER_HEAD.parseMaterial() != null;
@@ -118,4 +116,7 @@ public abstract class PaginatedMenu extends Menu {
         return item;
     }
     
+    public void setBorderSlots(int[] borderSlots){
+        this.borderSlots = borderSlots;
+    }
 }

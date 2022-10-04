@@ -192,6 +192,7 @@ public class ItemBuilder implements Cloneable {
     }
     
     public ItemBuilder setDyeColor(DyeColor color){
+        if (color == null) return this;
         this.is.setDurability(color.getData());
         return this;
     }
@@ -199,12 +200,14 @@ public class ItemBuilder implements Cloneable {
     /** @deprecated  */
     @Deprecated
     public ItemBuilder setWoolColor(DyeColor color){
+        if (color == null) return this;
         if (!is.getType().equals(Material.WOOL)) return this;
         this.is.setDurability(color.getData());
         return this;
     }
     
     public ItemBuilder setLeatherArmorColor(Color color){
+        if (color == null) return this;
         try {
             LeatherArmorMeta im = (LeatherArmorMeta) is.getItemMeta();
             im.setColor(color);
@@ -218,6 +221,7 @@ public class ItemBuilder implements Cloneable {
      * Para ocupar esto solo es necesario agregar esto y ya estaría lista la cabeza.
      */
     public ItemBuilder setHeadSkin(String skin){
+        if (skin == null) return this;
         is = new ItemStack(XMaterial.PLAYER_HEAD.parseMaterial(), 1, (byte) SkullType.PLAYER.ordinal());
         GameProfile profile = new GameProfile(UUID.randomUUID(), null);
         profile.getProperties().put("textures", new Property("textures", skin));
@@ -235,7 +239,7 @@ public class ItemBuilder implements Cloneable {
     }
     
     public ItemBuilder addTag(String key, String value){
-        
+        if (key == null || value == null) return this;
         NBTItem item = new NBTItem(is);
         item.setString(key, value);
         this.is = item.getItem();
@@ -243,6 +247,7 @@ public class ItemBuilder implements Cloneable {
     }
     
     public ItemBuilder addTag(String key, Integer value){
+        if (key == null || value == null) return this;
         NBTItem item = new NBTItem(is);
         item.setInteger(key, value);
         this.is = item.getItem();
@@ -260,6 +265,7 @@ public class ItemBuilder implements Cloneable {
     }
     
     public ItemBuilder setBookTitle(String title){
+        if (title == null) return this;
         BookMeta bm = (BookMeta) is.getItemMeta();
         bm.setTitle(title);
         is.setItemMeta(bm);
@@ -272,6 +278,7 @@ public class ItemBuilder implements Cloneable {
     }
     
     public ItemBuilder setFireWorkColor(Color color){
+        if (color == null) return this;
         if (!is.getType().equals(Material.FIREWORK_CHARGE)) return this;
         FireworkEffectMeta fm = (FireworkEffectMeta) is.getItemMeta();
         FireworkEffect.Builder fe = FireworkEffect.builder();
@@ -284,6 +291,7 @@ public class ItemBuilder implements Cloneable {
     }
     
     public ItemBuilder setFireWorkColors(Color... color){
+        if (color == null) return this;
         if (!is.getType().equals(Material.FIREWORK_CHARGE)) return this;
         FireworkEffectMeta fm = (FireworkEffectMeta) is.getItemMeta();
         FireworkEffect.Builder fe = FireworkEffect.builder();
@@ -295,6 +303,7 @@ public class ItemBuilder implements Cloneable {
     }
     
     public ItemBuilder setFireWorkBuild(FireworkEffect.Builder builder){
+        if (builder == null) return this;
         if (!is.getType().equals(Material.FIREWORK_CHARGE)) return this;
         FireworkEffectMeta fm = (FireworkEffectMeta) is.getItemMeta();
         fm.setEffect(builder.build());
@@ -304,6 +313,7 @@ public class ItemBuilder implements Cloneable {
     }
     
     public ItemBuilder setFireWorkBuild(FireworkEffect effects){
+        if (effects == null) return this;
         if (!is.getType().equals(Material.FIREWORK_CHARGE)) return this;
         FireworkEffectMeta fm = (FireworkEffectMeta) is.getItemMeta();
         fm.setEffect(effects);
@@ -313,6 +323,7 @@ public class ItemBuilder implements Cloneable {
     }
     
     public ItemBuilder setBookAuthor(String author){
+        if (author == null) return this;
         BookMeta bm = (BookMeta) is.getItemMeta();
         bm.setAuthor(author);
         is.setItemMeta(bm);
@@ -320,6 +331,7 @@ public class ItemBuilder implements Cloneable {
     }
     
     public ItemBuilder setBookPages(String... pages){
+        if (pages == null) return this;
         BookMeta bm = (BookMeta) is.getItemMeta();
         bm.setPages(pages);
         is.setItemMeta(bm);
@@ -327,6 +339,7 @@ public class ItemBuilder implements Cloneable {
     }
     
     public ItemBuilder setBookPage(int page, String text){
+        if (text == null) return this;
         BookMeta bm = (BookMeta) is.getItemMeta();
         bm.setPage(page, text);
         is.setItemMeta(bm);

@@ -47,6 +47,10 @@ public final class LyApi extends Api {
     private final CommandService commandService;
     private VersionSupport nms;
     
+    public LyApi(JavaPlugin plugin, String pluginName) throws LyApiInitializationError{
+        this(plugin, pluginName, "§cYou don't have permission to do that!", false);
+    }
+    
     public LyApi(JavaPlugin plugin, String pluginName, boolean registerEvents) throws LyApiInitializationError{
         this(plugin, pluginName, "§cYou don't have permission to do that!", registerEvents);
     }
