@@ -26,6 +26,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitTask;
+import org.jetbrains.annotations.Contract;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -64,14 +65,14 @@ public abstract class Menu implements InventoryHolder {
         this.linked = linked;
         try {
             FILLER_GLASS = new ItemBuilder(fillerGlass).setDurability((short) Integer.parseInt(LyApi.getLanguage().getMSG("menu.filler-glass-color-id"))).setDisplayName(" ").build();
-            NEXT_ITEM = new ItemBuilder(XMaterial.PLAYER_HEAD.parseMaterial()).setHeadSkin("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmEzYjhmNjgxZGFhZDhiZjQzNmNhZThkYTNmZTgxMzFmNjJhMTYyYWI4MWFmNjM5YzNlMDY0NGFhNmFiYWMyZiJ9fX0=").setDisplayName(LyApi.getLanguage().getMSG("menu.next")).addTag("ly-menu-next", "ly-menu-next").build();
-            PREV_ITEM = new ItemBuilder(XMaterial.PLAYER_HEAD.parseMaterial()).setHeadSkin("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODY1MmUyYjkzNmNhODAyNmJkMjg2NTFkN2M5ZjI4MTlkMmU5MjM2OTc3MzRkMThkZmRiMTM1NTBmOGZkYWQ1ZiJ9fX0=").setDisplayName(LyApi.getLanguage().getMSG("menu.prev")).addTag("ly-menu-previous", "ly-menu-previous").build();
-            CLOSE_ITEM = new ItemBuilder(linked ? PREV_ITEM.getType() : XMaterial.BARRIER.parseMaterial()).setHeadSkin(linked ? "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODY1MmUyYjkzNmNhODAyNmJkMjg2NTFkN2M5ZjI4MTlkMmU5MjM2OTc3MzRkMThkZmRiMTM1NTBmOGZkYWQ1ZiJ9fX0=" : null).setDisplayName(LyApi.getLanguage().getMSG(linked ? "menu.go-back" : "menu.close")).addTag("ly-menu-close", "ly-menu-close").build();
+            NEXT_ITEM = new ItemBuilder(XMaterial.PLAYER_HEAD.parseMaterial()).setHeadSkin("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDllY2NjNWMxYzc5YWE3ODI2YTE1YTdmNWYxMmZiNDAzMjgxNTdjNTI0MjE2NGJhMmFlZjQ3ZTVkZTlhNWNmYyJ9fX0=").setDisplayName(LyApi.getLanguage().getMSG("menu.next")).addTag("ly-menu-next", "ly-menu-next").build();
+            PREV_ITEM = new ItemBuilder(XMaterial.PLAYER_HEAD.parseMaterial()).setHeadSkin("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODY0Zjc3OWE4ZTNmZmEyMzExNDNmYTY5Yjk2YjE0ZWUzNWMxNmQ2NjllMTljNzVmZDFhN2RhNGJmMzA2YyJ9fX0=").setDisplayName(LyApi.getLanguage().getMSG("menu.prev")).addTag("ly-menu-previous", "ly-menu-previous").build();
+            CLOSE_ITEM = new ItemBuilder(linked ? PREV_ITEM.getType() : XMaterial.BARRIER.parseMaterial()).setHeadSkin(linked ? "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzI0MzE5MTFmNDE3OGI0ZDJiNDEzYWE3ZjVjNzhhZTQ0NDdmZTkyNDY5NDNjMzFkZjMxMTYzYzBlMDQzZTBkNiJ9fX0=" : null).setDisplayName(LyApi.getLanguage().getMSG(linked ? "menu.go-back" : "menu.close")).addTag("ly-menu-close", "ly-menu-close").build();
         } catch (NullPointerException | NumberFormatException ignored) {
             FILLER_GLASS = new ItemBuilder(fillerGlass).setDurability((short) 15).setDisplayName(" ").build();
-            NEXT_ITEM = new ItemBuilder(XMaterial.PLAYER_HEAD.parseMaterial()).setHeadSkin("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmEzYjhmNjgxZGFhZDhiZjQzNmNhZThkYTNmZTgxMzFmNjJhMTYyYWI4MWFmNjM5YzNlMDY0NGFhNmFiYWMyZiJ9fX0=").setDisplayName("&aNext").addTag("ly-menu-next", "ly-menu-next").build();
-            PREV_ITEM = new ItemBuilder(XMaterial.PLAYER_HEAD.parseMaterial()).setHeadSkin("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODY1MmUyYjkzNmNhODAyNmJkMjg2NTFkN2M5ZjI4MTlkMmU5MjM2OTc3MzRkMThkZmRiMTM1NTBmOGZkYWQ1ZiJ9fX0=").setDisplayName("&aPrevious").addTag("ly-menu-previous", "ly-menu-previous").build();
-            CLOSE_ITEM = new ItemBuilder(linked ? PREV_ITEM.getType() : XMaterial.BARRIER.parseMaterial()).setHeadSkin(linked ? "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODY1MmUyYjkzNmNhODAyNmJkMjg2NTFkN2M5ZjI4MTlkMmU5MjM2OTc3MzRkMThkZmRiMTM1NTBmOGZkYWQ1ZiJ9fX0=" : null).setDisplayName(linked ? "&cGo Back" : "&cClose").addTag("ly-menu-close", "ly-menu-close").build();
+            NEXT_ITEM = new ItemBuilder(XMaterial.PLAYER_HEAD.parseMaterial()).setHeadSkin("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDllY2NjNWMxYzc5YWE3ODI2YTE1YTdmNWYxMmZiNDAzMjgxNTdjNTI0MjE2NGJhMmFlZjQ3ZTVkZTlhNWNmYyJ9fX0=").setDisplayName("&aNext").addTag("ly-menu-next", "ly-menu-next").build();
+            PREV_ITEM = new ItemBuilder(XMaterial.PLAYER_HEAD.parseMaterial()).setHeadSkin("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODY0Zjc3OWE4ZTNmZmEyMzExNDNmYTY5Yjk2YjE0ZWUzNWMxNmQ2NjllMTljNzVmZDFhN2RhNGJmMzA2YyJ9fX0=").setDisplayName("&aPrevious").addTag("ly-menu-previous", "ly-menu-previous").build();
+            CLOSE_ITEM = new ItemBuilder(linked ? PREV_ITEM.getType() : XMaterial.BARRIER.parseMaterial()).setHeadSkin(linked ? "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzI0MzE5MTFmNDE3OGI0ZDJiNDEzYWE3ZjVjNzhhZTQ0NDdmZTkyNDY5NDNjMzFkZjMxMTYzYzBlMDQzZTBkNiJ9fX0=" : null).setDisplayName(linked ? "&cGo Back" : "&cClose").addTag("ly-menu-close", "ly-menu-close").build();
         }
         menu_uuid = UUID.randomUUID();
     }
@@ -82,9 +83,22 @@ public abstract class Menu implements InventoryHolder {
     
     public abstract void setMenuItems();
     
+    @Contract(pure = true)
+    public void setMenuItemsAsync(){
+    }
+    
+    public void addItemsAsync(){
+        updateList();
+        Bukkit.getScheduler().runTaskAsynchronously(LyApi.getPlugin(), this::setMenuItemsAsync);
+    }
+    
     public abstract void handleMenu(InventoryClickEvent e);
     
     public void handleDragEvent(InventoryDragEvent e){
+    
+    }
+    
+    public void updateList(){
     
     }
     
@@ -137,26 +151,26 @@ public abstract class Menu implements InventoryHolder {
     }
     
     public void open(){
-    
+        if (!onOpen()){
+            destroy();
+            return;
+        }
         inventory = Bukkit.createInventory(this, getSlots(), Utils.format(getMenuName()));
         if (isDebug()){
             for ( int i = 0; i < getSlots(); i++ ){
                 inventory.setItem(i, new ItemBuilder(FILLER_GLASS.clone()).setDisplayName("Slot: &e" + i).addLoreLine("&cMENU IN DEBUG MODE.").build());
             }
         }
+        this.addItemsAsync();
         this.setMenuItems();
-        if (!onOpen()){
-            return;
-        }
-    
+        this.setCustomMenuItems();
         OpenCustomMenuEvent e = new OpenCustomMenuEvent(this, playerMenuUtility.getOwner());
         Bukkit.getPluginManager().callEvent(e);
         if (e.isCancelled()){
+            destroy();
             return;
         }
-        
         playerMenuUtility.getOwner().openInventory(e.getMenu().inventory);
-        
     }
     
     public boolean onOpen(){
@@ -169,18 +183,11 @@ public abstract class Menu implements InventoryHolder {
     }
     
     public ItemStack createCustomSkull(String name, String head){
-        return new ItemBuilder(XMaterial.PLAYER_HEAD.parseItem())
-                .setHeadSkin(head)
-                .setDisplayName(name)
-                .build();
+        return new ItemBuilder(XMaterial.PLAYER_HEAD.parseItem()).setHeadSkin(head).setDisplayName(name).build();
     }
     
     public ItemStack createCustomSkull(String name, List<String> lore, String head){
-        return new ItemBuilder(XMaterial.PLAYER_HEAD.parseItem())
-                .setHeadSkin(head)
-                .setLore(lore)
-                .setDisplayName(name)
-                .build();
+        return new ItemBuilder(XMaterial.PLAYER_HEAD.parseItem()).setHeadSkin(head).setLore(lore).setDisplayName(name).build();
     }
     
     public void checkSomething(Player p, int slot, ItemStack item, String name, List<String> lore, UUID menu_uuid){
@@ -188,12 +195,8 @@ public abstract class Menu implements InventoryHolder {
         if (isOnSchedule) return;
         
         isOnSchedule = true;
-        
-        p.getOpenInventory().getTopInventory().setItem(slot, new ItemBuilder(XMaterial.PLAYER_HEAD.parseItem())
-                .setHeadSkin("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZGJlMzViZWNhMWY1NzMxMjBlZTc5MTdhYTk2YTg5ZTE5NGRlZmM0NDQ1ZGY4YzY5ZTQ0OGU3NTVkYTljY2NkYSJ9fX0=")
-                .setLore(lore)
-                .setDisplayName(name)
-                .build());
+    
+        p.getOpenInventory().getTopInventory().setItem(slot, new ItemBuilder(XMaterial.PLAYER_HEAD.parseItem()).setHeadSkin("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZGJlMzViZWNhMWY1NzMxMjBlZTc5MTdhYTk2YTg5ZTE5NGRlZmM0NDQ1ZGY4YzY5ZTQ0OGU3NTVkYTljY2NkYSJ9fX0=").setLore(lore).setDisplayName(name).build());
         setOnSchedule(p, slot, item, menu_uuid);
         
     }
@@ -203,12 +206,8 @@ public abstract class Menu implements InventoryHolder {
         if (isOnSchedule) return;
         
         isOnSchedule = true;
-        
-        p.getOpenInventory().getTopInventory().setItem(slot, new ItemBuilder(XMaterial.PLAYER_HEAD.parseItem())
-                .setHeadSkin("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZGJlMzViZWNhMWY1NzMxMjBlZTc5MTdhYTk2YTg5ZTE5NGRlZmM0NDQ1ZGY4YzY5ZTQ0OGU3NTVkYTljY2NkYSJ9fX0=")
-                .addLoreLine(lore)
-                .setDisplayName(name)
-                .build());
+    
+        p.getOpenInventory().getTopInventory().setItem(slot, new ItemBuilder(XMaterial.PLAYER_HEAD.parseItem()).setHeadSkin("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZGJlMzViZWNhMWY1NzMxMjBlZTc5MTdhYTk2YTg5ZTE5NGRlZmM0NDQ1ZGY4YzY5ZTQ0OGU3NTVkYTljY2NkYSJ9fX0=").addLoreLine(lore).setDisplayName(name).build());
         setOnSchedule(p, slot, item, menu_uuid);
         
     }
@@ -246,5 +245,27 @@ public abstract class Menu implements InventoryHolder {
     
     public void setDebug(boolean debug){
         this.debug = debug;
+    }
+    
+    public void setCustomMenuItems(){
+    
+    }
+    
+    private void destroy(){
+        getOwner().closeInventory();
+        inventory.clear();
+        inventory = null;
+        playerMenuUtility = null;
+        scheduleTask.forEach(BukkitTask::cancel);
+        menu_uuid = null;
+        isOnSchedule = false;
+        debug = false;
+        CLOSE_ITEM = null;
+        FILLER_GLASS = null;
+        PREV_ITEM = null;
+        NEXT_ITEM = null;
+        occupiedSlots.clear();
+        occupiedSlots = null;
+        
     }
 }
