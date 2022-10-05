@@ -62,22 +62,34 @@ public abstract class PaginatedMenu<T> extends Menu {
     public abstract void setSize();
     
     public void nextPage(){
+        if (list.size() < maxItemsPerPage){
+            return;
+        }
         page++;
-        if (list.size() < maxItemsPerPage) return;
+        inventory.clear();
         index = index + 1;
         setSize();
-        inventory.clear();
-        addMenuBorder();
+        addItemsAsync();
         setMenuItems();
+        setCustomMenuItems();
+    }
+    
+    public void reloadPage(){
+        inventory.clear();
+        setSize();
+        addItemsAsync();
+        setMenuItems();
+        setCustomMenuItems();
     }
     
     public void prevPage(){
         page = Math.max(page - 1, 0);
         index = Math.max(page * maxItemsPerPage, 0);
-        setSize();
         inventory.clear();
-        addMenuBorder();
+        setSize();
+        addItemsAsync();
         setMenuItems();
+        setCustomMenuItems();
     }
     
     
@@ -111,12 +123,17 @@ public abstract class PaginatedMenu<T> extends Menu {
             x.printStackTrace();
         }
         itemmeta.setDisplayName(name);
-        
+    
         item.setItemMeta(itemmeta);
         return item;
     }
     
     public void setBorderSlots(int[] borderSlots){
         this.borderSlots = borderSlots;
+    }
+    
+    @Override
+    public void setCustomMenuItems(){
+        addMenuBorder();
     }
 }
