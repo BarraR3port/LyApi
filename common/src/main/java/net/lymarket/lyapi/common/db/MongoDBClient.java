@@ -123,6 +123,22 @@ public class MongoDBClient {
         return list;
     }
     
+    public <T> LinkedList<T> findManyFiltered(String name, Bson filter, Class<T> klass){
+        LinkedList<T> list = new LinkedList<>();
+        try {
+            MongoCollection<Document> collection = database.getCollection(name);
+            FindIterable<Document> documents = collection.find(filter);
+            MongoCursor<Document> cursor = documents.cursor();
+            while (cursor.hasNext()) {
+                T current = gson.fromJson(cursor.next().toJson(), klass);
+                list.add(current);
+            }
+        } catch (MongoTimeoutException TimeOut) {
+            TimeOut.printStackTrace();
+        }
+        return list;
+    }
+    
     public <T> LinkedList<T> findManyPaginated(String name, int currentPage, int maxPerPage, Class<T> klass){
         LinkedList<T> list = new LinkedList<>();
         try {
@@ -164,6 +180,13 @@ public class MongoDBClient {
             if (filter.apply(current)) return current;
         }
         return null;
+    }
+    
+    public <T> T findOneFiltered(String name, Bson filter, Class<T> klass){
+        MongoCollection<Document> collection = database.getCollection(name);
+        Document document = collection.find(filter).first();
+        if (document == null) return null;
+        return gson.fromJson(document.toJson(), klass);
     }
     
     public boolean insertOne(String name, Object data){
