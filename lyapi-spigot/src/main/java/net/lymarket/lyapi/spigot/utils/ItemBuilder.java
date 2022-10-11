@@ -221,7 +221,7 @@ public class ItemBuilder implements Cloneable {
      * Para ocupar esto solo es necesario agregar esto y ya estaría lista la cabeza.
      */
     public ItemBuilder setHeadSkin(String skin){
-        if (skin == null) return this;
+        if (skin == null || skin.equals("")) return this;
         is = new ItemStack(XMaterial.PLAYER_HEAD.parseMaterial(), 1, (byte) SkullType.PLAYER.ordinal());
         GameProfile profile = new GameProfile(UUID.randomUUID(), null);
         profile.getProperties().put("textures", new Property("textures", skin));
