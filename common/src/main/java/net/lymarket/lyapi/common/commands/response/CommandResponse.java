@@ -13,38 +13,48 @@
 
 package net.lymarket.lyapi.common.commands.response;
 
-public class CommandResponse {
-    protected ResponseType response;
+public final class CommandResponse {
+    private ResponseType response;
     private String permission;
     
-    public CommandResponse accept(){
+    private CommandResponse(){
         this.response = ResponseType.SUCCESS;
-        return this;
     }
     
-    public CommandResponse deny(){
-        this.permission = "default.permission";
-        this.response = ResponseType.NO_PERMISSION;
-        return this;
+    public static CommandResponse accept(){
+        CommandResponse response = new CommandResponse();
+        response.response = ResponseType.SUCCESS;
+        return response;
     }
     
-    public CommandResponse deny(String permission){
-        this.permission = permission;
-        this.response = ResponseType.NO_PERMISSION;
-        return this;
+    public static CommandResponse deny(){
+        CommandResponse response = new CommandResponse();
+        response.response = ResponseType.NO_PERMISSION;
+        response.permission = "default.permission";
+        return response;
+    }
+    
+    public static CommandResponse deny(String permission){
+        CommandResponse response = new CommandResponse();
+        response.response = ResponseType.NO_PERMISSION;
+        response.permission = permission;
+        return response;
     }
     
     public ResponseType getResponse(){
         return response;
     }
     
-    public String getPermission(){
-        return this.response.equals(ResponseType.NO_PERMISSION) ? this.permission : "";
+    private void setResponse(ResponseType response){
+        this.response = response;
     }
     
-    public enum ResponseType {
-        SUCCESS,
-        NO_PERMISSION
+    private void setPermission(String permission){
+        this.permission = permission;
+    }
+    
+    public String getPermission(){
+        return this.response.equals(ResponseType.NO_PERMISSION) ? this.permission : "";
     }
 }
 
