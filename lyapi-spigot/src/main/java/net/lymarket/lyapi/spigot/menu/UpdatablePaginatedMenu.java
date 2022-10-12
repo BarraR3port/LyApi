@@ -16,7 +16,7 @@ package net.lymarket.lyapi.spigot.menu;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
-public abstract class UpdatablePaginatedMenu extends PaginatedMenu implements IUpdatableMenu {
+public abstract class UpdatablePaginatedMenu<T> extends PaginatedMenu<T> implements IUpdatableMenu {
     private boolean updating = false;
     
     public UpdatablePaginatedMenu(IPlayerMenuUtility playerMenuUtility){
