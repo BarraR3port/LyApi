@@ -17,21 +17,25 @@ public class CommandResponse {
     protected ResponseType response;
     private String permission;
     
-    public CommandResponse(String permission){
-        this.permission = permission;
-        this.response = ResponseType.NO_PERMISSION;
+    public CommandResponse accept(){
+        this.response = ResponseType.SUCCESS;
+        return this;
     }
     
-    public CommandResponse(){
-        this.response = ResponseType.SUCCESS;
+    public CommandResponse deny(){
+        this.permission = "default.permission";
+        this.response = ResponseType.NO_PERMISSION;
+        return this;
+    }
+    
+    public CommandResponse deny(String permission){
+        this.permission = permission;
+        this.response = ResponseType.NO_PERMISSION;
+        return this;
     }
     
     public ResponseType getResponse(){
         return response;
-    }
-    
-    public void setResponse(ResponseType response){
-        this.response = response;
     }
     
     public String getPermission(){
