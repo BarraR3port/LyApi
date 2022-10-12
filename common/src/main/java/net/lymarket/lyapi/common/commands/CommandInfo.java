@@ -16,6 +16,7 @@ package net.lymarket.lyapi.common.commands;
 
 import net.lymarket.lyapi.common.Api;
 import net.lymarket.lyapi.common.commands.response.CommandResponse;
+import net.lymarket.lyapi.common.commands.response.ResponseType;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.defaults.BukkitCommand;
@@ -60,7 +61,7 @@ public class CommandInfo extends BukkitCommand {
             
             
             CommandResponse ret = (CommandResponse) commandMethod.invoke(object, context);
-            if (ret.getResponse().equals(CommandResponse.ResponseType.NO_PERMISSION)){
+            if (ret.getResponse().equals(ResponseType.NO_PERMISSION)){
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Api.NO_PERMISSION.replace("permission", ret.getPermission())));
                 return false;
             } else {
