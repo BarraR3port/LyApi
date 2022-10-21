@@ -73,14 +73,14 @@ public class Config extends ConfigGenerator {
         
         try {
             String fireWorkSection = section + "firework.";
-            if (material.equals(Material.FIREWORK_CHARGE)){
+            if (material.equals(XMaterial.FIREWORK_STAR.parseMaterial())){
                 FireworkEffectMeta fm = (FireworkEffectMeta) item.getItemMeta();
                 FireworkEffect.Builder fe = FireworkEffect.builder();
                 try {
                     fe.withColor(getStringList(fireWorkSection + "colors").stream().map(Utils::colorConverter).toArray(Color[]::new));
                 } catch (NullPointerException ignored) {
                 }
-                
+    
                 try {
                     fe.withFade(getStringList(fireWorkSection + "fadeColors").stream().map(Utils::colorConverter).toArray(Color[]::new));
                 } catch (NullPointerException ignored) {
