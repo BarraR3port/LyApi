@@ -25,5 +25,18 @@ hs_err_pid*
 LyApi.iml
 .idea
 target/nexus-staging/deferred
+/lyapi-bungee
+/lyapi-velocity
+/versionsupport_1_9_R2
+/versionsupport_1_10_R1
+/versionsupport_1_11_R1
+/versionsupport_1_12_R1
+/versionsupport_1_13_R2
+/versionsupport_1_14_R1
+/versionsupport_1_15_R1
+/versionsupport_v1_16_R3
+/versionsupport_v1_17_R1
+/versionsupport_v1_18_R1
+/versionsupport_v1_19_R1
 
 
