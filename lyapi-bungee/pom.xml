@@ -19,7 +19,7 @@
     <parent>
         <artifactId>LyApi</artifactId>
         <groupId>net.lymarket.lyapi</groupId>
-        <version>1.2.13</version>
+        <version>1.2.15</version>
     </parent>
 
     <artifactId>lyapi-bungee</artifactId>
