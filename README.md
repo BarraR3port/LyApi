@@ -23,7 +23,7 @@ poms files.
 <dependency>
     <groupId>com.github.BarraR3port</groupId>
     <artifactId>LyApi</artifactId>
-    <version>1.2.15</version>
+    <version>1.2.14</version>
 </dependency>
 ```
 
