@@ -13,20 +13,17 @@ poms files.
 ## Dependency:
 
 ```xml
-
 <repository>
-    <id>lymarket</id>
-    <url>https://repo.lydark.org/repository/lymarket/</url>
+    <id>jitpack.io</id>
+    <url>https://jitpack.io</url>
 </repository>
 ```
 
 ```xml
-
 <dependency>
-    <groupId>net.lymarket.lyapi</groupId>
-    <artifactId>lyapi-spigot</artifactId>
-    <version>VERSION</version>
-    <scope>compile</scope>
+    <groupId>com.github.BarraR3port</groupId>
+    <artifactId>LyApi</artifactId>
+    <version>1.2.15</version>
 </dependency>
 ```
 
@@ -182,7 +179,7 @@ public final class YourSexyPluginMainClass extends JavaPlugin {
 ```license
 BSD 3-Clause License
 
-Copyright (c) 2022, LyDark Studios
+Copyright (c) 2022, BarraR3port
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
