@@ -18,7 +18,7 @@
     <groupId>net.lymarket.lyapi</groupId>
     <artifactId>LyApi</artifactId>
     <packaging>pom</packaging>
-    <version>1.2.15</version>
+    <version>1.2.17</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -144,6 +144,8 @@
         <module>versionsupport_v1_17_R1</module>
         <module>versionsupport_v1_18_R2</module>
         <module>versionsupport_v1_19_R1</module>
+        <module>versionsupport_v1_19_R2</module>
+        <module>versionsupport_v1_19_R3</module>
     </modules>
 
     <distributionManagement>
