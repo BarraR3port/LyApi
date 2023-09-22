@@ -13,6 +13,8 @@ package net.lymarket.lyapi.support.version.v1_19_R2;
 
 import com.mojang.datafixers.util.Pair;
 import net.lymarket.lyapi.common.version.VersionSupport;
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.TextComponent;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.protocol.game.PacketPlayOutEntityDestroy;
 import net.minecraft.network.protocol.game.PacketPlayOutEntityEquipment;
@@ -20,6 +22,7 @@ import net.minecraft.server.level.EntityPlayer;
 import net.minecraft.world.entity.EnumItemSlot;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import org.bukkit.ChatColor;
 import org.bukkit.craftbukkit.v1_19_R2.entity.CraftPlayer;
 import org.bukkit.craftbukkit.v1_19_R2.inventory.CraftItemStack;
 import org.bukkit.entity.Entity;
@@ -33,51 +36,52 @@ import java.util.UUID;
 
 @SuppressWarnings("unused")
 public class v1_19_R2 extends VersionSupport {
-    
+
     private static final UUID chatUUID = new UUID(0L, 0L);
-    
+
     public v1_19_R2(Plugin plugin, String name){
         super(plugin, name);
     }
-    
+
     @Override
     public String getTag(org.bukkit.inventory.ItemStack itemStack, String key){
         ItemStack i = CraftItemStack.asNMSCopy(itemStack);
         NBTTagCompound tag = i.u();
         return tag == null ? null : tag.e(key) ? tag.l(key) : null;
     }
-    
+
     @Override
     public boolean hasTag(org.bukkit.inventory.ItemStack itemStack, String key){
         ItemStack i = CraftItemStack.asNMSCopy(itemStack);
         NBTTagCompound tag = i.u();
         return tag != null && tag.e(key);
     }
-    
+
     @Override
     public void sendTitle(Player p, String title, String subtitle, int fadeIn, int stay, int fadeOut){
         p.sendTitle(title == null ? " " : title, subtitle == null ? " " : subtitle, fadeIn, stay, fadeOut);
     }
-    
+
     @Override
     public void playAction(Player p, String text){
-        //* todo implement this
+        p.spigot().sendMessage(ChatMessageType.ACTION_BAR,
+                new TextComponent(ChatColor.translateAlternateColorCodes('&', text)));
     }
-    
+
     @Override
     public void hideEntity(Entity e, Player p){
         PacketPlayOutEntityDestroy packet = new PacketPlayOutEntityDestroy(e.getEntityId());
         ((CraftPlayer) p).getHandle().b.a(packet);
-        
+
     }
-    
+
     @Override
     public void hideArmor(Player victim, Player receiver){
         List < Pair < EnumItemSlot, ItemStack > > items = new ArrayList <>();
         List < Pair < EnumItemSlot, ItemStack > > hands = new ArrayList <>();
         hands.add(new Pair <>(EnumItemSlot.a, new ItemStack(Item.b(0))));
         hands.add(new Pair <>(EnumItemSlot.b, new ItemStack(Item.b(0))));
-        
+
         items.add(new Pair <>(EnumItemSlot.f, new ItemStack(Item.b(0))));
         items.add(new Pair <>(EnumItemSlot.e, new ItemStack(Item.b(0))));
         items.add(new Pair <>(EnumItemSlot.d, new ItemStack(Item.b(0))));
@@ -90,15 +94,15 @@ public class v1_19_R2 extends VersionSupport {
         }
         pc.b.a(packet1);
     }
-    
+
     @Override
     public void showArmor(Player victim, Player receiver){
         List < Pair < EnumItemSlot, ItemStack > > items = new ArrayList <>();
         List < Pair < EnumItemSlot, ItemStack > > hands = new ArrayList <>();
-        
+
         hands.add(new Pair <>(EnumItemSlot.a, CraftItemStack.asNMSCopy(victim.getInventory().getItemInMainHand())));
         hands.add(new Pair <>(EnumItemSlot.b, CraftItemStack.asNMSCopy(victim.getInventory().getItemInOffHand())));
-        
+
         items.add(new Pair <>(EnumItemSlot.f, CraftItemStack.asNMSCopy(victim.getInventory().getHelmet())));
         items.add(new Pair <>(EnumItemSlot.e, CraftItemStack.asNMSCopy(victim.getInventory().getChestplate())));
         items.add(new Pair <>(EnumItemSlot.d, CraftItemStack.asNMSCopy(victim.getInventory().getLeggings())));
@@ -111,7 +115,7 @@ public class v1_19_R2 extends VersionSupport {
         }
         pc.b.a(packet1);
     }
-    
+
     @Override
     public org.bukkit.inventory.ItemStack addCustomData(org.bukkit.inventory.ItemStack i, String data){
         ItemStack itemStack = CraftItemStack.asNMSCopy(i);
@@ -120,11 +124,11 @@ public class v1_19_R2 extends VersionSupport {
             tag = new NBTTagCompound();
             itemStack.c(tag);
         }
-        
+
         tag.a("LyApi", data);
         return CraftItemStack.asBukkitCopy(itemStack);
     }
-    
+
     @Override
     public org.bukkit.inventory.ItemStack setTag(org.bukkit.inventory.ItemStack itemStack, String key, String value){
         ItemStack is = CraftItemStack.asNMSCopy(itemStack);
@@ -133,12 +137,12 @@ public class v1_19_R2 extends VersionSupport {
             tag = new NBTTagCompound();
             is.c(tag);
         }
-    
+
         tag.a(key, value);
         return CraftItemStack.asBukkitCopy(is);
     }
-    
-    
+
+
     @Override
     public org.bukkit.inventory.ItemStack setCustomModelData(org.bukkit.inventory.ItemStack itemStack, int customModelData){
         ItemMeta meta = itemStack.getItemMeta();
@@ -148,7 +152,7 @@ public class v1_19_R2 extends VersionSupport {
         }
         return itemStack;
     }
-    
+
     @Override
     public int getCustomModelData(org.bukkit.inventory.ItemStack itemStack){
         ItemMeta meta = itemStack.getItemMeta();
@@ -157,7 +161,7 @@ public class v1_19_R2 extends VersionSupport {
         }
         return 0;
     }
-    
+
     @Override
     public org.bukkit.inventory.ItemStack removeCustomModelData(org.bukkit.inventory.ItemStack itemStack){
         ItemMeta meta = itemStack.getItemMeta();
@@ -167,12 +171,12 @@ public class v1_19_R2 extends VersionSupport {
         }
         return itemStack;
     }
-    
+
     @Override
     public boolean hasCustomModelData(org.bukkit.inventory.ItemStack itemStack){
         return itemStack.getItemMeta() != null && itemStack.getItemMeta().hasCustomModelData();
     }
-    
+
     @Override
     public String getCustomData(org.bukkit.inventory.ItemStack i){
         ItemStack itemStack = CraftItemStack.asNMSCopy(i);
@@ -180,16 +184,16 @@ public class v1_19_R2 extends VersionSupport {
         if (tag == null) return "";
         return tag.l("LyApi");
     }
-    
+
     @Override
     public org.bukkit.Material materialPlayerHead( ){
         return org.bukkit.Material.PLAYER_HEAD;
     }
-    
+
     @Override
     public org.bukkit.inventory.ItemStack getPlayerHead(Player player, org.bukkit.inventory.ItemStack copyTagFrom){
         org.bukkit.inventory.ItemStack head = new org.bukkit.inventory.ItemStack(materialPlayerHead());
-        
+
         if (copyTagFrom != null){
             ItemStack i = CraftItemStack.asNMSCopy(head);
             i.c(CraftItemStack.asNMSCopy(copyTagFrom).u());
@@ -211,19 +215,19 @@ public class v1_19_R2 extends VersionSupport {
 //        assert headMeta != null;
 //        headMeta.setOwningPlayer(player);
 //        head.setItemMeta(headMeta);
-        
+
         return head;
     }
-    
+
     @Override
     public void spigotShowPlayer(Player victim, Player receiver){
         receiver.showPlayer(getPlugin(), victim);
     }
-    
+
     @Override
     public void spigotHidePlayer(Player victim, Player receiver){
         receiver.hidePlayer(getPlugin(), victim);
     }
-    
-    
+
+
 }
