@@ -9,7 +9,7 @@
  * Contact: barrar3port@gmail.com
  */
 
-package net.lymarket.lyapi.support.version.v1_120_R1;
+package net.lymarket.lyapi.support.version.v1_20_R2;
 
 import com.mojang.datafixers.util.Pair;
 import net.lymarket.lyapi.common.version.VersionSupport;
@@ -23,8 +23,8 @@ import net.minecraft.world.entity.EnumItemSlot;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import org.bukkit.ChatColor;
-import org.bukkit.craftbukkit.v1_20_R1.entity.CraftPlayer;
-import org.bukkit.craftbukkit.v1_20_R1.inventory.CraftItemStack;
+import org.bukkit.craftbukkit.v1_20_R2.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_20_R2.inventory.CraftItemStack;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -35,11 +35,11 @@ import java.util.List;
 import java.util.UUID;
 
 @SuppressWarnings("unused")
-public class v1_20_R1 extends VersionSupport {
+public class v1_20_R2 extends VersionSupport {
 
     private static final UUID chatUUID = new UUID(0L, 0L);
 
-    public v1_20_R1(Plugin plugin, String name) {
+    public v1_20_R2(Plugin plugin, String name) {
         super(plugin, name);
     }
 
@@ -64,8 +64,7 @@ public class v1_20_R1 extends VersionSupport {
 
     @Override
     public void playAction(Player p, String text) {
-        p.spigot().sendMessage(ChatMessageType.ACTION_BAR,
-                new TextComponent(ChatColor.translateAlternateColorCodes('&', text)));
+        p.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColor.translateAlternateColorCodes('&', text)));
     }
 
     @Override
@@ -123,6 +122,7 @@ public class v1_20_R1 extends VersionSupport {
             tag = new NBTTagCompound();
             itemStack.c(tag);
         }
+
         tag.a("LyApi", data);
         return CraftItemStack.asBukkitCopy(itemStack);
     }
@@ -135,6 +135,7 @@ public class v1_20_R1 extends VersionSupport {
             tag = new NBTTagCompound();
             is.c(tag);
         }
+
         tag.a(key, value);
         return CraftItemStack.asBukkitCopy(is);
     }
@@ -225,6 +226,5 @@ public class v1_20_R1 extends VersionSupport {
     public void spigotHidePlayer(Player victim, Player receiver) {
         receiver.hidePlayer(getPlugin(), victim);
     }
-
 
 }
