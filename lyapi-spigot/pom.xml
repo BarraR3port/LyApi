@@ -140,6 +140,16 @@
             <version>${project.version}</version>
         </dependency>
         <dependency>
+            <groupId>net.lymarket.lyapi</groupId>
+            <artifactId>versionsupport_v1_20_R1</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>net.lymarket.lyapi</groupId>
+            <artifactId>versionsupport_v1_20_R2</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot</artifactId>
             <version>1.8.8-R0.1-SNAPSHOT</version>
